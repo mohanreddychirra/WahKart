@@ -1,0 +1,28 @@
+{
+  "name": "reddystore",
+  "version": "1.0.0",
+  "description": "E-commerce store using React.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mohanreddychirra/ReddyStore.git"
+  },
+  "author": "Sai Mohan Reddy Chirra",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mohanreddychirra/ReddyStore/issues"
+  },
+  "homepage": "https://github.com/mohanreddychirra/ReddyStore#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-react": "^7.0.0"
+  },
+  "dependencies": {
+    "webpack": "^4.20.2"
+  }
+}
