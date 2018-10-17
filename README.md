@@ -1,1 +1,1 @@
-# ReddyStore is an Online eCommerce store with ReactJS
+# WahKart is an Online eCommerce store with ReactJS

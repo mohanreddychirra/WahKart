@@ -1,9 +1,17 @@
 import React from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import Home from './Home/Index';
+import Auth from './Auth/Index';
+import NotFound from './NotFound';
 
 const App = () => (
-  <div>
-    <h1>Hello client from html</h1>
-  </div>
+  <BrowserRouter>
+    <Switch>
+      <Route exact path="/" component={Home} />
+      <Route exact path="/auth" component={Auth} />
+      <Route component={NotFound} />
+    </Switch>
+  </BrowserRouter>
 );
 
 export default App;

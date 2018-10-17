@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
   mode: 'development',
   entry: './src/index.js',
@@ -15,5 +17,11 @@ module.exports = {
 
   resolve: {
     extensions: ['.js', '.jsx']
+  },
+
+  devServer: {
+    port: 9000,
+    contentBase: path.join(__dirname, 'public'),
+    historyApiFallback: true
   }
 };
