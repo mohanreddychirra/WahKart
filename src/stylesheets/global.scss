@@ -1,0 +1,23 @@
+// Declare variables
+$blue: #2D7DD2;
+$white: white;
+$light-gray: #F7F7F7;
+$gray: gray;
+$red: red;
+$pale-blue: #66A0DE;
+
+// Declare global styles
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Roboto', Arial;
+}
+
+.aligner { 
+  display: block;
+  width: 90%;
+  margin: 0 auto;
+}
