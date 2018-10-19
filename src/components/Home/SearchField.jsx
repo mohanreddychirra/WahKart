@@ -6,7 +6,7 @@ const SearchField = () => (
     <input type="text" placeholder="Search for products ..." />
 
     <button>
-      <i className="fas fa-times" />
+      <i className="fas fa-spinner" />
     </button>
   </div>
 );

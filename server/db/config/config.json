@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "postgres",
-    "password": "fattyolaide22olaidefatty",
+    "password": "postgres",
     "database": "wahkart-db",
     "host": "127.0.0.1",
     "dialect": "postgres"
