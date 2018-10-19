@@ -3,9 +3,32 @@ import bcrypt from 'bcrypt';
 import { SECRET } from '../utils';
 import db from '../db/models';
 
-const { Customer } = db;
+const { Customer, Vendor } = db;
 
 class AuthCtrl {
+  static generateResponse(res, entry, password) {
+    bcrypt.compare(password, entry.password, (error, result) => {
+      if(!error && result) {
+        const { password, ...user } = entry.get();
+        
+        jwt.sign({
+          id: entry.id,
+          email: entry.email
+        }, SECRET, (error, token) => {
+          res.json(200, {
+            message: 'Login was successfully',
+            user,
+            token
+          });
+        });
+      } else {
+        res.json(403, {
+          message: 'Login credentials are invalid'
+        });
+      }
+    });
+  }
+
   static register(req, res) {
     const { email, password } = req.body;
   
@@ -43,34 +66,34 @@ class AuthCtrl {
   static login(req, res) {
     const { email, password } = req.body;
 
+    // Check for customer with email provided
     Customer.findOne({
       where: { email }
     }).then(entry => {
       if (!entry) {
-        res.json(403, {
-          message: 'Email address provided is invalid'
-        });
-      } else {
-        bcrypt.compare(password, entry.password, (error, result) => {
-          if(!error && result) {
-            const { password, ...customer } = entry.get();
-            
-            jwt.sign({
-              id: entry.id,
-              email: entry.email
-            }, SECRET, (error, token) => {
-              res.json(200, {
-                message: 'Login was successfully',
-                customer,
-                token
-              });
+
+        // Check for vendor with email provided
+        Vendor.findOne({
+          where: { email }
+        }).then(entry => {
+          if (!entry) {
+
+            // Respond with 403 for invalid email
+            res.json(403, {
+              message: 'Email address provided is invalid'
             });
           } else {
-            res.json(403, {
-              message: 'Login credential is invalid'
-            });
+
+            // return response for vendor login
+            AuthCtrl.generateResponse(
+              res, entry, password
+            );
           }
         });
+      } else {
+        AuthCtrl.generateResponse(
+          res, entry, password
+        );
       }
     })
     .catch(error => {
