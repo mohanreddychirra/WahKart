@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout } from '../../actions/authAction';
-import avatar from '../../../public/images/avatar.png';
 
 const Header = ({ auth, logout }) => (
   <div id="header">
@@ -34,7 +33,7 @@ const Header = ({ auth, logout }) => (
   
             <Link to="#">
               <div id="profile" className="clearfix">
-                <img src={avatar} alt="user avatar"/>
+                <img src="/images/avatar.png" alt="user avatar"/>
                 <span>{ auth.email.split('@')[0] }</span>
               </div>
             </Link>

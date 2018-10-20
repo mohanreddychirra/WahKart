@@ -70,3 +70,104 @@ body {
     }
   }
 }
+
+.form-box {
+  margin: 0 auto;
+  min-width: 450px;
+  width: 26%;
+  min-height: 300px;
+  border-radius: 2px;
+  border: 1px solid #E8E8E8;
+
+  .heading {
+    width: 100%;
+    background: #F1F1F1;
+    padding: 20px 15px;
+    text-transform: uppercase;
+    text-align: left;
+    color: $blue;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .tabs {
+    border-bottom: 1px solid #F1F1F1;
+
+    .tab {
+      float: left;
+      width: 50%;
+      background: #F1F1F1;
+      padding: 15px 0;
+      text-align: center;
+      color: black;
+      font-size: 12px;
+      font-weight: 500;
+
+      &.active {
+        background: none;
+      }
+    }
+  }
+
+  .status-div {
+    width: 85%;
+    margin: 30px auto;
+    background: $light-gray;
+    font-size: 14px;
+    font-weight: 300;
+    padding: 14px 20px;
+    border-radius: 2px;
+    
+    &.error {
+      background: #E4999B;
+      color: white;
+    }
+
+    &.success {
+      background: #69B8B6;
+      color: white;
+    }
+  }
+
+  .form-button {
+    display: block;
+    width: 85%;
+    text-align: center;
+    padding: 15px 0;
+    border-radius: 2px;
+    color: $white;
+    font-size: 13px;
+    cursor: pointer;
+    outline: none;
+    margin: 20px auto 30px;
+    font-weight: 400;
+    border: none;
+    background: $blue;
+  }
+
+  .fieldset {
+    display: block;
+    width: 85%;
+    margin: 0 auto 20px;
+
+    label {
+      display: block;
+      font-size: 11px;
+      font-weight: 400;
+      text-transform: uppercase;
+      color: $blue;
+    }
+
+    input {
+      display: block;
+      width: 100%;
+      border: 1px solid lightgray;
+      padding: 10px;
+      outline: none;
+      font-size: 18px;
+      font-weight: 100;
+      border-radius: 2px;
+      margin-top: 8px;
+    }
+  }
+}

@@ -56,7 +56,6 @@ class Auth extends Component {
         this.props.history.push('/');
       })
       .catch(error => {
-        console.log(error);
         const message = error.response.data.message;
         this.setState({ error: message });
       });
@@ -67,8 +66,8 @@ class Auth extends Component {
 
     return (
       <div id="auth">
-        <div id="auth-box">
-          <div id="tabs" className="clearfix">
+        <div id="auth-box" className="form-box">
+          <div className="tabs clearfix">
             <Link to="/register">
               <div className={`tab ${page === 0 && 'active'}`}>REGISTER</div>
             </Link>
@@ -85,6 +84,7 @@ class Auth extends Component {
                 : 'Please provide required details'
             }
           </div>
+          
           <div className="fieldset">
             <label>EMAIL ADDRESS</label>
             <input
@@ -107,7 +107,7 @@ class Auth extends Component {
 
           <button
             type="submit"
-            className="auth-button"
+            className="form-button"
             onClick={this.onSubmit}
           >
             { page === 0 ? 'REGISTER' : 'LOGIN' }

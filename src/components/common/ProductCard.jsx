@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 
 const ProductCard = ({ auth, cart, title, price, image }) => (
@@ -37,11 +37,19 @@ const ProductCard = ({ auth, cart, title, price, image }) => (
 
         {
           auth && auth.role === 'vendor' && (
-            <Link to="#">
-              <span className="cart">
-                <i className="fas fa-edit" />
-              </span>
-            </Link>
+            <Fragment>
+              <Link to="#">
+                <span className="cart ml-3">
+                  <i className="fas fa-trash" />
+                </span>
+              </Link>
+
+              <Link to="#">
+                <span className="cart">
+                  <i className="fas fa-edit" />
+                </span>
+              </Link>
+            </Fragment>
           )
         }
       </div>
