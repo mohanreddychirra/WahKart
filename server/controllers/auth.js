@@ -13,7 +13,8 @@ class AuthCtrl {
         
         jwt.sign({
           id: entry.id,
-          email: entry.email
+          email: entry.email,
+          role: entry.role
         }, SECRET, (error, token) => {
           res.json(200, {
             message: 'Login was successfully',
@@ -24,6 +25,23 @@ class AuthCtrl {
       } else {
         res.json(403, {
           message: 'Login credentials are invalid'
+        });
+      }
+    });
+  }
+
+  static authenticate(req, res) {
+    const { token } = req.body;
+  
+    jwt.verify(token, SECRET, (error, user) => {
+      if (!user) {
+        res.json(403, {
+          message: 'Token provided is invalid'
+        });
+      } else {
+        res.json(200, {
+          message: 'Token verification successful',
+          user,
         });
       }
     });
@@ -46,21 +64,32 @@ class AuthCtrl {
             password: hash
           })
             .then(entry => {
-              const { password, ...customer } = entry.get();
+              const { password, ...user } = entry.get();
               jwt.sign({
                 id: entry.id,
-                email: entry.email
+                email: entry.email,
+                role: entry.role
               }, SECRET, (error, token) => {
                 res.json(201, {
                   message: 'Customer has been created successfully',
-                  customer,
+                  user,
                   token
                 });
+              });
+            })
+            .catch(() => {
+              res.json(500, {
+                message: 'Internal server error'
               });
             });
         });
       }
-    });
+    })
+    .catch(() => {
+      res.json(500, {
+        message: 'Internal server error'
+      });
+    });;
   }
 
   static login(req, res) {

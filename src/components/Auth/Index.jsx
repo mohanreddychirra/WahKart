@@ -1,14 +1,21 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { login, register } from '../../actions/authAction';
 import '../../stylesheets/auth.scss';
 
 class Auth extends Component {
   constructor(props) {
     super(props);
     this.setPage = this.setPage.bind(this);
-
+    this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+  
     this.state = {
-      page: null
+      page: null,
+      email: '',
+      password: '',
+      error: null
     }
   }
 
@@ -24,6 +31,35 @@ class Auth extends Component {
     const { match: { path } } = props;
     const page = path === '/register' ? 0 : 1;
     this.setState({ page });
+  }
+
+  onChange(event) {
+    const { target } = event;
+    const { name, value } = target;
+
+    this.setState({
+      [name]: value,
+      error: null
+    });
+  }
+
+  onSubmit() {
+    const { email, password, page } = this.state;
+
+    const promise = page === 1
+      ? this.props.login(email, password)
+      : this.props.register(email, password)
+
+
+    promise
+      .then(() => {
+        this.props.history.push('/');
+      })
+      .catch(error => {
+        console.log(error);
+        const message = error.response.data.message;
+        this.setState({ error: message });
+      });
   }
 
   render () {
@@ -42,20 +78,38 @@ class Auth extends Component {
             </Link>
           </div>
 
-          <div className="status-div">
-            Please provide required details
+          <div className={`status-div ${ this.state.error && 'error'}`}>
+            {
+              this.state.error
+                ? this.state.error
+                : 'Please provide required details'
+            }
           </div>
           <div className="fieldset">
             <label>EMAIL ADDRESS</label>
-            <input type="text" />
+            <input
+              name="email"
+              type="email"
+              onChange={this.onChange}
+              value={this.state.email}
+            />
           </div>
 
           <div className="fieldset">
             <label>PASSWORD</label>
-            <input type="text" />
+            <input
+              name="password"
+              type="password"
+              onChange={this.onChange}
+              value={this.state.password}
+            />
           </div>
 
-          <button type="submit" className="auth-button">
+          <button
+            type="submit"
+            className="auth-button"
+            onClick={this.onSubmit}
+          >
             { page === 0 ? 'REGISTER' : 'LOGIN' }
           </button>
         </div>
@@ -64,4 +118,10 @@ class Auth extends Component {
   }
 }
 
-export default Auth;
+const mapDispatchToProps = {
+  login,
+  register
+};
+
+
+export default connect(null, mapDispatchToProps)(Auth);

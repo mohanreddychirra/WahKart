@@ -17,6 +17,7 @@ app.get('/', (req, res) => {
 app.post('/api/register', AuthCtrl.register);
 app.post('/api/login', AuthCtrl.login);
 app.get('/api/products', ProductCtrl.getAll)
+app.post('/api/auth', AuthCtrl.authenticate);
 
 app.listen(port, (error) => {
   if(error) {

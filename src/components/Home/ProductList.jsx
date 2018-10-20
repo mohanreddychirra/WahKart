@@ -8,6 +8,7 @@ const ProductList = (props) => (
      { props.products.map((product, index) => (
         <div key={index} className="col-3 text-center">
           <ProductCard
+            auth={props.auth}
             title={product.title}
             price={product.price}
             image={product.image}

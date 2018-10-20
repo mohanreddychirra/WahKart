@@ -1,13 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const SearchField = () => (
+const SearchField = ({ value, onChange }) => (
   <div id="search-field" className="clearfix">
-    <input type="text" placeholder="Search for products ..." />
-
-    <button>
-      <i className="fas fa-spinner" />
-    </button>
+    <input
+      type="text"
+      placeholder="Search for products ..."
+      value={value}
+      onChange={onChange}
+    />
   </div>
 );
 
