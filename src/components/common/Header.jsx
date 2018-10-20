@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout } from '../../actions/authAction';
 
-const Header = ({ auth, logout }) => (
+const Header = ({ cart, auth, logout }) => (
   <div id="header">
     <div className="aligner clearfix">
       <Link to='/'>
@@ -46,7 +46,7 @@ const Header = ({ auth, logout }) => (
           <Link to="/cart">
             <div id="cart">
               <i className="fas fa-cart-arrow-down" />
-              <span>12</span>
+              <span>{ cart.length }</span>
             </div>
           </Link>
         )
@@ -66,7 +66,8 @@ const Header = ({ auth, logout }) => (
 );
 
 const mapStateToProps = (state) => ({
-  auth: state.authReducer
+  auth: state.authReducer,
+  cart: state.cartReducer
 });
 
 const mapDispatchToProps = {

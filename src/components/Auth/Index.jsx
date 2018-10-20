@@ -86,36 +86,7 @@ class Auth extends Component {
                 : 'Please provide required details'
             }
           </div>
-<<<<<<< Updated upstream
-          
-          <div className="fieldset">
-            <label>EMAIL ADDRESS</label>
-            <input
-              name="email"
-              type="email"
-              onChange={this.onChange}
-              value={this.state.email}
-            />
-          </div>
 
-          <div className="fieldset">
-            <label>PASSWORD</label>
-            <input
-              name="password"
-              type="password"
-              onChange={this.onChange}
-              value={this.state.password}
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="form-button"
-            onClick={this.onSubmit}
-          >
-            { page === 0 ? 'REGISTER' : 'LOGIN' }
-          </button>
-=======
           <form onSubmit={this.onSubmit}>
             <div className="fieldset">
               <label>EMAIL ADDRESS</label>
@@ -139,12 +110,11 @@ class Auth extends Component {
 
             <button
               type="submit"
-              className="auth-button"
+              className="form-button"
             >
               { page === 0 ? 'REGISTER' : 'LOGIN' }
             </button>
           </form>
->>>>>>> Stashed changes
         </div>
       </div>
     );
