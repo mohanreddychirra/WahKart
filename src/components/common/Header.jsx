@@ -44,7 +44,7 @@ const Header = ({ auth, logout }) => (
 
       { 
         auth.role === 'customer' && (
-          <Link to="#">
+          <Link to="/cart">
             <div id="cart">
               <i className="fas fa-cart-arrow-down" />
               <span>12</span>

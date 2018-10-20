@@ -1,0 +1,68 @@
+@import './global.scss';
+
+#cart-div {
+  margin-top: 40px;
+
+  header{
+    font-size: 22px;
+    font-weight: 300;
+    margin-bottom: 50px;
+
+    span {
+      float: left;
+      width: 40px;
+      height: 40px;
+      background: $pale-blue;
+      overflow: hidden;
+      text-align: center;
+      color: white;
+      border-radius: 50%;
+      padding-top: 7px;
+      font-size: 18px;
+      font-weight: 400;
+      margin: -5px 10px 0 0;
+    }
+
+    &:after {
+      content: '';
+      display: block;
+      clear: both;
+    }
+  }
+
+  #checkout-box {
+    display: block;
+    width: 90%;
+    margin: 0 auto;
+
+    header {
+      font-size: 22px;
+      font-weight: 300;
+      margin-bottom: 50px;
+    }
+
+    .total-div {
+      margin: 50px 0 20px; 
+      span {
+        display: block;
+        margin-bottom: 20px;
+        font-weight: 300;
+        font-size: 18px;
+      }
+    }
+
+    #checkout-btn{
+      display: block;
+      margin-top: 40px;
+      border: none;
+      background: $pale-blue;
+      padding: 13px 50px;
+      color: white;
+      font-weight: 400;
+      cursor: pointer;
+      border-radius: 2px;
+      font-size: 15px;
+      outline: none;
+    }
+  }
+}

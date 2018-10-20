@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const ProductCard = ({ auth, title, price, image }) => (
+const ProductCard = ({ auth, cart, title, price, image }) => (
   <div className="product-card">
     <img src={image} alt="product image"/>
 
@@ -16,7 +16,7 @@ const ProductCard = ({ auth, title, price, image }) => (
         </span>
 
         {
-          auth.role === 'customer' && (
+          auth && auth.role === 'customer' && (
             <Link to="#">
               <span className="cart">
                 <i className="fas fa-cart-plus" />
@@ -26,7 +26,17 @@ const ProductCard = ({ auth, title, price, image }) => (
         }
 
         {
-          auth.role === 'vendor' && (
+          cart && (
+            <Link to="#">
+              <span className="cart">
+                <i className="fas fa-trash" />
+              </span>
+            </Link>
+          )
+        }
+
+        {
+          auth && auth.role === 'vendor' && (
             <Link to="#">
               <span className="cart">
                 <i className="fas fa-edit" />

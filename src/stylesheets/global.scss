@@ -21,3 +21,52 @@ body {
   width: 90%;
   margin: 0 auto;
 }
+
+.product-card {
+  display: block;
+  width: 90%;
+  margin: 0 auto 40px;
+  min-height: 300px;
+  background: $light-gray;
+  overflow: hidden;
+
+  img {
+    display: block;
+    max-width: 90%;
+    border-radius: 2px;
+    margin: 20px auto;
+    height: 200px;
+  }
+
+  div {
+    width: 70%;
+    margin: 0 auto;
+
+    .title {
+      width: 100%;
+      margin: 0 auto 10px;
+      font-size: 17px;
+      text-align: left;
+      font-weight: 100;
+    }
+
+    div {
+      width: 100%;
+      margin-bottom: 20px;
+
+      .price {
+        float: left;
+        font-weight: 400;
+        font-size: 17px;
+        color: $blue;
+      }
+
+      .cart {
+        float: right;
+        margin-top: -5px;
+        font-size: 24px;
+        color: $gray;
+      }
+    }
+  }
+}

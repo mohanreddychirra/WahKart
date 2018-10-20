@@ -1,7 +1,6 @@
 import React from 'react';
-import ProductCard from './ProductCard';
+import ProductCard from '../common/ProductCard';
 import '../../stylesheets/home.scss';
-import prodImage1 from '../../../public/images/products/1.jpg';
 
 const ProductList = (props) => (
   <div className="row">
