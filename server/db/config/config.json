@@ -1,11 +1,7 @@
 {
   "development": {
     "username": "postgres",
-<<<<<<< Updated upstream
     "password": "postgres",
-=======
-    "password": "",
->>>>>>> Stashed changes
     "database": "wahkart-db",
     "host": "127.0.0.1",
     "dialect": "postgres"
