@@ -6,6 +6,16 @@ import db from '../db/models';
 const { Customer, Vendor } = db;
 
 class AuthCtrl {
+  /**
+   * 
+   * @description
+   * A plain function to abstract common token generation
+   * code for both register and login controller methods
+   * 
+   * @param { Object } res 
+   * @param { Object } entry 
+   * @param { String } password 
+   */
   static generateResponse(res, entry, password) {
     bcrypt.compare(password, entry.password, (error, result) => {
       if(!error && result) {
@@ -30,6 +40,15 @@ class AuthCtrl {
     });
   }
 
+  /**
+   * 
+   * @description
+   * Controller method to verify the token is valid
+   * and respond with the user details signed into the token
+   * 
+   * @param { Object } req 
+   * @param { object } res 
+   */
   static authenticate(req, res) {
     const { token } = req.body;
   
@@ -47,41 +66,79 @@ class AuthCtrl {
     });
   }
 
+  /**
+   * 
+   * @description
+   * handles register request, this endpoint requires
+   * that user credentials (email and password) should be passed
+   * through the request body which is accessible at {req.body} object
+   * 
+   * @param { Object } req
+   * @param { Object } res
+   */
   static register(req, res) {
     const { email, password } = req.body;
-  
+    
+    // check if email provided is already taken
     Customer.findOne({
       where: { email }
     }).then(entry => {
+
+      // respond with 409 if there is an entry with provided email
       if (entry) {
         res.json(409, {
           message: 'Email provided is already taken'
         });
       } else {
-        bcrypt.hash(password, 8, (error, hash) => {
-          Customer.create({
-            email,
-            password: hash
-          })
-            .then(entry => {
-              const { password, ...user } = entry.get();
-              jwt.sign({
-                id: entry.id,
-                email: entry.email,
-                role: entry.role
-              }, SECRET, (error, token) => {
-                res.json(201, {
-                  message: 'Customer has been created successfully',
-                  user,
-                  token
-                });
-              });
-            })
-            .catch(() => {
-              res.json(500, {
-                message: 'Internal server error'
-              });
+
+        // check if the email provided already belongs to a vendor
+        Vendor.findOne({
+          where: { email }
+        }).then(entry => {
+
+          // respond with 409 if there is an entry with provided email
+          if (entry) {
+            res.json(409, {
+              message: 'Email provided is already taken'
             });
+          } else {
+
+            // otherwise, encrypt password with the bcrypt module
+            bcrypt.hash(password, 8, (error, hash) => {
+
+              // insert new customer innto the database
+              Customer.create({
+                email,
+                password: hash
+              })
+                .then(entry => {
+                  const { password, ...user } = entry.get();
+
+                  // after adding to db, geenerate a token to be sent with response
+                  jwt.sign({
+                    id: entry.id,
+                    email: entry.email,
+                    role: entry.role
+                  }, SECRET, (error, token) => {
+                    res.json(201, {
+                      message: 'Customer has been created successfully',
+                      user,
+                      token
+                    });
+                  });
+                })
+                .catch(() => {
+                  res.json(500, {
+                    message: 'Internal server error'
+                  });
+                });
+            });
+          }
+        })
+        .catch(() => {
+          res.json(500, {
+            message: 'Internal server error'
+          });
         });
       }
     })
@@ -89,9 +146,19 @@ class AuthCtrl {
       res.json(500, {
         message: 'Internal server error'
       });
-    });;
+    });
   }
 
+  /**
+   * 
+   * @description
+   * handles login request, this endpoint requires
+   * that user credentials (email and password) should be passed
+   * through the request body which is accessible at {req.body} object
+   * 
+   * @param { Object } req
+   * @param { Object } res
+   */
   static login(req, res) {
     const { email, password } = req.body;
 

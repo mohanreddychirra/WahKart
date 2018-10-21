@@ -3,6 +3,15 @@ import db from '../db/models';
 const { Product } = db;
 
 class ProductCtrl {
+
+  /**
+   * 
+   * @description
+   * Controller method to get all products in the DB
+   * 
+   * @param { Object } req 
+   * @param { Object } res 
+   */
   static getAll(req, res) {
     Product.findAll()
       .then((products) => {
@@ -18,6 +27,18 @@ class ProductCtrl {
       });
   }
 
+  /**
+   * 
+   * @description
+   * A plain function to abstract common request body data validation
+   * code for both add and edit product controller methods
+   * 
+   * @param { Object } res 
+   * @param { Object } entry 
+   * @param { String } password 
+   * 
+   * @returns { true | false }
+   */
   static validateProduct(res, title, price, image) {
     if (!title || title.trim().length === 0) {
       res.status(400).json({
@@ -45,14 +66,28 @@ class ProductCtrl {
     }
   }
 
+  /**
+   * 
+   * @description
+   * Controller method to add product to the Products DB table
+   * This endpoint expect for product details (title, price and image)
+   * to be passed as the request body accessible through req.body object
+   * 
+   * @param { Object } req 
+   * @param { Object } res 
+   */
   static addProduct(req, res) {
     let { title, price, image } = req.body;
     
+    // runs the validation function and run the below code
+    // if validation was successfull
     if (ProductCtrl.validateProduct(res, title, price, image)) {
       title = title.trim();
       price = price.trim();
       image = image.trim();
 
+      // check if product already exist by checking the Products table
+      // for entry with the provided title in a case insensitive manner. 
       Product.findOne({
         where: {
           title: {
@@ -94,21 +129,36 @@ class ProductCtrl {
     }
   }
 
+  /**
+   * 
+   * @description
+   * Controller method to edit product in the Products DB table
+   * This endpoint expect for product details (title, price and image)
+   * to be passed as the request body accessible through req.body object
+   * 
+   * @param { Object } req 
+   * @param { Object } res 
+   */
   static editProduct(req, res) {
     let { title, price, image } = req.body;
     const { productId } = req.params;
 
+    // runs the validation function and run the below code
+    // if validation was successfull
     if (ProductCtrl.validateProduct(res, title, price, image)) {
       title = title.trim();
       price = price.trim();
       image = image.trim();
 
+      // check if product actually exist before trying to update it
       Product.findOne({
         where: {
           id: productId
         }
       })
         .then((product) => {
+          
+          // if product is found, update the product details and save
           if(product) {
             product.title = title;
             product.price = price;
@@ -134,9 +184,22 @@ class ProductCtrl {
       }
   }
 
+  /**
+   * 
+   * @description
+   * Controller method to delete a product from the Products DB table
+   * This endpoint expect that the productId to be deleted should be passed
+   * as params, that is via the request url and accessible here through the
+   * req.params object.
+   * 
+   * @param { Object } req 
+   * @param { Object } res 
+   */
   static deleteProduct(req, res) {
     const { productId } = req.params;
 
+    // confirm that the product actually exist in the Products table
+    // before trying to delete it.
     Product.findOne({
       where: {
         id: productId
@@ -164,6 +227,17 @@ class ProductCtrl {
       });
   }
 
+  /**
+   * 
+   * @description
+   * Controller method to fetch a particular product details from the
+   * Products DB table, this endpoint expect that the productId to be
+   * fetch should be passed as params, that is via the request url and
+   * accessible here through the req.params object.
+   * 
+   * @param { Object } req 
+   * @param { Object } res 
+   */
   static getProduct(req, res) {
     const { productId } = req.params;
 
