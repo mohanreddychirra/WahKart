@@ -14,14 +14,14 @@ This hold files accessible by anyone through the URL, contents of this folder as
 
 > - `server` Folder
 
-This folder contains API related files and codes, this varies from database configuration file,model files, migration files, seeder files, controllers for API endpoints and middlewares to perform operations actions such as verifying request token.
+This folder contains API related files and code, this varies from database configuration file,model files, migration files, seeder files, controllers for API endpoints and middlewares to perform operations actions such as verifying request token.
 
 > - `src` Folder
 
-This contains the whole codes that are bundled together by webpack into a single `bundle.js` file, to be run in the browser, by including it as a script tag in `public/index.html` file.
+This contains the whole code that are bundled together by webpack into a single `bundle.js` file, to be run in the browser, by including it as a script tag in `public/index.html` file.
 
 Files in this folder includes stylesheets, react components in JSX, reducers, actions and helpers file.
 
 > - Others
 
-Other files at the root path of the project folder are mostly configuration files for our `bunder (webpack)`, `transpiler (babel)`, `node package management (package.json)`.
+Other files at the root path of the project folder are mostly configuration files for our `bundler (webpack)`, `transpiler (babel)`, `node package management (package.json)`.
