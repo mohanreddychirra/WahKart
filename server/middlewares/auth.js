@@ -7,7 +7,7 @@ class AuthMid {
 
     jwt.verify(token, SECRET, (error, payload) => {
       if (error) {
-        res.status(403).json({
+        res.status(401).json({
           message: "token provided is invalid"
         });
       } else {

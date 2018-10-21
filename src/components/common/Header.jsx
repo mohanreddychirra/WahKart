@@ -54,7 +54,7 @@ const Header = ({ cart, auth, logout }) => (
 
       {
         auth.role === 'vendor' && (
-          <Link to="#">
+          <Link to="/product/add">
             <span id="add-plus">
               <i className="fas fa-plus-circle" />
             </span>

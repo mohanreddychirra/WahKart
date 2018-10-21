@@ -23,7 +23,7 @@ class AuthCtrl {
           });
         });
       } else {
-        res.json(403, {
+        res.json(401, {
           message: 'Login credentials are invalid'
         });
       }
@@ -35,7 +35,7 @@ class AuthCtrl {
   
     jwt.verify(token, SECRET, (error, user) => {
       if (!user) {
-        res.json(403, {
+        res.json(401, {
           message: 'Token provided is invalid'
         });
       } else {
@@ -107,8 +107,8 @@ class AuthCtrl {
         }).then(entry => {
           if (!entry) {
 
-            // Respond with 403 for invalid email
-            res.json(403, {
+            // Respond with 401 for invalid email
+            res.json(401, {
               message: 'Email address provided is invalid'
             });
           } else {

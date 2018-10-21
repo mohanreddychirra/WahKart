@@ -7,6 +7,7 @@ import { authenticate } from './actions/authAction';
 import { getCartItems } from './actions/cartAction';
 import configureStore from './store';
 import App from './components/App';
+import '../node_modules/toastr/build/toastr.min.css';
 
 const store = configureStore({});
 store.dispatch(loadProducts());

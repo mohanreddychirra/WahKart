@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { addToCart, deleteFromCart } from '../../actions/cartAction';
+import { deleteProduct } from '../../actions/productAction';
 import { Link } from 'react-router-dom';
 
 class ProductCard extends Component {
@@ -8,6 +9,7 @@ class ProductCard extends Component {
     super(props);
     this.state = {}
     this.addToCartHandler = this.addToCartHandler.bind(this);
+    this.deleteProductHandler = this.deleteProductHandler.bind(this);
     this.deleteFromCartHandler = this.deleteFromCartHandler.bind(this);
   }
 
@@ -16,8 +18,11 @@ class ProductCard extends Component {
   }
 
   deleteFromCartHandler(productId) {
-    console.log(productId);
     this.props.deleteFromCart(productId);
+  }
+
+  deleteProductHandler(productId) {
+    this.props.deleteProduct(productId);
   }
 
   render() {
@@ -60,13 +65,13 @@ class ProductCard extends Component {
             {
               auth && auth.role === 'vendor' && (
                 <Fragment>
-                  <Link to="#">
+                  <Link to="#" onClick={() => this.deleteProductHandler(id)}>
                     <span className="cart ml-3">
                       <i className="fas fa-trash" />
                     </span>
                   </Link>
 
-                  <Link to="#">
+                  <Link to={`/product/edit/${id}`}>
                     <span className="cart">
                       <i className="fas fa-edit" />
                     </span>
@@ -87,7 +92,8 @@ const mapStateToProps = ({ cartReducer }, ownProps) => ({
 
 const mapDispatchToProps = {
   addToCart,
-  deleteFromCart
+  deleteFromCart,
+  deleteProduct
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductCard);

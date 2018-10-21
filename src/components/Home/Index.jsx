@@ -20,7 +20,7 @@ class Home extends Component{
     const { products } = this.props;
 
     const result = products.filter(
-      product => product.title === value
+      product => value.toLowerCase() === product.title.toLowerCase().substr(0, value.length)
     );
 
     this.setState({

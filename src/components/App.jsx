@@ -18,7 +18,8 @@ const App = () => (
       <Route exact path="/login" component={Auth} />
       <Route exact path="/register" component={Auth} />
       <Route exact path="/cart" component={Cart} />
-      <Route exact path="/product/:action" component={ManageProduct} />
+      <Route exact path="/product/add" component={ManageProduct} />
+      <Route exact path="/product/edit/:productId" component={ManageProduct} />
       <Route component={NotFound} />
     </Switch>
   </Fragment>
