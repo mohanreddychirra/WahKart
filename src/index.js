@@ -11,6 +11,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+import { getToken } from './helpers';
 import { loadProducts } from './actions/productAction';
 import { authenticate } from './actions/authAction';
 import { getCartItems } from './actions/cartAction';
@@ -25,7 +26,10 @@ const store = configureStore({});
 // neccessary data from the api
 store.dispatch(loadProducts());
 store.dispatch(authenticate());
-store.dispatch(getCartItems());
+
+if (getToken()) {
+  store.dispatch(getCartItems());
+}
 
 // Render the main App component after wrapping it around
 // other components that exposes it to the redux store and

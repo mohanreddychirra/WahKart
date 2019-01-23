@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken';
-import { SECRET } from '../utils';
+import dotEnv from 'dotenv';
+
+dotEnv.config()
 
 // Middlewares are to be run before hitting actually request controllers
 // the are placed before the actual controller methods in the route declaration
@@ -23,7 +25,7 @@ class AuthMid {
   static checkToken(req, res, next) {
     const { token } = req.headers;
 
-    jwt.verify(token, SECRET, (error, payload) => {
+    jwt.verify(token, process.env.SECRET, (error, payload) => {
       if (error) {
         res.status(401).json({
           message: "token provided is invalid"

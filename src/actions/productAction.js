@@ -11,9 +11,7 @@ export const loadProducts = () => dispatch => {
         products
       });
     })
-    .catch((error) => {
-      throw error;
-    });
+    .catch(() => {});
 };
 
 export const addProduct = (productDetails) => dispatch => (
@@ -30,9 +28,7 @@ export const addProduct = (productDetails) => dispatch => (
         product
       });
     })
-    .catch(error => {
-      throw error;
-    })
+    .catch(() => {})
 );
 
 export const editProduct = (productId, productDetails) => dispatch => (
@@ -49,9 +45,7 @@ export const editProduct = (productId, productDetails) => dispatch => (
         product
       });
     })
-    .catch(error => {
-      throw error;
-    })
+    .catch(() => {})
 );
 
 export const deleteProduct = (productId) => dispatch => (
@@ -67,7 +61,5 @@ export const deleteProduct = (productId) => dispatch => (
       });
       toastr.success('Product deleted successfully')
     })
-    .catch(error => {
-      throw error;
-    })
+    .catch(() => {})
 );

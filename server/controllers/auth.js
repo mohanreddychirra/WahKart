@@ -1,7 +1,9 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import { SECRET } from '../utils';
+import dotEnv from 'dotenv';
 import db from '../db/models';
+
+dotEnv.config();
 
 const { Customer, Vendor } = db;
 
@@ -25,7 +27,7 @@ class AuthCtrl {
           id: entry.id,
           email: entry.email,
           role: entry.role
-        }, SECRET, (error, token) => {
+        }, process.env.SECRET, (error, token) => {
           res.json(200, {
             message: 'Login was successfully',
             user,
@@ -52,7 +54,7 @@ class AuthCtrl {
   static authenticate(req, res) {
     const { token } = req.body;
   
-    jwt.verify(token, SECRET, (error, user) => {
+    jwt.verify(token, process.env.SECRET, (error, user) => {
       if (!user) {
         res.json(401, {
           message: 'Token provided is invalid'
@@ -119,7 +121,7 @@ class AuthCtrl {
                     id: entry.id,
                     email: entry.email,
                     role: entry.role
-                  }, SECRET, (error, token) => {
+                  }, process.env.SECRET, (error, token) => {
                     res.json(201, {
                       message: 'Customer has been created successfully',
                       user,

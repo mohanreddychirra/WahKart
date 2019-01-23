@@ -42,9 +42,7 @@ export const authenticate = () => dispatch => {
           user
         })
       })
-      .catch((error) => {
-        console.log(error.response.data.message)
-      })
+      .catch(() => {})
   }
 }
 
