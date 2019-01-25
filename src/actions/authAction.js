@@ -15,9 +15,9 @@ export const login = (email, password) => dispatch => {
     })
 }
 
-export const register = (email, password) => dispatch => {
+export const register = (email, password, role) => dispatch => {
   return axios.post('/api/register', {
-    email, password
+    email, password, role
   })
     .then(response => {
       const { user, token } = response.data;
@@ -42,7 +42,9 @@ export const authenticate = () => dispatch => {
           user
         })
       })
-      .catch(() => {})
+      .catch(() => {
+        localStorage.removeItem('token');
+      })
   }
 }
 

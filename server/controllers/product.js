@@ -47,7 +47,7 @@ class ProductCtrl {
       return false;
     }
 
-    else if (!price || price.trim().length === 0) {
+    else if (!price || price.trim().length === 0 || !price.match(/\$[1-9][0-9]+$/)) {
       res.status(400).json({
         message: 'Price provided is invalid',
       });

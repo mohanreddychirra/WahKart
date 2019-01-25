@@ -5,7 +5,7 @@ import db from '../db/models';
 
 dotEnv.config();
 
-const { Customer, Vendor } = db;
+const { Auth } = db;
 
 class AuthCtrl {
   /**
@@ -60,32 +60,14 @@ class AuthCtrl {
           message: 'Token provided is invalid'
         });
       } else {
-        Customer.findOne({
+        Auth.findOne({
           where: {
             email: user.email
           }
         }).then((entry) => {
           if (!entry) {
-            Vendor.findOne({
-              where: {
-                email: user.email
-              }
-            }).then((entry) => {
-              if (!entry) {
-                res.json(401, {
-                  message: 'Token provided is invalid',
-                });
-              } else {
-                res.json(200, {
-                  message: 'Token verification successful',
-                  user,
-                });
-              }
-            })
-            .catch(() => {
-              res.json(500, {
-                message: 'Internal server error'
-              });
+            res.json(401, {
+              message: 'Token provided is invalid',
             });
           } else {
             res.json(200, {
@@ -114,9 +96,14 @@ class AuthCtrl {
    * @param { Object } res
    */
   static register(req, res) {
-    const { email, password } = req.body;
+    const { email, password, role } = req.body;
     
-    if (!email.trim()) {
+    if (role !== 'customer' && role !== 'vendor') {
+      res.json(400, {
+        message: 'Select a valid role'
+      });
+    } 
+    else if (!email.trim()) {
       res.json(400, {
         message: 'Email field is required'
       });
@@ -129,65 +116,45 @@ class AuthCtrl {
     else {
 
       // check if email provided is already taken
-      Customer.findOne({
+      Auth.findOne({
         where: { email }
       }).then(entry => {
-
         // respond with 409 if there is an entry with provided email
         if (entry) {
           res.json(409, {
             message: 'Email provided is already taken'
           });
         } else {
+          // otherwise, encrypt password with the bcrypt module
+          bcrypt.hash(password, 8, (error, hash) => {
 
-          // check if the email provided already belongs to a vendor
-          Vendor.findOne({
-            where: { email }
-          }).then(entry => {
+            // insert new customer innto the database
+            Auth.create({
+              email,
+              password: hash,
+              role
+            })
+              .then(entry => {
+                const { password, ...user } = entry.get();
 
-            // respond with 409 if there is an entry with provided email
-            if (entry) {
-              res.json(409, {
-                message: 'Email provided is already taken'
-              });
-            } else {
-
-              // otherwise, encrypt password with the bcrypt module
-              bcrypt.hash(password, 8, (error, hash) => {
-
-                // insert new customer innto the database
-                Customer.create({
-                  email,
-                  password: hash
-                })
-                  .then(entry => {
-                    const { password, ...user } = entry.get();
-
-                    // after adding to db, geenerate a token to be sent with response
-                    jwt.sign({
-                      id: entry.id,
-                      email: entry.email,
-                      role: entry.role
-                    }, process.env.SECRET, (error, token) => {
-                      res.json(201, {
-                        message: 'Customer has been created successfully',
-                        user,
-                        token
-                      });
-                    });
-                  })
-                  .catch(() => {
-                    res.json(500, {
-                      message: 'Internal server error'
-                    });
+                // after adding to db, geenerate a token to be sent with response
+                jwt.sign({
+                  id: entry.id,
+                  email: entry.email,
+                  role: entry.role
+                }, process.env.SECRET, (error, token) => {
+                  res.json(201, {
+                    message: 'Registration successfully',
+                    user,
+                    token
                   });
+                });
+              })
+              .catch(() => {
+                res.json(500, {
+                  message: 'Internal server error'
+                });
               });
-            }
-          })
-          .catch(() => {
-            res.json(500, {
-              message: 'Internal server error'
-            });
           });
         }
       })
@@ -213,30 +180,16 @@ class AuthCtrl {
     const { email, password } = req.body;
 
     // Check for customer with email provided
-    Customer.findOne({
+    Auth.findOne({
       where: { email }
     }).then(entry => {
       if (!entry) {
-
-        // Check for vendor with email provided
-        Vendor.findOne({
-          where: { email }
-        }).then(entry => {
-          if (!entry) {
-
-            // Respond with 401 for invalid email
-            res.json(401, {
-              message: 'Email address provided is invalid'
-            });
-          } else {
-
-            // return response for vendor login
-            AuthCtrl.generateResponse(
-              res, entry, password
-            );
-          }
+        // Respond with 401 for invalid email
+        res.json(401, {
+          message: 'Email address provided is invalid'
         });
       } else {
+        // return response for vendor login
         AuthCtrl.generateResponse(
           res, entry, password
         );

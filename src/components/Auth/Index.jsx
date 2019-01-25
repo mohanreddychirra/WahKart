@@ -15,6 +15,7 @@ class Auth extends Component {
       page: null,
       email: '',
       password: '',
+      role: '',
       error: null
     }
   }
@@ -46,11 +47,11 @@ class Auth extends Component {
   onSubmit(event) {
     event.preventDefault();
   
-    const { email, password, page } = this.state;
+    const { email, password, role, page } = this.state;
 
     const promise = page === 1
       ? this.props.login(email, password)
-      : this.props.register(email, password)
+      : this.props.register(email, password, role)
 
 
     promise
@@ -88,10 +89,27 @@ class Auth extends Component {
           </div>
 
           <form onSubmit={this.onSubmit}>
+            { page === 0 && (
+              <div className="fieldset">
+                <label>Account Type</label>
+                <select
+                  name="role"
+                  required
+                  onChange={this.onChange}
+                  value={this.state.role}
+                >
+                  <option value="">-- Select --</option>
+                  <option value="customer">Customer</option>
+                  <option value="vendor">Vendor</option>
+                </select>
+              </div>
+            )}
+
             <div className="fieldset">
               <label>EMAIL ADDRESS</label>
               <input
                 name="email"
+                required
                 type="email"
                 onChange={this.onChange}
                 value={this.state.email}
@@ -102,6 +120,7 @@ class Auth extends Component {
               <label>PASSWORD</label>
               <input
                 name="password"
+                required
                 type="password"
                 onChange={this.onChange}
                 value={this.state.password}
