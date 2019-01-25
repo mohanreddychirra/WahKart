@@ -4,11 +4,12 @@
   "description": "E-commerce store using React.js",
   "main": "index.js",
   "scripts": {
-    "start:dev": "export NODE_ENV='development' && npm run start:client & npm run start:server:dev",
-    "start:prod": "export NODE_ENV='production' && npm run start:client & npm run start:server:prod",
-    "start:client": "./node_modules/.bin/webpack-dev-server",
-    "start:server:prod": "node --require @babel/register server/index.js",
-    "start:server:dev": "nodemon --require @babel/register server/index.js",
+    "start": "export NODE_ENV='production' && node ./build/index.js",
+    "postinstall": "npm run build && ./node_modules/.bin/sequelize db:migrate:undo:all || true && ./node_modules/.bin/sequelize db:migrate && ./node_modules/.bin/sequelize db:seed:all",
+    "start:dev": "export NODE_ENV='development' && ./node_modules/.bin/webpack-dev-server & nodemon --require @babel/register server/index.js",
+    "build:client": "rm -rf ./dist || true && ./node_modules/.bin/webpack-cli --config webpack.prod.config.js",
+    "build:server": "rm -rf ./build || true && ./node_modules/.bin/babel server/ --out-dir build/",
+    "build": "npm run build:client && npm run build:server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -26,19 +27,25 @@
     "@babel/core": "^7.1.2",
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-react": "^7.0.0",
+    "@babel/register": "^7.0.0",
+    "babel-loader": "^8.0.4",
     "css-loader": "^1.0.0",
     "mini-css-extract-plugin": "^0.5.0",
     "node-sass": "^4.9.4",
     "nodemon": "^1.18.9",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
     "sass-loader": "^7.1.0",
+    "sequelize-cli": "^5.4.0",
     "style-loader": "^0.23.1",
-    "uglifyjs-webpack-plugin": "^2.1.1"
+    "uglifyjs-webpack-plugin": "^2.1.1",
+    "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-middleware": "^3.4.0",
+    "webpack-dev-server": "^3.1.9",
+    "webpack-merge": "^4.2.1"
   },
   "dependencies": {
-    "@babel/register": "^7.0.0",
     "axios": "^0.18.0",
-    "babel-loader": "^8.0.4",
     "bcrypt": "^3.0.0",
     "body-parser": "^1.18.3",
     "dotenv": "^6.2.0",
@@ -55,11 +62,6 @@
     "redux-immutable-state-invariant": "^2.1.0",
     "redux-thunk": "^2.3.0",
     "sequelize": "^4.39.1",
-    "toastr": "^2.1.4",
-    "webpack": "^4.20.2",
-    "webpack-cli": "^3.1.2",
-    "webpack-dev-middleware": "^3.4.0",
-    "webpack-dev-server": "^3.1.9",
-    "webpack-merge": "^4.2.1"
+    "toastr": "^2.1.4"
   }
 }

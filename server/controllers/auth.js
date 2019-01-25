@@ -150,7 +150,8 @@ class AuthCtrl {
                   });
                 });
               })
-              .catch(() => {
+              .catch((error) => {
+                console.log(error);
                 res.json(500, {
                   message: 'Internal server error'
                 });
@@ -158,7 +159,8 @@ class AuthCtrl {
           });
         }
       })
-      .catch(() => {
+      .catch((error) => {
+        console.log(error);
         res.json(500, {
           message: 'Internal server error'
         });

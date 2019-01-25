@@ -5,6 +5,8 @@ module.exports = {
   entry: './src/index.js',
   output: {
     filename: 'bundle.js',
+    path: path.resolve('./dist'),
+    publicPath: '/dist'
   },
   plugins: [
     new MiniCssExtractPlugin({
@@ -38,14 +40,5 @@ module.exports = {
 
   resolve: {
     extensions: ['.js', '.jsx']
-  },
-
-  devServer: {
-    port: 4000,
-    contentBase: path.join(__dirname, 'public'),
-    historyApiFallback: true,
-    proxy: {
-      '/api': 'http://localhost:8000'
-    }
   }
 };
