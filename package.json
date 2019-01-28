@@ -10,7 +10,8 @@
     "build:client": "rm -rf ./dist || true && ./node_modules/.bin/webpack-cli --config webpack.prod.config.js",
     "build:server": "rm -rf ./build || true && ./node_modules/.bin/babel server/ --out-dir build/",
     "build": "npm run build:client && npm run build:server",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:client": "./node_modules/.bin/jest"
   },
   "repository": {
     "type": "git",
@@ -30,6 +31,9 @@
     "@babel/register": "^7.0.0",
     "babel-loader": "^8.0.4",
     "css-loader": "^1.0.0",
+    "enzyme": "^3.8.0",
+    "enzyme-adapter-react-16": "^1.8.0",
+    "jest": "^24.0.0",
     "mini-css-extract-plugin": "^0.5.0",
     "node-sass": "^4.9.4",
     "nodemon": "^1.18.9",
