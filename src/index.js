@@ -10,7 +10,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import { getToken } from './helpers';
 import { loadProducts } from './actions/productAction';
 import { authenticate } from './actions/authAction';
@@ -18,6 +18,7 @@ import { getCartItems } from './actions/cartAction';
 import configureStore from './store';
 import App from './components/App';
 import '../node_modules/toastr/build/toastr.min.css';
+import history from './history';
 
 // create a store to be used by the application
 const store = configureStore({});
@@ -41,9 +42,9 @@ if (getToken()) {
 // { history: for redirection }
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter>
+    <Router history={history}>
       <App />
-    </BrowserRouter>
+    </Router>
   </Provider>,
   document.getElementById("app-view")
 );

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import history from '../history';
 
 export const login = (email, password) => dispatch => {
   return axios.post('/api/login', {
@@ -54,4 +55,6 @@ export const logout = () => dispatch => {
   dispatch({
     type: 'AUTH_LOGOUT'
   });
+
+  history.push('/');
 }
