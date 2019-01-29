@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const SearchField = ({ value, onChange, onVendorFilterChange }) => (
+const SearchField = ({ value, onChange, onVendorFilterChange, shops, shopFilter }) => (
   <div id="search-field" className="clearfix">
     <input
       type="text"
@@ -13,10 +13,14 @@ const SearchField = ({ value, onChange, onVendorFilterChange }) => (
     <select
       onChange={onVendorFilterChange}
       id="vendor-filter"
+      value={shopFilter ? shopFilter : ''}
     >
       <option value="">-- Select --</option>
-      <option value="1">Vendor 1 Shop</option>
-      <option value="2">Vendor 2 Shop</option>
+      {
+        shops.map(shop => (
+          <option key={shop.id} value={shop.id}>{shop.name}</option>
+        ))
+      }
     </select>
   </div>
 );

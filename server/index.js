@@ -10,6 +10,7 @@ import bodyParser from 'body-parser';
 import AuthCtrl from './controllers/auth';
 import ProductCtrl from './controllers/product';
 import CartCtrl from './controllers/cart';
+import ShopCtrl from './controllers/shop';
 import AuthMid from './middlewares/auth';
 
 // create an express server
@@ -45,6 +46,7 @@ app.post('/api/products', AuthMid.checkToken, ProductCtrl.addProduct);
 app.get('/api/products/:productId', ProductCtrl.getProduct);
 app.put('/api/products/:productId', AuthMid.checkToken, ProductCtrl.editProduct);
 app.delete('/api/products/:productId', AuthMid.checkToken, ProductCtrl.deleteProduct);
+app.get('/api/shops', ShopCtrl.getAll);
 
 app.all('*', (req, res) => {
   if(process.env.NODE_ENV === 'production') {

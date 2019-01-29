@@ -15,6 +15,7 @@ import { getToken } from './helpers';
 import { loadProducts } from './actions/productAction';
 import { authenticate } from './actions/authAction';
 import { getCartItems } from './actions/cartAction';
+import { loadShops } from './actions/shopAction';
 import configureStore from './store';
 import App from './components/App';
 import '../node_modules/toastr/build/toastr.min.css';
@@ -27,6 +28,7 @@ const store = configureStore({});
 // neccessary data from the api
 store.dispatch(loadProducts());
 store.dispatch(authenticate());
+store.dispatch(loadShops());
 
 store.subscribe(() => {
   console.log(store.getState());

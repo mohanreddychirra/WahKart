@@ -33,17 +33,32 @@
       font-weight: 100;
     }
 
-    button {
+    select {
       float: left;
-      padding: 7px 20px 8px;
-      background: $blue;
-      border: none;
-      margin-left: 10px;
+      width: 20%;
+      padding: 0 10px;
+      height: 43px;
+      margin-left: 20px;
+      background: $light-gray;
       cursor: pointer;
+      border: 1px solid #F0F0F0;
       border-radius: 2px;
       font-size: 18px;
       outline: none;
-      color: $white;
+      font-weight: 100;
     }
+
+    // button {
+    //   float: left;
+    //   padding: 7px 20px 8px;
+    //   background: $blue;
+    //   border: none;
+    //   margin-left: 10px;
+    //   cursor: pointer;
+    //   border-radius: 2px;
+    //   font-size: 18px;
+    //   outline: none;
+    //   color: $white;
+    // }
   }
 }

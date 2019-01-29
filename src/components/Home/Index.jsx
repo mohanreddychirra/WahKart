@@ -12,7 +12,7 @@ class Home extends Component{
     this.onVendorFilterChange = this.onVendorFilterChange.bind(this);
     this.state = {
       searchText: '',
-      searchResult: [],
+      searchResult: null,
       shopFilter: null
     }
   }
@@ -22,13 +22,22 @@ class Home extends Component{
     const { products } = this.props;
 
     const shopId = parseInt(value) || null;
-    if (value !== null) {
+
+    this.setState({
+      searchText: '',
+      shopFilter: shopId
+    });
+
+    if (shopId !== null) {
       const results = products.filter(
         product => product.shopId === shopId
       );
       this.setState({
-        shopFilter: shopId,
         searchResult: results
+      });
+    } else {
+      this.setState({
+        searchResult: null
       });
     }
   }
@@ -43,7 +52,8 @@ class Home extends Component{
 
     this.setState({
       searchText: value,
-      searchResult: results
+      searchResult: results,
+      shopFilter: null
     });
   }
 
@@ -59,12 +69,14 @@ class Home extends Component{
                 value={this.state.searchText}
                 onChange={this.searchTextChange}
                 onVendorFilterChange={this.onVendorFilterChange}
+                shopFilter={this.state.shopFilter}
+                shops={this.props.shops}
               />
 
               <ProductList
                 auth={this.props.auth}
                 products={
-                  this.state.searchText.trim() === ''
+                  this.state.searchResult === null
                     ? this.props.products
                     : this.state.searchResult
                 }
@@ -82,7 +94,8 @@ class Home extends Component{
 
 const mapStateToProps = (state) => ({
   products: state.productReducer.products,
-  auth: state.authReducer
+  auth: state.authReducer,
+  shops: state.shopReducer.shops
 });
 
 export default connect(mapStateToProps, null)(Home);
