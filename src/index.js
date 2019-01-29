@@ -28,6 +28,10 @@ const store = configureStore({});
 store.dispatch(loadProducts());
 store.dispatch(authenticate());
 
+store.subscribe(() => {
+  console.log(store.getState());
+});
+
 if (getToken()) {
   store.dispatch(getCartItems());
 }

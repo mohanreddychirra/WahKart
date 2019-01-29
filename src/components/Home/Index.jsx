@@ -9,23 +9,41 @@ class Home extends Component{
   constructor(props) {
     super(props);
     this.searchTextChange = this.searchTextChange.bind(this);
+    this.onVendorFilterChange = this.onVendorFilterChange.bind(this);
     this.state = {
       searchText: '',
-      searchResult: []
+      searchResult: [],
+      shopFilter: null
+    }
+  }
+
+  onVendorFilterChange(event) {
+    const { target: { value } } = event;
+    const { products } = this.props;
+
+    const shopId = parseInt(value) || null;
+    if (value !== null) {
+      const results = products.filter(
+        product => product.shopId === shopId
+      );
+      this.setState({
+        shopFilter: shopId,
+        searchResult: results
+      });
     }
   }
 
   searchTextChange(event) {
-    const { target: { value } } = event;
+    let { target: { value } } = event;
     const { products } = this.props;
 
-    const result = products.filter(
+    const results = products.filter(
       product => value.toLowerCase() === product.title.toLowerCase().substr(0, value.length)
     );
 
     this.setState({
       searchText: value,
-      searchResult: result
+      searchResult: results
     });
   }
 
@@ -40,6 +58,7 @@ class Home extends Component{
               <SearchField
                 value={this.state.searchText}
                 onChange={this.searchTextChange}
+                onVendorFilterChange={this.onVendorFilterChange}
               />
 
               <ProductList
