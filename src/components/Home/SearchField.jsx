@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 const SearchField = ({ value, onChange, onVendorFilterChange, shops, shopFilter }) => (
   <div id="search-field" className="clearfix">
