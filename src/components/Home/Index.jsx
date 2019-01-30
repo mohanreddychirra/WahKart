@@ -3,13 +3,14 @@ import SearchField from './SearchField';
 import { connect } from 'react-redux';
 import ProductList from './ProductList';
 import NoProducts from './NoProducts';
+import { openModal } from '../../actions/modalAction';
 import '../../stylesheets/home.scss';
 
 class Home extends Component{
   constructor(props) {
     super(props);
+    this.openFilterModal = this.openFilterModal.bind(this);
     this.searchTextChange = this.searchTextChange.bind(this);
-    this.onVendorFilterChange = this.onVendorFilterChange.bind(this);
     this.state = {
       searchText: '',
       searchResult: null,
@@ -17,29 +18,8 @@ class Home extends Component{
     }
   }
 
-  onVendorFilterChange(event) {
-    const { target: { value } } = event;
-    const { products } = this.props;
-
-    const shopId = parseInt(value) || null;
-
-    this.setState({
-      searchText: '',
-      shopFilter: shopId
-    });
-
-    if (shopId !== null) {
-      const results = products.filter(
-        product => product.shopId === shopId
-      );
-      this.setState({
-        searchResult: results
-      });
-    } else {
-      this.setState({
-        searchResult: null
-      });
-    }
+  openFilterModal() {
+    this.props.openModal('productFilter');
   }
 
   searchTextChange(event) {
@@ -68,9 +48,7 @@ class Home extends Component{
               <SearchField
                 value={this.state.searchText}
                 onChange={this.searchTextChange}
-                onVendorFilterChange={this.onVendorFilterChange}
-                shopFilter={this.state.shopFilter}
-                shops={this.props.shops}
+                openFilterModal={this.openFilterModal}
               />
 
               <ProductList
@@ -98,4 +76,8 @@ const mapStateToProps = (state) => ({
   shops: state.shopReducer.shops
 });
 
-export default connect(mapStateToProps, null)(Home);
+const mapDispatchToProps = {
+  openModal
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

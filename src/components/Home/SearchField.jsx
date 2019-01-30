@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SearchField = ({ value, onChange, onVendorFilterChange, shops, shopFilter }) => (
+const SearchField = ({ value, onChange, openFilterModal }) => (
   <div id="search-field" className="clearfix">
     <input
       type="text"
@@ -9,18 +9,12 @@ const SearchField = ({ value, onChange, onVendorFilterChange, shops, shopFilter 
       onChange={onChange}
     />
 
-    <select
-      onChange={onVendorFilterChange}
-      id="vendor-filter"
-      value={shopFilter ? shopFilter : ''}
+    <button
+      type="button"
+      onClick={openFilterModal}
     >
-      <option value="">-- Select --</option>
-      {
-        shops.map(shop => (
-          <option key={shop.id} value={shop.id}>{shop.name}</option>
-        ))
-      }
-    </select>
+      Filter
+    </button>
   </div>
 );
 

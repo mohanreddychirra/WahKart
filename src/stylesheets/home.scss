@@ -33,32 +33,20 @@
       font-weight: 100;
     }
 
-    select {
-      float: left;
-      width: 20%;
-      padding: 0 10px;
-      height: 43px;
-      margin-left: 20px;
-      background: $light-gray;
-      cursor: pointer;
-      border: 1px solid #F0F0F0;
+    button {
+      display: inline-block;
+      text-align: center;
+      padding: 11px 0;
+      min-width: 100px;
       border-radius: 2px;
-      font-size: 18px;
+      color: $white;
+      font-size: 13px;
+      cursor: pointer;
       outline: none;
-      font-weight: 100;
+      margin: 0 0 0 20px;
+      font-weight: 400;
+      border: none;
+      background: $blue;
     }
-
-    // button {
-    //   float: left;
-    //   padding: 7px 20px 8px;
-    //   background: $blue;
-    //   border: none;
-    //   margin-left: 10px;
-    //   cursor: pointer;
-    //   border-radius: 2px;
-    //   font-size: 18px;
-    //   outline: none;
-    //   color: $white;
-    // }
   }
 }

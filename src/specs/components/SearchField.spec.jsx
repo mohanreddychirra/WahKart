@@ -14,36 +14,8 @@ describe('SearchField Component', () => {
   const wrapper = shallow(<SearchField {...props} />);
 
   describe('Intial state for component', () => {
-    it('select field is rendered', () => {
-      expect(wrapper.find('#vendor-filter').length).toBe(1);
-    });
-
-    it('value on select field is an empty string', () => {
-      const selectField = wrapper.find('#vendor-filter');
-      expect(selectField.prop('value')).toBe('');
-    });
-
-    it('no shops are added as options', () => {
-      const selectField = wrapper.find('#vendor-filter');
-      expect(selectField.find('select').find('option').length).toBe(1);
-    });
-  });
-
-  describe('Updating Props for components', () => {
-    it ('should render a single shop option', () => {
-      wrapper.setProps({
-        shops: [
-          {
-            id: 1,
-            vendorId: 1,
-            name: 'Test Shop',
-            location: 'Chicago US'
-          }
-        ]
-      });
-
-      const selectField = wrapper.find('#vendor-filter');
-      expect(selectField.find('select').find('option').length).toBe(2);
+    it('filter button is rendered', () => {
+      expect(wrapper.find('button').length).toBe(1);
     });
   });
 });

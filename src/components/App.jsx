@@ -6,11 +6,13 @@ import Cart from './Cart/Index';
 import ManageProduct from './Product/ManageProduct';
 import NotFound from './NotFound';
 import Header from './common/Header';
+import Modal from './Modal/Index';
 
 import '../stylesheets/header.scss';
 
 const App = () => (
   <Fragment>
+    <Modal />
     <Header />
 
     <Switch>
