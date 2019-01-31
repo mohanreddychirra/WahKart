@@ -40,6 +40,14 @@ class FilterModal extends Component {
       matchMinMax = price <= max;
     }
 
+    if (!shopIds.length) {
+      return matchMinMax
+    }
+    
+    if (!min && !max) {
+      return matchShopId;
+    }
+    
     return matchShopId && matchMinMax;
   }
 
