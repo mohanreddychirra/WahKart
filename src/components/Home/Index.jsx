@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import ProductList from './ProductList';
 import NoProducts from './NoProducts';
 import { openModal } from '../../actions/modalAction';
+import { setSearchResult } from '../../actions/productAction';
+
 import '../../stylesheets/home.scss';
 
 class Home extends Component{
@@ -12,9 +14,7 @@ class Home extends Component{
     this.openFilterModal = this.openFilterModal.bind(this);
     this.searchTextChange = this.searchTextChange.bind(this);
     this.state = {
-      searchText: '',
-      searchResult: null,
-      shopFilter: null
+      searchText: ''
     }
   }
 
@@ -30,11 +30,8 @@ class Home extends Component{
       product => value.toLowerCase() === product.title.toLowerCase().substr(0, value.length)
     );
 
-    this.setState({
-      searchText: value,
-      searchResult: results,
-      shopFilter: null
-    });
+    this.setState({ searchText: value });
+    this.props.setSearchResult(results);
   }
 
   render() {
@@ -54,9 +51,9 @@ class Home extends Component{
               <ProductList
                 auth={this.props.auth}
                 products={
-                  this.state.searchResult === null
+                  this.props.searchResult === null
                     ? this.props.products
-                    : this.state.searchResult
+                    : this.props.searchResult
                 }
               />
             </Fragment>
@@ -72,12 +69,13 @@ class Home extends Component{
 
 const mapStateToProps = (state) => ({
   products: state.productReducer.products,
-  auth: state.authReducer,
-  shops: state.shopReducer.shops
+  searchResult: state.productReducer.searchResult,
+  auth: state.authReducer
 });
 
 const mapDispatchToProps = {
-  openModal
+  openModal,
+  setSearchResult
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

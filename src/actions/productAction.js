@@ -2,6 +2,11 @@ import axios from 'axios';
 import toastr from 'toastr';
 import { getToken } from '../helpers';
 
+export const setSearchResult = (value) => dispatch => dispatch({
+  type: 'UPDATE_SEARCH_RESULT',
+  value
+});
+
 export const loadProducts = () => dispatch => {
   return axios.get('/api/products')
     .then(response => {

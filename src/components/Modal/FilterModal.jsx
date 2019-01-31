@@ -1,15 +1,90 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { closeModal } from '../../actions/modalAction';
+import { setSearchResult } from '../../actions/productAction'; 
+import {
+  addFilterShopId,
+  removeFilterShopId,
+  setFilterMax,
+  setFilterMin
+} from '../../actions/modalAction';
 
 class FilterModal extends Component {
   constructor(props) {
     super(props);
-    this.state = {}
+    this.handleCheckboxClick = this.handleCheckboxClick.bind(this);
+    this.handlePriceRangeChange = this.handlePriceRangeChange.bind(this);
+    this.handleDone = this.handleDone.bind(this);
+    this.matchProduct = this.matchProduct.bind(this);
+    this.state = {
+      min: '',
+      max: '',
+    }
+  }
+
+  matchProduct(product) {
+    const price = parseInt(product.price.substr(1)) || 0;
+    const { filters: {min, max, shopIds } } = this.props;
+    const matchShopId = shopIds.includes(product.shopId);
+    let matchMinMax = false;
+
+    if (min && max) {
+      matchMinMax = price >= min && price <= max;
+    }
+
+    else if (min) {
+      matchMinMax = price >= min;
+    }
+
+    else if (max) {
+      matchMinMax = price <= max;
+    }
+
+    return matchShopId && matchMinMax;
+  }
+
+  handleDone() {
+    const { filters: {min, max, shopIds } } = this.props;
+
+    if (!shopIds.length && !min && !max) {
+      this.props.setSearchResult(this.props.products);
+    } else {
+      const results = this.props.products.filter(this.matchProduct);
+      this.props.setSearchResult(results);
+    }
+
+    this.props.closeModal();
+  }
+
+  handlePriceRangeChange(event) {
+    let { target: { name, value } } = event;
+
+    if (!value.match(/^[1-9][0-9]*$/)) {
+      value = value.replace(/[^0-9]/gi, '');
+    }
+    
+    this.setState({ [name]: value });
+    value = parseInt(value) || null;
+
+    if (name == 'min') {
+      this.props.setFilterMin(value);
+    } else {
+      this.props.setFilterMax(value);
+    }
+  }
+
+  handleCheckboxClick(event, id) {
+    const { target } = event;
+
+    if (target.checked) {
+      this.props.addFilterShopId(id);
+    } else {
+      this.props.removeFilterShopId(id);
+    }
   }
 
   render() {
-    const { shops } = this.props;
+    const { shops, filters: { shopIds, min, max } } = this.props;
 
     return (
       <div id="filter-modal">
@@ -18,7 +93,7 @@ class FilterModal extends Component {
           <button
             id="done"
             type="button"
-            onClick={this.props.closeModal}
+            onClick={this.handleDone}
           >
             Done
         </button>
@@ -28,7 +103,12 @@ class FilterModal extends Component {
           {
             shops.map(shop => (
               <div key={shop.id} className="one-shop-listing">
-                <input type="checkbox" value={shop.id} />
+                <input
+                  onClick={(event) => this.handleCheckboxClick(event, shop.id)}
+                  type="checkbox"
+                  onChange={ () => null }
+                  checked={ shopIds.includes(shop.id) }
+                />
                 <span>{shop.name}</span>
               </div>
             ))
@@ -42,9 +122,21 @@ class FilterModal extends Component {
 
         <div id="price-filter">
           <div id="aligner" className="clearfix">
-            <input type="number" placeholder="$ Min" />
+            <input
+              type="text"
+              placeholder="$ Min"
+              name="min"
+              value={min ? min : this.state.min}
+              onChange={this.handlePriceRangeChange}
+            />
             <span>-</span>
-            <input type="number" placeholder="$ Max" />
+            <input
+              type="text"
+              placeholder="$ Max"
+              name="max"
+              value={max ? max : this.state.max}
+              onChange={this.handlePriceRangeChange}
+            />
           </div>
         </div>
       </div>
@@ -53,11 +145,18 @@ class FilterModal extends Component {
 }
 
 const mapStateToProps = state => ({
-  shops: state.shopReducer.shops
+  shops: state.shopReducer.shops,
+  products: state.productReducer.products,
+  filters: state.modalReducer.productFilter
 });
 
 const mapDispatchToProps = {
-  closeModal
+  closeModal,
+  addFilterShopId,
+  removeFilterShopId,
+  setFilterMax,
+  setFilterMin,
+  setSearchResult
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FilterModal);
