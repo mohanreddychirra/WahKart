@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import ProductCard from '../common/ProductCard';
 import '../../stylesheets/cart.scss';
 import { getCartProducts } from '../../helpers';
+import Checkout from './Checkout';
 
 class Cart extends Component {
   constructor(props) {
@@ -54,56 +55,12 @@ class Cart extends Component {
             </div>
           </div>
           <div className="col-4">
-            <div id="checkout-box">
-              <header>
-                Checkout details
-              </header>
-
-              <table className="table table-striped">
-                <thead>
-                  <tr>
-                    <th scope="col">Product</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Price</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Product 1</td>
-                    <td>1</td>
-                    <td>$1500</td>
-                  </tr>
-
-                  <tr>
-                    <td>Product 2</td>
-                    <td>1</td>
-                    <td>$1100</td>
-                  </tr>
-
-                  <tr>
-                    <td>Product 3</td>
-                    <td>1</td>
-                    <td>$500</td>
-                  </tr>
-                </tbody>
-              </table>
-
-              <div className="total-div">
-                <span>
-                  Number of products
-                  &nbsp;&nbsp;:&nbsp;&nbsp;
-                  50
-                </span>
-
-                <span>
-                  Total checkout price
-                  &nbsp;&nbsp;:&nbsp;&nbsp;
-                  $8000
-                </span>
-              </div>
-
-              <button id="checkout-btn">CHECKOUT</button>
-            </div>
+            { !!products.length && (
+                <Checkout
+                products={products}
+                />
+              )
+            }
           </div>
         </div>
       </div>

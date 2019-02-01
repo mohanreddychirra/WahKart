@@ -35,6 +35,19 @@
     width: 90%;
     margin: 0 auto;
 
+    td {
+      input {
+        width: 50px;
+        float: left;
+        padding: 5px 8px;
+        text-align: center;
+        font-size: 14px;
+        font-weight: 400;
+        background: white;
+        border: 1px solid lightgray;
+        outline: none;
+      }
+    }
     header {
       font-size: 22px;
       font-weight: 300;
