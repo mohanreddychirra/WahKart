@@ -61,9 +61,7 @@ class Cart extends Component {
           </div>
           <div className="col-4">
             { !!products.length && (
-                <Checkout
-                products={products}
-                />
+                <Checkout products={products} />
               )
             }
           </div>

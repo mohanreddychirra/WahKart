@@ -151,7 +151,6 @@ class AuthCtrl {
                 });
               })
               .catch((error) => {
-                console.log(error);
                 res.json(500, {
                   message: 'Internal server error'
                 });
