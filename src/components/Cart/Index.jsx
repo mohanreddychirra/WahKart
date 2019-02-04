@@ -11,14 +11,19 @@ class Cart extends Component {
     this.state = {};
   }
 
-  componentWillMount() {
+  shouldComponentUpdate(nextProps) {
     const { auth, history } = this.props;
 
-    if (auth.role !== 'customer') {
-      history.push('/');
+    if (auth.inProgress === true && nextProps.auth.inProgress === false) {
+      if (nextProps.auth.role !== 'customer') {
+        history.push('/');
+        return false;
+      }
     }
+
+    return true;
   }
-  
+
   render() {
     const { products } = this.props;
     return (

@@ -30,6 +30,7 @@ store.dispatch(loadProducts());
 store.dispatch(authenticate());
 store.dispatch(loadShops());
 
+// Output the store whenever any change happens
 store.subscribe(() => {
   console.log(store.getState());
 });

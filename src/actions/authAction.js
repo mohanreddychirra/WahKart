@@ -35,16 +35,23 @@ export const authenticate = () => dispatch => {
   const token = localStorage.getItem('token');
 
   if (token) {
+    dispatch({
+      type: 'UPDATE_AUTH_DATA_IN_PROGRESS'
+    });
+
     axios.post('/api/auth', { token })
       .then((response) => {
         const { user } = response.data
         dispatch({
           type: 'UPDATE_AUTH_DATA',
           user
-        })
+        });
       })
       .catch(() => {
         localStorage.removeItem('token');
+        dispatch({
+          type: 'UPDATE_AUTH_DATA_ERROR'
+        });
       })
   }
 }
