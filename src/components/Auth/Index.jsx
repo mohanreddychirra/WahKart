@@ -58,10 +58,10 @@ class Auth extends Component {
       .then(() => {
         this.props.history.push('/');
       })
-      .catch(error => {
-        const message = error.response.data.message;
-        this.setState({ error: message });
-      });
+      // .catch(error => {
+      //   const message = error.response.data.message;
+      //   this.setState({ error: message });
+      // });
   }
 
   render () {

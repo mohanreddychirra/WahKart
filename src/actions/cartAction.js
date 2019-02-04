@@ -15,7 +15,7 @@ export const getCartItems = () => dispatch => (
         cartItems
       })
     })
-    .catch(() => {})
+    .catch((error) => { throw error; })
 );
 
 export const addToCart = (productId) => dispatch => (

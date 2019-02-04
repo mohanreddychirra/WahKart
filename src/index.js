@@ -11,10 +11,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
-import { getToken } from './helpers';
 import { loadProducts } from './actions/productAction';
 import { authenticate } from './actions/authAction';
-import { getCartItems } from './actions/cartAction';
 import { loadShops } from './actions/shopAction';
 import configureStore from './store';
 import App from './components/App';
@@ -34,10 +32,6 @@ store.dispatch(loadShops());
 store.subscribe(() => {
   console.log(store.getState());
 });
-
-if (getToken()) {
-  store.dispatch(getCartItems());
-}
 
 // Render the main App component after wrapping it around
 // other components that exposes it to the redux store and

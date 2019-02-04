@@ -160,7 +160,6 @@ class AuthCtrl {
         }
       })
       .catch((error) => {
-        console.log(error);
         res.json(500, {
           message: 'Internal server error'
         });
@@ -191,7 +190,6 @@ class AuthCtrl {
           message: 'Email address provided is invalid'
         });
       } else {
-        // return response for vendor login
         AuthCtrl.generateResponse(
           res, entry, password
         );
