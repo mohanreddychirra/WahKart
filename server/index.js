@@ -49,6 +49,7 @@ app.put('/api/products/:productId', AuthMid.checkToken, ProductCtrl.editProduct)
 app.delete('/api/products/:productId', AuthMid.checkToken, ProductCtrl.deleteProduct);
 app.get('/api/shops', ShopCtrl.getAll);
 app.get('/api/orders',AuthMid.checkToken, OrderCtrl.getOrders);
+app.post('/api/orders',AuthMid.checkToken, OrderCtrl.addOrder);
 
 app.all('*', (req, res) => {
   if(process.env.NODE_ENV === 'production') {

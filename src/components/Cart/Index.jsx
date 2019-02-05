@@ -13,9 +13,15 @@ class Cart extends Component {
 
   shouldComponentUpdate(nextProps) {
     const { auth, history } = this.props;
+    const { auth: nextAuth } = nextProps;
 
-    if (auth.inProgress === true && nextProps.auth.inProgress === false) {
-      if (nextProps.auth.role !== 'customer') {
+    if (nextAuth.noLogin) {
+      history.push('/');
+      return false;
+    }
+
+    if (auth.inProgress === true && nextAuth.inProgress === false) {
+      if (nextAuth.role !== 'customer') {
         history.push('/');
         return false;
       }

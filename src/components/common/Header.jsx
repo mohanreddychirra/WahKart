@@ -43,18 +43,20 @@ const Header = ({ cart, auth, logout }) => (
 
       { 
         auth.role === 'customer' && (
+          <Fragment>
+          <Link to="/orders">
+            <span className="navlink mr-3">ORDERS</span>
+          </Link>
+
           <Link to="/cart">
             <div id="cart">
               <i className="fas fa-cart-arrow-down" />
               <span>{ cart.length }</span>
             </div>
           </Link>
+        </Fragment>
         )
       }
-
-      <Link to="/orders">
-        <span className="navlink">ORDERS</span>
-      </Link>
 
       {
         auth.role === 'vendor' && (

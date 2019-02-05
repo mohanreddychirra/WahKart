@@ -3,13 +3,20 @@ const initialState = {
   id: null,
   role: null,
   email: null,
+  noLogin: false,
   inProgress: false
 };
 
 export default (state=initialState, action) => {
   switch(action.type) {
+    case 'NO_LOGIN': return {
+      ...state,
+      noLogin: true
+    }
+
     case 'UPDATE_AUTH_DATA_IN_PROGRESS': return {
       ...state,
+      noLogin: false,
       inProgress: true
     }
 
@@ -21,6 +28,7 @@ export default (state=initialState, action) => {
       id: action.user.id,
       role: action.user.role,
       email: action.user.email,
+      noLogin: false,
       inProgress: false
     }
 
@@ -28,6 +36,7 @@ export default (state=initialState, action) => {
       id: action.user.id,
       role: action.user.role,
       email: action.user.email,
+      noLogin: false,
       inProgress: false
     }
 

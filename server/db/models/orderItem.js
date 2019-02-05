@@ -7,6 +7,10 @@ module.exports = (sequelize, DataTypes) => {
     price: DataTypes.STRING
   }, {});
   OrderItem.associate = function(models) {
+    OrderItem.hasOne(models.Product, {
+      foreignKey: 'id'
+    });
+
     OrderItem.belongsTo(models.Order, {
       as: 'orderItems',
       foreignKey: {

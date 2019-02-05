@@ -60,6 +60,10 @@ export const authenticate = () => dispatch => {
           type: 'UPDATE_AUTH_DATA_ERROR'
         });
       })
+  } else {
+    dispatch({
+      type: 'NO_LOGIN'
+    });
   }
 }
 
