@@ -52,6 +52,10 @@ const Header = ({ cart, auth, logout }) => (
         )
       }
 
+      <Link to="/orders">
+        <span className="navlink">ORDERS</span>
+      </Link>
+
       {
         auth.role === 'vendor' && (
           <Link to="/product/add">

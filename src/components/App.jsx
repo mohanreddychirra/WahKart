@@ -7,6 +7,7 @@ import ManageProduct from './Product/ManageProduct';
 import NotFound from './NotFound';
 import Header from './common/Header';
 import Modal from './Modal/Index';
+import Orders from './Orders/Index'; 
 
 import '../stylesheets/header.scss';
 
@@ -20,6 +21,7 @@ const App = () => (
       <Route exact path="/login" component={Auth} />
       <Route exact path="/register" component={Auth} />
       <Route exact path="/cart" component={Cart} />
+      <Route exact path="/orders" component={Orders} />
       <Route exact path="/product/add" component={ManageProduct} />
       <Route exact path="/product/edit/:productId" component={ManageProduct} />
       <Route component={NotFound} />
