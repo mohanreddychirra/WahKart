@@ -4,6 +4,8 @@ import ProductCard from '../common/ProductCard';
 import '../../stylesheets/cart.scss';
 import { getCartProducts } from '../../helpers';
 import Checkout from './Checkout';
+import { clearCartItems } from '../../actions/cartAction';
+import { addOrderToHistory } from '../../actions/orderAction';
 
 class Cart extends Component {
   constructor(props) {
@@ -67,7 +69,11 @@ class Cart extends Component {
           </div>
           <div className="col-4">
             { !!products.length && (
-                <Checkout products={products} />
+                <Checkout
+                  products={products}
+                  addOrderToHistory={this.props.addOrderToHistory}
+                  clearCartItems={this.props.clearCartItems}
+                />
               )
             }
           </div>
@@ -85,4 +91,6 @@ const mapStateToProps = ({ productReducer, cartReducer, authReducer }) => ({
   )
 });
 
-export default connect(mapStateToProps, null)(Cart);
+const mapDispatchToProps = { addOrderToHistory, clearCartItems };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);

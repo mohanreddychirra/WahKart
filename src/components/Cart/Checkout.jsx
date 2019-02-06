@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import toastr from 'toastr';
+import paystack from '../../paystack';
+import history from '../../history';
 
 class Checkout extends Component {
   constructor(props) {
@@ -7,9 +10,48 @@ class Checkout extends Component {
     this.getTotalPrice = this.getTotalPrice.bind(this);
     this.handleQuantityChange = this.handleQuantityChange.bind(this);
     this.updateCheckout = this.updateCheckout.bind(this);
+    this.handleCheckout = this.handleCheckout.bind(this);
+    this.paymentComplete = this.paymentComplete.bind(this);
+
     this.state = {
       quantities: {},
       totals: {}
+    }
+  }
+
+  paymentComplete(response) {
+    const { quantities, totals } = this.state;
+
+    const products = Object.keys(quantities).map(key => {
+      const productId = parseInt(key.substr(2)) || null;
+
+      return {
+        productId,
+        quantity: quantities[key],
+        price: `$${totals[key]}`
+      };
+    });
+
+    const order = {
+      amount: `$${this.getTotalPrice()}`,
+      products
+    }
+
+    this.props.addOrderToHistory(order);
+    this.props.clearCartItems();
+    history.push('/orders');
+  }
+
+  handleCheckout() {
+    const { totals, quantities } = this.state;
+    const keys = Object.keys(quantities);
+    const check = !keys.some(key => (!quantities[key] || !totals[key]));
+    
+    if (!check) {
+      toastr.error('Ensure to fill all necessary fields');
+    } else {
+      const amount = this.getTotalPrice();
+      paystack(amount * 100, this.paymentComplete).openIframe();
     }
   }
 
@@ -124,7 +166,7 @@ class Checkout extends Component {
           </span>
         </div>
 
-        <button id="checkout-btn">CHECKOUT</button>
+        <button id="checkout-btn" onClick={this.handleCheckout}>CHECKOUT</button>
       </div>
     );
   }

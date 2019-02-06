@@ -11,6 +11,9 @@ module.exports = {
       trackingId: {
         type: Sequelize.STRING
       },
+      amount: {
+        type: Sequelize.STRING
+      },
       customerId: {
         type: Sequelize.INTEGER
       },

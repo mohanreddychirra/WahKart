@@ -16,3 +16,13 @@ export const getOrders = () => dispatch => (
       });
     })
 );
+
+export const addOrderToHistory = (order) => dispatch => (
+  axios.post('/api/orders', { order }, {
+    headers: {
+      token: getToken()
+    }
+  })
+    .then(() => {})
+    .catch(() => {})
+);

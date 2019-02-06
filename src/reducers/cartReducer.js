@@ -2,6 +2,8 @@ const initialState = [];
 
 export default (state=initialState, action) => {
   switch(action.type) {
+    case 'CLEAR_CART_ITEMS': return [];
+
     case 'CARTITEMS_FETCH_SUCCESS': return [
       ...state,
       ...action.cartItems

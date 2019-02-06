@@ -2,6 +2,7 @@
 module.exports = (sequelize, DataTypes) => {
   const Order = sequelize.define('Order', {
     trackingId: DataTypes.STRING,
+    amount: DataTypes.STRING,
     customerId: DataTypes.INTEGER
   }, {});
   Order.associate = function(models) {

@@ -8,7 +8,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   OrderItem.associate = function(models) {
     OrderItem.hasOne(models.Product, {
-      foreignKey: 'id'
+      foreignKey: 'id',
+      targetKey: 'productId'
     });
 
     OrderItem.belongsTo(models.Order, {

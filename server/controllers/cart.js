@@ -75,6 +75,27 @@ class CartCtrl {
       });
   }
 
+  static clearCartItems(req, res) {
+    const { id } = req.payload;
+
+    Cart.destroy({
+      where: {
+        customerId: id
+      }
+    })
+      .then(() => {
+        res.status(200).json({
+          message: 'Cart item cleared successfully',
+        });
+      })
+      .catch((error) => {
+        res.status(500).json({
+          message: 'Internal server error',
+          error
+        });
+      });
+  }
+
   /**
    * 
    * @description Cart controller method to add a

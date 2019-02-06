@@ -41,12 +41,13 @@ class OrderCtrl {
 
   static addOrder(req, res) {
     const { id } = req.payload;
-    const { products } = req.body;
+    const { order: { amount, products } } = req.body;
     const trackingId = OrderCtrl.generateTrackingId();
 
     Order.create({
       trackingId,
-      customerId: id
+      customerId: id,
+      amount
     })
       .then((order) => {
         const newdata = products.map((product) => {

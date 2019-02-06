@@ -55,3 +55,19 @@ export const deleteFromCart = (productId) => dispatch => (
       throw error;
     })
 );
+
+export const clearCartItems = () => dispatch => (
+  axios.delete('/api/cart-items/clear', {
+    headers: {
+      token: getToken()
+    }
+  })
+    .then(() => {
+      dispatch({
+        type: 'CLEAR_CART_ITEMS',
+      })
+    })
+    .catch(error => {
+      throw error;
+    })
+);

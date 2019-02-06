@@ -56,7 +56,6 @@ class Orders extends Component {
     return true;
   }
 
-  
   render() {
     const { orders } = this.props;
 
@@ -68,16 +67,17 @@ class Orders extends Component {
               <div className="order-header clearfix">
                 <span>Order ID : { order.trackingId }</span>
                 <span>Date : { order.createdAt.split('T')[0] }</span>
+                <span>Amount : { order.amount }</span>
               </div>
 
               <div className="order-table">
                 { order.OrderItems.map((orderItem) => (
                   <div className="row" key={orderItem.id}>
                     <div className="col col-lg-3">
-                      <img src={orderItem.Product.image} />
+                      <img src={orderItem.Product ? orderItem.Product.image : ''} />
                     </div>
                     <div className="col col-lg-3">
-                      <span>{ orderItem.Product.title }</span>
+                      <span>{ orderItem.Product ? orderItem.Product.title : 'Title' }</span>
                     </div>
                     <div className="col col-lg-3">
                       <span>{ orderItem.quantity }</span>
