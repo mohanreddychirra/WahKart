@@ -10,10 +10,35 @@ class Orders extends Component {
     this.state = {}
   }
 
+  /**
+   * 
+   * @description Handles page access via link
+   * 
+   * @param {*} nextProps 
+   */
+  componentWillMount() {
+    const { auth: { role, inProgress, noLogin }, history } = this.props;
+
+    if(!inProgress) {
+      if (noLogin || role != 'customer') {
+        history.push('/');
+      }
+      else {
+        this.props.getOrders();
+      }
+    }
+  }
+
+  /**
+   * 
+   * @description Handles when page is reloaded
+   * 
+   * @param {*} nextProps 
+   */
   shouldComponentUpdate(nextProps) {
     const { auth, history } = this.props;
     const { auth: nextAuth } = nextProps;
-
+  
     if (nextAuth.noLogin) {
       history.push('/');
       return false;
@@ -23,10 +48,11 @@ class Orders extends Component {
       if (nextAuth.role !== 'customer') {
         history.push('/');
         return false;
+      } else {
+        this.props.getOrders();
       }
     }
-
-    this.props.getOrders();
+  
     return true;
   }
 
