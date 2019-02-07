@@ -23,6 +23,12 @@ export const addOrderToHistory = (order) => dispatch => (
       token: getToken()
     }
   })
-    .then(() => {})
+    .then((response) => {
+      const { order } = response.data;
+      dispatch({
+        type: 'ADD_ORDER_SUCCESSFULL',
+        order
+      })
+    })
     .catch(() => {})
 );

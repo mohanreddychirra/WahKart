@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "export NODE_ENV='production' && node ./build/index.js",
+    "cleardb": "sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all",
     "postinstall": "npm run build && ./node_modules/.bin/sequelize db:migrate:undo:all || true && ./node_modules/.bin/sequelize db:migrate && ./node_modules/.bin/sequelize db:seed:all",
     "start:dev:server": "export NODE_ENV='development' && nodemon --require @babel/register server/index.js",
     "start:dev:client": "export NODE_ENV='development' && ./node_modules/.bin/webpack-dev-server",

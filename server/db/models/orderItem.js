@@ -7,9 +7,9 @@ module.exports = (sequelize, DataTypes) => {
     price: DataTypes.STRING
   }, {});
   OrderItem.associate = function(models) {
-    OrderItem.hasOne(models.Product, {
-      foreignKey: 'id',
-      targetKey: 'productId'
+    OrderItem.belongsTo(models.Product, {
+      foreignKey: 'productId',
+      targetKey: 'id'
     });
 
     OrderItem.belongsTo(models.Order, {

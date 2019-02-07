@@ -6,12 +6,5 @@ module.exports = (sequelize, DataTypes) => {
     price: DataTypes.STRING,
     image: DataTypes.STRING
   }, {});
-
-  Product.associate = function(models) {
-    Product.belongsTo(models.OrderItem, {
-      foreignKey: 'id',
-      targetKey: 'productId'
-    });
-  };
   return Product;
 };

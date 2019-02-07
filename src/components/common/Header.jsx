@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout } from '../../actions/authAction';
 
-const Header = ({ cart, auth, logout }) => (
+const Header = ({ orders, cart, auth, logout }) => (
   <div id="header">
     <div className="aligner clearfix">
       <Link to='/'>
@@ -44,16 +44,19 @@ const Header = ({ cart, auth, logout }) => (
       { 
         auth.role === 'customer' && (
           <Fragment>
-          <Link to="/orders">
-            <span className="navlink mr-3">ORDERS</span>
-          </Link>
+            <Link to="/orders">
+              <div id="order">
+                <i className="fas fa-credit-card" />
+                <span>{ orders.length }</span>
+              </div>
+            </Link>
 
-          <Link to="/cart">
-            <div id="cart">
-              <i className="fas fa-cart-arrow-down" />
-              <span>{ cart.length }</span>
-            </div>
-          </Link>
+            <Link to="/cart">
+              <div id="cart">
+                <i className="fas fa-cart-arrow-down" />
+                <span>{ cart.length }</span>
+              </div>
+            </Link>
         </Fragment>
         )
       }
@@ -73,7 +76,8 @@ const Header = ({ cart, auth, logout }) => (
 
 const mapStateToProps = (state) => ({
   auth: state.authReducer,
-  cart: state.cartReducer
+  cart: state.cartReducer,
+  orders: state.orderReducer.orders
 });
 
 const mapDispatchToProps = {

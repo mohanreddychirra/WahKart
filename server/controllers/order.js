@@ -3,10 +3,8 @@ const { Order, OrderItem, Product } = db;
 const alphas = [ 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'];
 
 class OrderCtrl {
-  static getOrders(req, res) {
-    const { id } = req.payload;
-
-    Order.findAll({
+  static fetchOrdersForCustomers(id) {
+    return Order.findAll({
       where: {
         customerId: id
       },
@@ -19,6 +17,35 @@ class OrderCtrl {
         ]
       }]
     })
+      .catch((e) => {
+        res.status(500).json({
+          message: 'internal server error'
+        });
+      });
+  }
+
+  static fetchOrdertemsIForAnOrder(id) {
+    return OrderItem.findAll({
+      where: {
+        orderId: id
+      },
+      include: [
+        {
+          model: Product
+        }
+      ]
+    })
+      .catch((e) => {
+        res.status(500).json({
+          message: 'internal server error'
+        });
+      });
+  }
+
+  static getOrders(req, res) {
+    const { id } = req.payload;
+
+    OrderCtrl.fetchOrdersForCustomers(id)
       .then(orders => {
         if(!orders) {
           res.status(500).json({
@@ -30,12 +57,6 @@ class OrderCtrl {
             orders
           });
         }
-      })
-      .catch((e) => {
-        console.log(e);
-        res.status(500).json({
-          message: 'internal server error'
-        });
       });
   }
 
@@ -59,17 +80,29 @@ class OrderCtrl {
 
         OrderItem.bulkCreate(newdata)
           .then(() => {
-            res.status(201).json({
-              message: 'Order created successfully'
-            });
+            OrderCtrl.fetchOrdertemsIForAnOrder(order.id)
+              .then((OrderItems) => {
+                res.status(201).json({
+                  message: 'Order created successfully',
+                  order: {
+                    id: order.id,
+                    trackingId:order.trackingId,
+                    customerId: order.customerId,
+                    amount: order.amount,
+                    createdAt: order.createdAt,
+                    updatedAt: order.updatedAt,
+                    OrderItems
+                  }
+                });
+              })
           })
-          .catch(() => {
+          .catch((e) => {
             res.status(500).json({
               message: 'internal server error'
             });
           });
       })
-      .catch(() => {
+      .catch((e) => {
         res.status(500).json({
           message: 'internal server error'
         });

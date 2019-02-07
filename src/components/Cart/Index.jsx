@@ -45,7 +45,7 @@ class Cart extends Component {
 
             {
               products.length === 0 && (
-                <div className="mt-5">
+                <div className="empty mt-5">
                   There are no products in your cart
                 </div>
               )

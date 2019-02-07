@@ -7,6 +7,8 @@ import '../../stylesheets/orders.scss';
 class Orders extends Component {
   constructor(props) {
     super(props);
+    this.renderOrder = this.renderOrder.bind(this);
+    this.genIndexes = this.genIndexes.bind(this);
     this.state = {}
   }
 
@@ -22,9 +24,6 @@ class Orders extends Component {
     if(!inProgress) {
       if (noLogin || role != 'customer') {
         history.push('/');
-      }
-      else {
-        this.props.getOrders();
       }
     }
   }
@@ -48,49 +47,90 @@ class Orders extends Component {
       if (nextAuth.role !== 'customer') {
         history.push('/');
         return false;
-      } else {
-        this.props.getOrders();
       }
     }
   
     return true;
   }
 
+  renderOrder(order) {
+    return (
+      <div className="order" key={order.id}>
+        <div className="order-header clearfix">
+          <span>Order ID : { order.trackingId }</span>
+          <span>Date : { order.createdAt.split('T')[0] }</span>
+          <span>Amount : { order.amount }</span>
+        </div>
+
+        <div className="order-table">
+          { order.OrderItems.map((orderItem) => (
+            <div className="row" key={orderItem.id}>
+              <div className="col col-lg-3">
+                <img src={orderItem.Product.image} />
+              </div>
+              <div className="col col-lg-3">
+                <span>{orderItem.Product.title}</span>
+              </div>
+              <div className="col col-lg-3">
+                <span>{ orderItem.quantity }</span>
+              </div>
+              <div className="col col-lg-3">
+                <span>{ orderItem.price }</span>
+              </div>
+            </div>
+          )) }
+        </div>
+      </div>
+    );
+  }
+
+  genIndexes(start, length) {
+    return (
+      Array(length - start)
+        .fill(start)
+        .map((num, index) => num + index)
+    );
+  }
+
   render() {
     const { orders } = this.props;
+  
+    const halfCount = (
+      orders.length < 2
+        ? orders.length
+        : ( orders.length - Math.floor(orders.length / 2))
+    );
 
     return (
       <div id="orders">
         <div className="aligner">
-          { orders.map((order) => (
-            <div className="order" key={order.id}>
-              <div className="order-header clearfix">
-                <span>Order ID : { order.trackingId }</span>
-                <span>Date : { order.createdAt.split('T')[0] }</span>
-                <span>Amount : { order.amount }</span>
-              </div>
+          <header>
+            <span>{ orders.length }</span>
+            Order History
+          </header>
 
-              <div className="order-table">
-                { order.OrderItems.map((orderItem) => (
-                  <div className="row" key={orderItem.id}>
-                    <div className="col col-lg-3">
-                      <img src={orderItem.Product ? orderItem.Product.image : ''} />
-                    </div>
-                    <div className="col col-lg-3">
-                      <span>{ orderItem.Product ? orderItem.Product.title : 'Title' }</span>
-                    </div>
-                    <div className="col col-lg-3">
-                      <span>{ orderItem.quantity }</span>
-                    </div>
-                    <div className="col col-lg-3">
-                      <span>{ orderItem.price }</span>
-                    </div>
-                  </div>
-                )) }
-              </div>
+          { !orders.length && (
+            <span className="empty">You have not made any order yet</span>
+          ) }
+
+          <div className="row">
+            <div className="col-lg-6">
+              {
+                halfCount > 0 && (
+                  this.genIndexes(0, halfCount)
+                    .map(index => this.renderOrder(orders[index]))
+                )
+              }
             </div>
-          )) }
+
+            <div className="col-lg-6">
+              {
+                this.genIndexes(halfCount, orders.length)
+                  .map(index => this.renderOrder(orders[index]))
+              }
+            </div>
           </div>
+        </div>
       </div>
     );
   }

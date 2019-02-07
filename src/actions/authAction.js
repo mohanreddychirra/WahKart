@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { getCartItems } from './cartAction';
 import history from '../history';
+import { getOrders } from './orderAction';
 
 export const login = (email, password) => dispatch => (
   axios.post('/api/login', {
@@ -16,6 +17,7 @@ export const login = (email, password) => dispatch => (
       });
 
      dispatch(getCartItems());
+     dispatch(getOrders());
     })
 );
 
@@ -52,6 +54,7 @@ export const authenticate = () => dispatch => {
         });
 
         dispatch(getCartItems());
+        dispatch(getOrders());
       })
       .catch(() => {
         localStorage.removeItem('token');

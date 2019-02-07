@@ -18,6 +18,8 @@ export default (state=initialState, action) => {
       state.filter(cartItem => cartItem.productId !== action.productId)
     );
 
+    case 'AUTH_LOGOUT': return [];
+
     default: return state;
   }
 };
