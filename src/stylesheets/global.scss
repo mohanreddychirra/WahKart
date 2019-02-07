@@ -27,6 +27,15 @@ body {
   margin: 0 auto;
 }
 
+.star {
+  all: unset;
+  display: inline-block;
+  margin-left: 5px;
+  outline: none !important;
+  font-size: 20px;
+  color: lightgray;
+}
+
 .product-card {
   display: block;
   width: 90%;
