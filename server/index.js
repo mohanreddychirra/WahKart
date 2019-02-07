@@ -13,6 +13,7 @@ import CartCtrl from './controllers/cart';
 import ShopCtrl from './controllers/shop';
 import AuthMid from './middlewares/auth';
 import OrderCtrl from './controllers/order';
+import AdminCtrl from './controllers/admin';
 
 // create an express server
 const app = express();
@@ -51,6 +52,9 @@ app.delete('/api/products/:productId', AuthMid.checkToken, ProductCtrl.deletePro
 app.get('/api/shops', ShopCtrl.getAll);
 app.get('/api/orders',AuthMid.checkToken, OrderCtrl.getOrders);
 app.post('/api/orders',AuthMid.checkToken, OrderCtrl.addOrder);
+app.get('/api/admin/requests',AuthMid.checkToken, AdminCtrl.getRequests);
+app.patch('/api/admin/requests/:requestId',AuthMid.checkToken, AdminCtrl.updateRequest);
+
 
 app.all('*', (req, res) => {
   if(process.env.NODE_ENV === 'production') {

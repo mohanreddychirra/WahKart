@@ -53,12 +53,9 @@ class Auth extends Component {
       ? this.props.login(email, password)
       : this.props.register(email, password, role)
 
-
     promise
-      .then(() => {
-        this.props.history.push('/');
-      })
       .catch(error => {
+        console.log(error);
         const message = error.response.data.message;
         this.setState({ error: message });
       });

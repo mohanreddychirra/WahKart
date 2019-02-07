@@ -2,6 +2,24 @@ import axios from 'axios';
 import { getCartItems } from './cartAction';
 import history from '../history';
 import { getOrders } from './orderAction';
+import { getRequests } from './adminAction';
+
+const loadData = (role, dispatch) => {
+  if (role == 'admin') {
+    dispatch(getRequests());
+    history.push('/admin');
+  }
+
+  else if (role === 'vendor') {
+    history.push('/');
+  }
+
+  else if (role === 'customer') {
+    dispatch(getCartItems());
+    dispatch(getOrders());
+    history.push('/');
+  }
+}
 
 export const login = (email, password) => dispatch => (
   axios.post('/api/login', {
@@ -15,9 +33,8 @@ export const login = (email, password) => dispatch => (
         type: 'AUTH_SUCCESSFULL',
         user
       });
-
-     dispatch(getCartItems());
-     dispatch(getOrders());
+      
+      loadData(user.role, dispatch);
     })
 );
 
@@ -53,8 +70,7 @@ export const authenticate = () => dispatch => {
           user
         });
 
-        dispatch(getCartItems());
-        dispatch(getOrders());
+        loadData(user.role, dispatch)
       })
       .catch(() => {
         localStorage.removeItem('token');

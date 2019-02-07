@@ -31,7 +31,7 @@ const Header = ({ orders, cart, auth, logout }) => (
               <span className="navlink">LOGOUT</span>
             </Link>
   
-            <Link to="#">
+            <Link to={auth.role === 'admin' ? '/admin' : '#'}>
               <div id="profile" className="clearfix">
                 <img src="/images/avatar.png" alt="user avatar"/>
                 <span>{ auth.email.split('@')[0] }</span>
