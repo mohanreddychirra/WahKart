@@ -1,11 +1,10 @@
 import React, { Fragment } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import Home from './Home/Index';
 import Auth from './Auth/Index';
 import Cart from './Cart/Index';
 import ManageProduct from './Product/ManageProduct';
 import Product from './Product/Index';
-import NotFound from './NotFound';
 import Header from './common/Header';
 import Modal from './Modal/Index';
 import Orders from './Orders/Index';
@@ -30,7 +29,7 @@ const App = () => (
       <Route exact path="/product/add" component={ManageProduct} />
       <Route exact path="/product/:productId" component={Product} />
       <Route exact path="/product/edit/:productId" component={ManageProduct} />
-      <Route component={NotFound} />
+      <Route component={ () => <Redirect to="/" /> } />
     </Switch>
   </Fragment>
 );

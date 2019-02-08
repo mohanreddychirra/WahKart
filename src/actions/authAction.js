@@ -3,18 +3,22 @@ import { getCartItems } from './cartAction';
 import history from '../history';
 import { getOrders } from './orderAction';
 import { getRequests } from './adminAction';
+import { redirectPath } from '../utils';
 
 const loadData = (role, dispatch) => {
   if (role == 'admin') {
     dispatch(getRequests());
-    history.push('/admin');
+
+    const { pathname } = history.location;
+    const redirect = redirectPath(pathname, role);
+    history.push(redirect);
   }
 
-  else if (role === 'vendor') {
+  if (role === 'vendor') {
     history.push('/');
   }
 
-  else if (role === 'customer') {
+  if (role === 'customer') {
     dispatch(getCartItems());
     dispatch(getOrders());
     history.push('/');
@@ -65,12 +69,12 @@ export const authenticate = () => dispatch => {
       .then((response) => {
         const { user } = response.data
 
+        loadData(user.role, dispatch)
+
         dispatch({
           type: 'UPDATE_AUTH_DATA',
           user
         });
-
-        loadData(user.role, dispatch)
       })
       .catch(() => {
         localStorage.removeItem('token');

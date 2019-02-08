@@ -20,6 +20,7 @@ class Wrapper extends Component {
 
     if(!inProgress) {
       if (noLogin || role != 'admin') {
+        console.log('one-place');
         history.push(homePath(role));
       }
     }
@@ -42,6 +43,7 @@ class Wrapper extends Component {
 
     if (auth.inProgress === true && nextAuth.inProgress === false) {
       if (nextAuth.role !== 'admin') {
+        console.log('two-place');
         history.push(homePath(nextAuth.role));
         return false;
       }

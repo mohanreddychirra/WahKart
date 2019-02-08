@@ -31,48 +31,62 @@ class VendorRequests extends Component {
               Vendor Requests
             </header>
 
-            <div id="requests-table">
-              { 
-                requests.map((request) => (
-                  <div className="row" key={request.id}>
-                    <div className="col-lg-4">
-                      <i className="fa fa-user" />
-                      <span>{ request.Auth.email.split('@')[0] }</span>
-                    </div>
-                    <div className="col-lg-4">
-                      <i className="fa fa-envelope-open-text" />
-                      <span>{ request.Auth.email }</span>
-                    </div>
-                    <div className="col-lg-4 text-center">
-                      { request.status == 'open' && (
-                        <Fragment>
-                          <button
-                            type="button"
-                            onClick={ (event) => this.handleApproval(event, request.id,'approve') }
-                          >
-                            Approve
-                          </button>
+            <div className="row">
+              <div class="col-lg-8">
+                <div id="requests-table">
+                  { 
+                    requests.map((request) => (
+                      <div className="row" key={request.id}>
+                        <div className="col-lg-4">
+                          <i className="fa fa-user" />
+                          <span>{ request.Auth.email.split('@')[0] }</span>
+                        </div>
+                        <div className="col-lg-4">
+                          <i className="fa fa-envelope-open-text" />
+                          <span>{ request.Auth.email }</span>
+                        </div>
+                        <div className="col-lg-4 text-center">
+                          { request.status == 'open' && (
+                            <Fragment>
+                              <button
+                                type="button"
+                                onClick={ (event) => this.handleApproval(event, request.id,'approve') }
+                              >
+                                Approve
+                              </button>
 
-                          <button
-                            type="button"
-                            onClick={ (event) => this.handleApproval(event, request.id, 'disapprove') }
-                          >
-                            Disapprove
-                          </button>
-                        </Fragment>
-                      ) }
-                      
-                      { request.status == 'approved' && (
-                        <span className="label approved">Approved</span>
-                      ) }
+                              <button
+                                type="button"
+                                onClick={ (event) => this.handleApproval(event, request.id, 'disapprove') }
+                              >
+                                Disapprove
+                              </button>
+                            </Fragment>
+                          ) }
+                          
+                          { request.status == 'approved' && (
+                            <span className="label approved">Approved</span>
+                          ) }
 
-                      { request.status == 'disapproved' && (
-                        <span className="label">Disapproved</span>
-                      ) }
-                    </div>
-                  </div>
-                ))
-              }
+                          { request.status == 'disapproved' && (
+                            <span className="label">Disapproved</span>
+                          ) }
+                        </div>
+                      </div>
+                    ))
+                  }
+                </div>
+              </div>
+
+              <div class="col-lg-4">
+                <div id="info">
+                  <header>All Shops</header>
+                  <div>First Shop</div>
+                  <div>Jumia Shop</div>
+                  <div>Konga Shop</div>
+                  <div>New Shop</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
