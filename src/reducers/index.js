@@ -6,6 +6,7 @@ import shopReducer from './shopReducer';
 import modalReducer from './modalReducer';
 import orderReducer from './orderReducer';
 import adminReducer from './adminReducer';
+import vendorReducer from './vendorReducer';
 
 export default combineReducers({
   productReducer,
@@ -14,5 +15,6 @@ export default combineReducers({
   cartReducer,
   shopReducer,
   orderReducer,
-  adminReducer
+  adminReducer,
+  vendorReducer
 });

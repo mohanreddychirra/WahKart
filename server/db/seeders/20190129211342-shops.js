@@ -5,12 +5,12 @@ module.exports = {
     return queryInterface.bulkInsert('Shops', [
       {
         vendorId: 1,
-        name: 'Vendor-1 Shop',
+        name: 'Macys',
         location: 'Chicago US'
       },
       {
         vendorId: 2,
-        name: 'Vendor-2 Shop',
+        name: 'Nordstorm',
         email: 'v2shop@gmmail.com'
       }
     ], {});

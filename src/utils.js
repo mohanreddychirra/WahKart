@@ -12,7 +12,7 @@ export const allowedPaths = (role) => (
   role == 'admin'
     ? ['/admin', '/admin/requests'] : (
       role == 'vendor'
-        ? []
+        ? ['/vendor']
         : []
     )
 );

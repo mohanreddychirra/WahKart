@@ -5,17 +5,28 @@ import { getOrders } from './orderAction';
 import { getRequests } from './adminAction';
 import { redirectPath } from '../utils';
 
-const loadData = (role, dispatch) => {
+const loadData = (user, dispatch) => {
+  const role = user.role;
+  const { pathname } = history.location;
+  const redirect = redirectPath(pathname, role);
+
   if (role == 'admin') {
     dispatch(getRequests());
-
-    const { pathname } = history.location;
-    const redirect = redirectPath(pathname, role);
     history.push(redirect);
   }
 
   if (role === 'vendor') {
-    history.push('/');
+    const details = {
+      shop: user.Shop,
+      request: user.VendorRequest
+    }
+  
+    dispatch({
+      type: 'VENDOR_DETAILS_FETCHED',
+      ...details
+    });
+    
+    history.push(redirect);
   }
 
   if (role === 'customer') {
@@ -37,19 +48,21 @@ export const login = (email, password) => dispatch => (
         type: 'AUTH_SUCCESSFULL',
         user
       });
-      
-      loadData(user.role, dispatch);
+  
+      loadData(user, dispatch);
     })
 );
 
-export const register = (email, password, role) => dispatch => {
+export const register = (email, password, role, shopName) => dispatch => {
   return axios.post('/api/register', {
-    email, password, role
+    email, password, role, shopName
   })
     .then(response => {
       const { user, token } = response.data;
       localStorage.setItem('token', token);
 
+      loadData(user, dispatch);
+      
       dispatch({
         type: 'AUTH_SUCCESSFULL',
         user
@@ -68,8 +81,7 @@ export const authenticate = () => dispatch => {
     axios.post('/api/auth', { token })
       .then((response) => {
         const { user } = response.data
-
-        loadData(user.role, dispatch)
+        loadData(user, dispatch)
 
         dispatch({
           type: 'UPDATE_AUTH_DATA',

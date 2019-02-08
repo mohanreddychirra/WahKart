@@ -11,6 +11,7 @@ export const loadProducts = () => dispatch => {
   return axios.get('/api/products')
     .then(response => {
       const { products } = response.data;
+
       dispatch({
         type: 'PRODUCT_FETCH_SUCCESS',
         products
@@ -20,6 +21,26 @@ export const loadProducts = () => dispatch => {
       throw error;
     })
 };
+
+export const loadVendorProducts = () => dispatch => {
+  return axios.get('/api/vendor/products', {
+    headers: {
+      token: getToken()
+    }
+  })
+    .then(response => {
+      const { products } = response.data;
+
+      dispatch({
+        type: 'PRODUCT_FETCH_SUCCESS',
+        products
+      });
+    })
+    .catch(error => {
+      throw error;
+    })
+};
+
 
 export const addProduct = (productDetails) => dispatch => (
   axios.post('/api/products', { ...productDetails }, {

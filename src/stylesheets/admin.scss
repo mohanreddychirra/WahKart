@@ -37,7 +37,6 @@
 
     #requests-table {
       .row {
-        width: 95%;
         border:1px solid lightgray;
         background: #F7F7F7;
         border-radius: 2px;
@@ -65,6 +64,7 @@
 
           .label {
             all: unset;
+            text-align: center;
             min-width: 70px;
             display: inline-block;
             background: lightgray;
@@ -81,7 +81,6 @@
           }
 
           button {
-            display: inline-block;
             min-width: 80px;
             text-align: center;
             padding: 5px 0;

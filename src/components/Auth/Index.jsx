@@ -15,6 +15,7 @@ class Auth extends Component {
       page: null,
       email: '',
       password: '',
+      shopName: '',
       role: '',
       error: null
     }
@@ -47,22 +48,21 @@ class Auth extends Component {
   onSubmit(event) {
     event.preventDefault();
   
-    const { email, password, role, page } = this.state;
+    const { email, password, role, page, shopName } = this.state;
 
     const promise = page === 1
       ? this.props.login(email, password)
-      : this.props.register(email, password, role)
+      : this.props.register(email, password, role, shopName)
 
     promise
       .catch(error => {
-        console.log(error);
         const message = error.response.data.message;
         this.setState({ error: message });
       });
   }
 
   render () {
-    const { page } = this.state;
+    const { page, role } = this.state;
 
     return (
       <div id="auth">
@@ -99,6 +99,19 @@ class Auth extends Component {
                   <option value="customer">Customer</option>
                   <option value="vendor">Vendor</option>
                 </select>
+              </div>
+            )}
+            
+            { page === 0 && role === 'vendor' && (
+              <div className="fieldset">
+                <label>SHOP NAME</label>
+                <input
+                  name="shopName"
+                  required
+                  type="text"
+                  onChange={this.onChange}
+                  value={this.state.shopName}
+                />
               </div>
             )}
 

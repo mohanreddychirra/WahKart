@@ -3,11 +3,17 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout } from '../../actions/authAction';
 
-const Header = ({ orders, cart, auth, logout }) => (
+const Header = ({ orders, request, cart, auth, logout }) => (
   <div id="header">
     <div className="aligner clearfix">
       <Link to='/'>
-        <span className="page-name">WahKart</span>
+        <span className="page-name">
+          {
+            auth.role === 'vendor' && request
+              ? request.shopName
+              : 'Wahkart'
+          }
+        </span>
       </Link>
 
        {
@@ -31,7 +37,11 @@ const Header = ({ orders, cart, auth, logout }) => (
               <span className="navlink">LOGOUT</span>
             </Link>
   
-            <Link to={auth.role === 'admin' ? '/admin' : '#'}>
+            <Link to={
+              ['vendor', 'admin'].includes(auth.role)
+                ? `/${auth.role}`
+                : '#'
+            }>
               <div id="profile" className="clearfix">
                 <img src="/images/avatar.png" alt="user avatar"/>
                 <span>{ auth.email.split('@')[0] }</span>
@@ -60,16 +70,6 @@ const Header = ({ orders, cart, auth, logout }) => (
         </Fragment>
         )
       }
-
-      {
-        auth.role === 'vendor' && (
-          <Link to="/product/add">
-            <span id="add-plus">
-              <i className="fas fa-plus-circle" />
-            </span>
-          </Link>
-        )
-      }
     </div>
   </div>
 );
@@ -77,7 +77,8 @@ const Header = ({ orders, cart, auth, logout }) => (
 const mapStateToProps = (state) => ({
   auth: state.authReducer,
   cart: state.cartReducer,
-  orders: state.orderReducer.orders
+  orders: state.orderReducer.orders,
+  request: state.vendorReducer.request
 });
 
 const mapDispatchToProps = {

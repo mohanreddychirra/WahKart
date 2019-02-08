@@ -45,6 +45,7 @@ class Home extends Component{
               <SearchField
                 value={this.state.searchText}
                 onChange={this.searchTextChange}
+                role={this.props.auth.role}
                 openFilterModal={this.openFilterModal}
               />
 

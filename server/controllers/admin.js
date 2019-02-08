@@ -1,6 +1,6 @@
 import db from '../db/models';
 
-const { Auth, VendorRequest } = db;
+const { Auth, VendorRequest, Shop } = db;
 
 class AdminCtrl {
   static checkAdmin(req, res) {
@@ -44,21 +44,42 @@ class AdminCtrl {
     const { requestId } = req.params; 
     const { status } = req.body; 
 
-    VendorRequest.update( { status }, {
-      where: { id: requestId }
+    VendorRequest.update({ status }, {
+      where: { id: requestId },
+      returning: true,
+      plain: true
     })
-      .then(request => {        
-        res.json(200, {
-          message: 'Request updated successfully',
-          request
-        });
+      .then(result => {
+        const request = result[1].dataValues;
+        
+        if (request.status !== 'approved') {
+          return res.json(200, {
+            message: 'Request updated successfully',
+            request
+          });
+        }
+
+        Shop.create({
+          vendorId: request.vendorId,
+          name: request.shopName
+        })
+          .then((shop) => {
+            res.json(200, {
+              message: 'Request updated successfully',
+              request
+            });
+          })
+          .catch((error) => {
+            res.json(500, {
+              message: 'Internal server error'
+            });
+          });
       })
       .catch((error) => {
         res.json(500, {
           message: 'Internal server error'
         });
       });
-
   }
 }
 

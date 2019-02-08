@@ -8,6 +8,7 @@ import Product from './Product/Index';
 import Header from './common/Header';
 import Modal from './Modal/Index';
 import Orders from './Orders/Index';
+import Vendor from './Vendor/Index';
 import VendorRequests from './Admin/VendorRequests';
 import Admin from './Admin/Index';
 
@@ -23,6 +24,7 @@ const App = () => (
       <Route exact path="/login" component={Auth} />
       <Route exact path="/register" component={Auth} />
       <Route exact path="/cart" component={Cart} />
+      <Route exact path="/vendor" component={Vendor} />
       <Route exact path="/admin" component={Admin} />
       <Route exact path="/admin/requests" component={VendorRequests} />
       <Route exact path="/orders" component={Orders} />

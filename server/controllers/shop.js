@@ -1,6 +1,6 @@
 import db from '../db/models';
 
-const { Shop } = db;
+const { Shop, Product } = db;
 
 class ShopCtrl {
   /**
@@ -25,6 +25,38 @@ class ShopCtrl {
           message: "Internal Server Error"
         });
       });
+  }
+
+  static getProducts(req, res) {
+    const { shopId } = req.params;
+
+    Product.findAll({
+      where: { shopId }
+    })
+      .then((products) => {
+        res.json(200, {
+          message: 'Products fetched successfully',
+          products
+        });
+      })
+      .catch(() => {
+        res.json(500, {
+          message: 'Error occured while fetching products',
+        });
+      });
+  }
+
+  /**
+   * 
+   * @description Create a single shop for vendor
+   * 
+   * @param {*} req 
+   * @param {*} res 
+   */
+  static createShop(req, res) {
+    res.status(200).json({
+      message: "Endpoint to create a shop"
+    });
   }
 }
 

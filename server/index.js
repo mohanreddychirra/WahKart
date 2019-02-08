@@ -50,11 +50,12 @@ app.get('/api/products/:productId', ProductCtrl.getProduct);
 app.put('/api/products/:productId', AuthMid.checkToken, ProductCtrl.editProduct);
 app.delete('/api/products/:productId', AuthMid.checkToken, ProductCtrl.deleteProduct);
 app.get('/api/shops', ShopCtrl.getAll);
+app.post('/api/shops', ShopCtrl.createShop);
+app.get('/api/shops/:shopId/products', ShopCtrl.getProducts);
 app.get('/api/orders',AuthMid.checkToken, OrderCtrl.getOrders);
 app.post('/api/orders',AuthMid.checkToken, OrderCtrl.addOrder);
 app.get('/api/admin/requests',AuthMid.checkToken, AdminCtrl.getRequests);
 app.patch('/api/admin/requests/:requestId',AuthMid.checkToken, AdminCtrl.updateRequest);
-
 
 app.all('*', (req, res) => {
   if(process.env.NODE_ENV === 'production') {

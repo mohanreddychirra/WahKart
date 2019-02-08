@@ -11,6 +11,9 @@ module.exports = {
       vendorId: {
         type: Sequelize.INTEGER
       },
+      shopName: {
+        type: Sequelize.STRING
+      },
       status: {
         type: Sequelize.STRING
       },

@@ -19,7 +19,7 @@ class Wrapper extends Component {
     const { auth: { role, inProgress, noLogin } } = this.props;
 
     if(!inProgress) {
-      if (noLogin || role != 'admin') {
+      if (noLogin || role != 'vendor') {
         history.push(homePath(role));
       }
     }
@@ -41,7 +41,7 @@ class Wrapper extends Component {
     }
 
     if (auth.inProgress === true && nextAuth.inProgress === false) {
-      if (nextAuth.role !== 'admin') {
+      if (nextAuth.role !== 'vendor') {
         history.push(homePath(nextAuth.role));
         return false;
       }

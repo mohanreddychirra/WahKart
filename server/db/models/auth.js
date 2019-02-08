@@ -6,7 +6,16 @@ module.exports = (sequelize, DataTypes) => {
     role: DataTypes.STRING
   }, {});
   Auth.associate = function(models) {
-    // associations can be defined here
+    Auth.hasOne(models.Shop, {
+      foreignKey: 'vendorId',
+      targetKey: 'id'
+    });
+
+    Auth.hasOne(models.VendorRequest, {
+      foreignKey: 'vendorId',
+      targetKey: 'id'
+    });
   };
   return Auth;
 };
+

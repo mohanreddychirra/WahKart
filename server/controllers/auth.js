@@ -5,7 +5,7 @@ import db from '../db/models';
 
 dotEnv.config();
 
-const { Auth } = db;
+const { Auth, VendorRequest, Shop } = db;
 
 class AuthCtrl {
   /**
@@ -18,7 +18,7 @@ class AuthCtrl {
    * @param { Object } entry 
    * @param { String } password 
    */
-  static generateResponse(res, entry, password) {
+  static genLoginResponse(res, entry, password) {
     bcrypt.compare(password, entry.password, (error, result) => {
       if(!error && result) {
         const { password, ...user } = entry.get();
@@ -28,11 +28,30 @@ class AuthCtrl {
           email: entry.email,
           role: entry.role
         }, process.env.SECRET, (error, token) => {
-          res.json(200, {
-            message: 'Login was successfully',
-            user,
-            token
-          });
+
+          // Fetch necessary details for vendor
+          if (entry.role === 'vendor') {
+            AuthCtrl.getVendor(entry.id)
+            .then((vendor) => {
+              res.json(200, {
+                message: 'Login was successfully',
+                user: vendor,
+                token
+              });
+            })
+            .catch((error) => {
+              console.log(error);
+              res.json(500, {
+                message: 'Internal error',
+              });
+            });
+          } else {
+            res.json(200, {
+              message: 'Login was successfully',
+              user,
+              token
+            });
+          }
         });
       } else {
         res.json(401, {
@@ -40,6 +59,45 @@ class AuthCtrl {
         });
       }
     });
+  }
+
+  static getVendor(id) {
+    return Auth.findOne({
+      where: { id },
+      attributes: [ 'id', 'email', 'role' ],
+      include: [
+        { model: Shop },
+        { model: VendorRequest }
+      ]
+    })
+  }
+
+  static validateRegister(res, email, password, role, shopName) {
+    if (role !== 'customer' && role !== 'vendor') {
+      return res.json(400, {
+        message: 'Select a valid role'
+      });
+    } 
+    
+    if (role === 'vendor' && (!shopName || !shopName.match(/^[A-Za-z][A-Za-z ]+[A-Za-z]$/))) {
+      return res.json(400, {
+        message: 'Enter a valid shop name'
+      });
+    } 
+
+    if (!email.trim()) {
+      return res.json(400, {
+        message: 'Email field is required'
+      });
+    } 
+    
+    if (!password.trim()) {
+      return res.json(400, {
+        message: 'Password field is required'
+      });
+    }
+
+    return true;
   }
 
   /**
@@ -69,6 +127,19 @@ class AuthCtrl {
             res.json(401, {
               message: 'Token provided is invalid',
             });
+          } else if (entry.role === 'vendor') {
+            AuthCtrl.getVendor(entry.id)
+            .then((vendor) => {
+              res.json(200, {
+                message: 'Token verification successful',
+                user: vendor
+              });
+            })
+            .catch((error) => {
+              res.json(500, {
+                message: 'Internal error',
+              });
+            });
           } else {
             res.json(200, {
               message: 'Token verification successful',
@@ -96,74 +167,99 @@ class AuthCtrl {
    * @param { Object } res
    */
   static register(req, res) {
-    const { email, password, role } = req.body;
+    const { email, password, role, shopName } = req.body;
     
-    if (role !== 'customer' && role !== 'vendor') {
-      res.json(400, {
-        message: 'Select a valid role'
-      });
-    } 
-    else if (!email.trim()) {
-      res.json(400, {
-        message: 'Email field is required'
-      });
-    } 
-    else if (!password.trim()) {
-      res.json(400, {
-        message: 'Password field is required'
-      });
-    } 
-    else {
+    const status = AuthCtrl.validateRegister(
+      res, email, password, role, shopName
+    );
+    
+    if (status !== true) return status;
 
-      // check if email provided is already taken
-      Auth.findOne({
-        where: { email }
-      }).then(entry => {
-        // respond with 409 if there is an entry with provided email
-        if (entry) {
-          res.json(409, {
-            message: 'Email provided is already taken'
-          });
-        } else {
-          // otherwise, encrypt password with the bcrypt module
-          bcrypt.hash(password, 8, (error, hash) => {
+    // check if email provided is already taken
+    Auth.findOne({
+      where: { email }
+    }).then(entry => {
+      // respond with 409 if there is an entry with provided email
+      if (entry) {
+        res.json(409, {
+          message: 'Email provided is already taken'
+        });
+      } else {
+        // otherwise, encrypt password with the bcrypt module
+        bcrypt.hash(password, 8, (error, hash) => {
 
-            // insert new customer innto the database
-            Auth.create({
-              email,
-              password: hash,
-              role
-            })
-              .then(entry => {
-                const { password, ...user } = entry.get();
+          // insert new customer innto the database
+          Auth.create({
+            email,
+            password: hash,
+            role
+          })
+            .then(entry => {
+              const {
+                password,
+                updatedAt,
+                createdAt,
+                ...user
+              } = entry.get();
 
-                // after adding to db, geenerate a token to be sent with response
-                jwt.sign({
-                  id: entry.id,
-                  email: entry.email,
-                  role: entry.role
-                }, process.env.SECRET, (error, token) => {
+              // after adding to db, geenerate a token to be sent with response
+              jwt.sign({
+                id: entry.id,
+                email: entry.email,
+                role: entry.role
+              }, process.env.SECRET, (error, token) => {
+
+                // If vendor get request annd shop details
+                if (user.role === 'vendor') {
+                  VendorRequest.create({
+                    vendorId: user.id,
+                    shopName,
+                    status: 'open'
+                  })
+                    .then((request) => {
+                      const vendor = {
+                        ...user,
+                        VendorRequest: {
+                          ...request.dataValues
+                        },
+                        Shop: null
+                      }
+
+                      res.json(201, {
+                        message: 'Registration successfully',
+                        user: vendor,
+                        token
+                      });
+                    })
+                    .catch((error) => {
+                      console.log(error);
+                      res.json(500, {
+                        message: 'Internal error',
+                      });
+                    });
+                } else {
                   res.json(201, {
                     message: 'Registration successfully',
                     user,
                     token
                   });
-                });
-              })
-              .catch((error) => {
-                res.json(500, {
-                  message: 'Internal server error'
-                });
+                }
               });
-          });
-        }
-      })
-      .catch((error) => {
-        res.json(500, {
-          message: 'Internal server error'
+            })
+            .catch((error) => {
+              console.log(error);
+              res.json(500, {
+                message: 'Internal server error'
+              });
+            });
         });
+      }
+    })
+    .catch((error) => {
+      res.json(500, {
+        message: 'Internal server error'
       });
-    }
+    });
   }
 
   /**
@@ -189,7 +285,7 @@ class AuthCtrl {
           message: 'Email address provided is invalid'
         });
       } else {
-        AuthCtrl.generateResponse(
+        AuthCtrl.genLoginResponse(
           res, entry, password
         );
       }
@@ -197,7 +293,6 @@ class AuthCtrl {
     .catch(error => {
       res.json(500, {
         message: 'Internal error',
-        error
       });
     });
   }
