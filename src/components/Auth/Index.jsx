@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { login, register } from '../../actions/authAction';
@@ -13,6 +13,8 @@ class Auth extends Component {
   
     this.state = {
       page: null,
+      firstName: '',
+      lastName: '',
       email: '',
       password: '',
       shopName: '',
@@ -104,7 +106,7 @@ class Auth extends Component {
             
             { page === 0 && role === 'vendor' && (
               <div className="fieldset">
-                <label>SHOP NAME</label>
+                <label>SHOP NAME*</label>
                 <input
                   name="shopName"
                   required
@@ -115,8 +117,36 @@ class Auth extends Component {
               </div>
             )}
 
+            { page === 0 && role === 'customer' && (
+              <Fragment> 
+              <div className="fieldset">
+                <label>First Name*</label>
+                <input
+                  name="firstName"
+                  required
+                  type="text"
+                  onChange={this.onChange}
+                  value={this.state.firstName}
+                />
+              </div>
+
+              <div className="fieldset">
+                <label>Last Name*</label>
+                <input
+                  name="lastName"
+                  required
+                  type="text"
+                  onChange={this.onChange}
+                  value={this.state.lastName}
+                />
+              </div>
+              </Fragment> 
+
+            )}
+
+
             <div className="fieldset">
-              <label>EMAIL ADDRESS</label>
+              <label>EMAIL ADDRESS*</label>
               <input
                 name="email"
                 required
@@ -127,7 +157,7 @@ class Auth extends Component {
             </div>
 
             <div className="fieldset">
-              <label>PASSWORD</label>
+              <label>PASSWORD*</label>
               <input
                 name="password"
                 required
@@ -137,6 +167,16 @@ class Auth extends Component {
               />
             </div>
 
+            <div className="fieldset">
+            <label>Confirm Password*</label>
+                <input
+                 name="confirmPassword"
+                 required
+                 type="password"
+                 onChange={this.onChange}
+                 value={this.state.consfirmPassword}
+                 />
+            </div>
             <button
               type="submit"
               className="form-button"
