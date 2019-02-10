@@ -5,7 +5,7 @@ module.exports = {
     return queryInterface.bulkInsert('VendorRequests', [
       {
         vendorId: 1,
-        status: 'open',
+        status: 'approved',
         shopName: 'Macys',
         createdAt: '2019-02-02',
         updatedAt: '2019-02-02'

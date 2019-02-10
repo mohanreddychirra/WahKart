@@ -45,6 +45,11 @@ export default (state=initialState, action) => {
       products: state.products.filter(product => product.id !== action.productId)
     }
 
+    case 'AUTH_LOGOUT': return {
+      ...state,
+      products: []
+    }
+
     default: return state;
   }
 };

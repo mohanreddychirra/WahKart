@@ -3,7 +3,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import Home from './Home/Index';
 import Auth from './Auth/Index';
 import Cart from './Cart/Index';
-import ManageProduct from './Product/ManageProduct';
+import ManageProduct from './Vendor/ManageProduct';
 import Product from './Product/Index';
 import Header from './common/Header';
 import Modal from './Modal/Index';

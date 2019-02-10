@@ -11,7 +11,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
-import { loadProducts } from './actions/productAction';
 import { authenticate } from './actions/authAction';
 import { loadShops } from './actions/shopAction';
 import configureStore from './store';
@@ -24,7 +23,7 @@ const store = configureStore({});
 
 // dispatch actions that update the store by fetching
 // neccessary data from the api
-store.dispatch(loadProducts());
+// store.dispatch(loadProducts());
 store.dispatch(authenticate());
 store.dispatch(loadShops());
 

@@ -42,8 +42,8 @@ export const loadVendorProducts = () => dispatch => {
 };
 
 
-export const addProduct = (productDetails) => dispatch => (
-  axios.post('/api/products', { ...productDetails }, {
+export const addProduct = (productDetails, shopId) => dispatch => (
+  axios.post('/api/products', { ...productDetails, shopId }, {
     headers: {
       token: getToken()
     }
@@ -61,8 +61,8 @@ export const addProduct = (productDetails) => dispatch => (
     })
 );
 
-export const editProduct = (productId, productDetails) => dispatch => (
-  axios.put(`/api/products/${productId}`, { ...productDetails }, {
+export const editProduct = (productId, productDetails, shopId) => dispatch => (
+  axios.put(`/api/products/${productId}`, { ...productDetails, shopId }, {
     headers: {
       token: getToken()
     }

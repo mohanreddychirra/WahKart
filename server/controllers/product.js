@@ -39,7 +39,15 @@ class ProductCtrl {
    * 
    * @returns { true | false }
    */
-  static validateProduct(res, title, price, image) {
+  static validateProduct(res, title, price, image, shopId) {
+    if (!shopId || !`${shopId}`.match(/^[0-9]+$/)) {
+      res.status(400).json({
+        message: "Invalid shopId",
+      });
+  
+      return false;
+    }
+
     if (!title || title.trim().length === 0) {
       res.status(400).json({
         message: 'Title provided is invalid',
@@ -77,11 +85,11 @@ class ProductCtrl {
    * @param { Object } res 
    */
   static addProduct(req, res) {
-    let { title, price, image } = req.body;
+    let { title, price, image, shopId } = req.body;
     
     // runs the validation function and run the below code
     // if validation was successfull
-    if (ProductCtrl.validateProduct(res, title, price, image)) {
+    if (ProductCtrl.validateProduct(res, title, price, image, shopId)) {
       title = title.trim();
       price = price.trim();
       image = image.trim();
@@ -90,6 +98,7 @@ class ProductCtrl {
       // for entry with the provided title in a case insensitive manner. 
       Product.findOne({
         where: {
+          shopId,
           title: {
             $ilike: title
           }
@@ -104,7 +113,8 @@ class ProductCtrl {
             Product.create({
               title,
               price,
-              image
+              image,
+              shopId
             })
               .then((product) => {
                 res.status(201).json({
@@ -113,6 +123,7 @@ class ProductCtrl {
                 });
               })
               .catch(error => {
+                console.log(error);
                 res.status(500).json({
                   message: 'Internal server error',
                   error
@@ -140,12 +151,12 @@ class ProductCtrl {
    * @param { Object } res 
    */
   static editProduct(req, res) {
-    let { title, price, image } = req.body;
+    let { title, price, image, shopId } = req.body;
     const { productId } = req.params;
 
     // runs the validation function and run the below code
     // if validation was successfull
-    if (ProductCtrl.validateProduct(res, title, price, image)) {
+    if (ProductCtrl.validateProduct(res, title, price, image, shopId)) {
       title = title.trim();
       price = price.trim();
       image = image.trim();
@@ -153,7 +164,8 @@ class ProductCtrl {
       // check if product actually exist before trying to update it
       Product.findOne({
         where: {
-          id: productId
+          id: productId,
+          shopId
         }
       })
         .then((product) => {

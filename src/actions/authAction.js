@@ -3,15 +3,15 @@ import { getCartItems } from './cartAction';
 import history from '../history';
 import { getOrders } from './orderAction';
 import { getRequests } from './adminAction';
-import { redirectPath } from '../utils';
+import { vendorRedirectPath, redirectPath } from '../utils';
 
 const loadData = (user, dispatch) => {
   const role = user.role;
   const { pathname } = history.location;
-  const redirect = redirectPath(pathname, role);
 
   if (role == 'admin') {
     dispatch(getRequests());
+    const redirect = redirectPath(pathname, role);
     history.push(redirect);
   }
 
@@ -20,12 +20,24 @@ const loadData = (user, dispatch) => {
       shop: user.Shop,
       request: user.VendorRequest
     }
+    
+    if (user.Shop) {
+      const { Products, ...newShop } = user.Shop;
+      details.shop = newShop;
+      
+      dispatch({
+       type: 'PRODUCT_FETCH_SUCCESS',
+       products: Products
+      });
+    }
   
     dispatch({
       type: 'VENDOR_DETAILS_FETCHED',
       ...details
     });
     
+    const status = user.VendorRequest.status;
+    const redirect = vendorRedirectPath(pathname, status);
     history.push(redirect);
   }
 

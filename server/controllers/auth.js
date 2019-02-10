@@ -5,9 +5,20 @@ import db from '../db/models';
 
 dotEnv.config();
 
-const { Auth, VendorRequest, Shop } = db;
+const { Auth, VendorRequest, Shop, Product } = db;
 
 class AuthCtrl {
+  static getVendor(id) {
+    return Auth.findOne({
+      where: { id },
+      attributes: [ 'id', 'email', 'role' ],
+      include: [
+        { model: Shop, include: [ { model: Product } ] },
+        { model: VendorRequest }
+      ]
+    })
+  }
+
   /**
    * 
    * @description
@@ -59,17 +70,6 @@ class AuthCtrl {
         });
       }
     });
-  }
-
-  static getVendor(id) {
-    return Auth.findOne({
-      where: { id },
-      attributes: [ 'id', 'email', 'role' ],
-      include: [
-        { model: Shop },
-        { model: VendorRequest }
-      ]
-    })
   }
 
   static validateRegister(res, email, password, role, shopName) {

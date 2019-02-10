@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import ProductList from './ProductList';
 import NoProducts from './NoProducts';
 import { openModal } from '../../actions/modalAction';
-import { setSearchResult } from '../../actions/productAction';
+import { loadProducts, setSearchResult } from '../../actions/productAction';
+import history from '../../history';
 
 import '../../stylesheets/home.scss';
 
@@ -16,6 +17,54 @@ class Home extends Component{
     this.state = {
       searchText: ''
     }
+  }
+  
+  /**
+   * 
+   * @description Handles page access via link
+   * 
+   * @param {*} nextProps 
+   */
+  componentWillMount() {
+    const { request, auth: { role, inProgress } } = this.props;
+
+    if(!inProgress) {
+      if (role === 'vendor' && request && request.status !== 'approved' ) {
+        history.push('/vendor');
+      }
+
+      if (role !== 'vendor') {
+        this.props.loadProducts();
+      }
+    }
+  }
+
+  /**
+   * 
+   * @description Handles when page is reloaded
+   * 
+   * @param {*} nextProps 
+   */
+  shouldComponentUpdate(nextProps) {
+    const { auth } = this.props;
+    const { request, auth: nextAuth } = nextProps;
+
+    if (auth.inProgress === true && nextAuth.inProgress === false) {
+      if (nextAuth.role === 'vendor' && request && request.status !== 'approved') {
+        history.push('/vendor');
+        return false;
+      }
+
+      if (nextAuth.role !== 'vendor') {
+        this.props.loadProducts();
+      }
+    }
+    
+    if (auth.role && !nextAuth.role) {
+      this.props.loadProducts();
+    }
+
+    return true;
   }
 
   openFilterModal() {
@@ -71,12 +120,14 @@ class Home extends Component{
 const mapStateToProps = (state) => ({
   products: state.productReducer.products,
   searchResult: state.productReducer.searchResult,
-  auth: state.authReducer
+  auth: state.authReducer,
+  request: state.vendorReducer.request
 });
 
 const mapDispatchToProps = {
   openModal,
-  setSearchResult
+  setSearchResult,
+  loadProducts
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

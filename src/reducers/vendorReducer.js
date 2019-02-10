@@ -11,6 +11,10 @@ export default (state=initialState, action) => {
       request: action.request
     }
 
+    case 'AUTH_LOGOUT': return {
+      ...initialState
+    }
+
     default: return state;
   }
 };
