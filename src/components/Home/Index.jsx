@@ -108,7 +108,7 @@ class Home extends Component{
               />
             </Fragment>
           )
-          : <NoProducts />
+          : <NoProducts role={this.props.auth.role} />
         }
         
         

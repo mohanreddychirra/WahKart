@@ -8,6 +8,13 @@
     width: 98%;
     text-align: center;
     margin: 13% auto 0;
+    
+    button {
+      @include addProdBut();
+      display: block;
+      padding: 8px 20px;
+      margin: 30px auto 0;
+    }
 
     i {
       display: block;
@@ -33,19 +40,7 @@
     }
 
     button {
-      display: inline-block;
-      text-align: center;
-      padding: 11px 0;
-      min-width: 100px;
-      border-radius: 2px;
-      color: $white;
-      font-size: 13px;
-      cursor: pointer;
-      outline: none;
-      margin: 0 0 0 20px;
-      font-weight: 400;
-      border: none;
-      background: $blue;
+      @include addProdBut()
     }
   }
 }

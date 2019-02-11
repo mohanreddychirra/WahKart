@@ -6,10 +6,32 @@ $gray: gray;
 $red: red;
 $pale-blue: #66A0DE;
 
+// Mixins defined here
+
+@mixin addProdBut {
+  display: inline-block;
+  text-align: center;
+  padding: 11px 0;
+  min-width: 100px;
+  border-radius: 2px;
+  color: $white;
+  font-size: 13px;
+  cursor: pointer;
+  outline: none;
+  margin: 0 0 0 20px;
+  font-weight: 400;
+  border: none;
+  background: $blue;
+}
+
 // Declare global styles
 * {
   margin: 0;
   padding: 0;
+}
+
+a:link {
+  text-decoration: none;
 }
 
 body {
