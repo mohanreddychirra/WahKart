@@ -1,6 +1,6 @@
 import db from '../db/models';
 
-const { Product } = db;
+const { Product, Shop } = db;
 
 class ProductCtrl {
 
@@ -74,6 +74,26 @@ class ProductCtrl {
     }
   }
 
+  static vendorAccessShop(res, vendorId, shopId) {
+    return Shop.findOne({
+      where: { vendorId, id: shopId }
+    })
+      .then((shop) => {
+        if (!shop) {
+          res.status(403).json({
+            message: 'Vendor has no access to shop',
+          });
+        } else {
+          return true;
+        }
+      })
+      .catch(() => {
+        res.status(500).json({
+          message: 'Error occured while getting vendor shop',
+        });
+      });
+  }
+
   /**
    * 
    * @description
@@ -85,57 +105,63 @@ class ProductCtrl {
    * @param { Object } res 
    */
   static addProduct(req, res) {
+    let { id } = req.payload;
     let { title, price, image, shopId } = req.body;
     
     // runs the validation function and run the below code
     // if validation was successfull
     if (ProductCtrl.validateProduct(res, title, price, image, shopId)) {
-      title = title.trim();
-      price = price.trim();
-      image = image.trim();
+      ProductCtrl.vendorAccessShop(res, id, shopId)
+        .then((status) => {
+          if (status !== true ) return;
 
-      // check if product already exist by checking the Products table
-      // for entry with the provided title in a case insensitive manner. 
-      Product.findOne({
-        where: {
-          shopId,
-          title: {
-            $ilike: title
-          }
-        }
-      })
-        .then((product) => {
-          if(product) {
-            res.status(409).json({
-              message: 'Product with this title already exist',
-            });
-          } else {
-            Product.create({
-              title,
-              price,
-              image,
-              shopId
+          title = title.trim();
+          price = price.trim();
+          image = image.trim();
+
+          // check if product already exist by checking the Products table
+          // for entry with the provided title in a case insensitive manner. 
+          Product.findOne({
+            where: {
+              shopId,
+              title: {
+                $ilike: title
+              }
+            }
+          })
+            .then((product) => {
+              if(product) {
+                res.status(409).json({
+                  message: 'Product with this title already exist',
+                });
+              } else {
+                Product.create({
+                  title,
+                  price,
+                  image,
+                  shopId
+                })
+                  .then((product) => {
+                    res.status(201).json({
+                      message: 'Product added successfully',
+                      product
+                    });
+                  })
+                  .catch(error => {
+                    console.log(error);
+                    res.status(500).json({
+                      message: 'Internal server error',
+                      error
+                    });
+                  });
+              }
             })
-              .then((product) => {
-                res.status(201).json({
-                  message: 'Product added successfully',
-                  product
-                });
-              })
-              .catch(error => {
-                console.log(error);
-                res.status(500).json({
-                  message: 'Internal server error',
-                  error
-                });
+            .catch((error) => {
+              res.status(500).json({
+                message: 'Internal server error',
+                error
               });
-          }
-        })
-        .catch((error) => {
-          res.status(500).json({
-            message: 'Internal server error',
-            error
-          });
+            });
         });
     }
   }
@@ -151,49 +177,54 @@ class ProductCtrl {
    * @param { Object } res 
    */
   static editProduct(req, res) {
+    let { id } = req.payload;
     let { title, price, image, shopId } = req.body;
     const { productId } = req.params;
 
     // runs the validation function and run the below code
     // if validation was successfull
     if (ProductCtrl.validateProduct(res, title, price, image, shopId)) {
-      title = title.trim();
-      price = price.trim();
-      image = image.trim();
+      ProductCtrl.vendorAccessShop(res, id, shopId)
+        .then((status) => {
+          if (status !== true ) return;
 
-      // check if product actually exist before trying to update it
-      Product.findOne({
-        where: {
-          id: productId,
-          shopId
-        }
-      })
-        .then((product) => {
-          
-          // if product is found, update the product details and save
-          if(product) {
-            product.title = title;
-            product.price = price;
-            product.image = image;
-            product.save();
+          title = title.trim();
+          price = price.trim();
+          image = image.trim();
 
-            res.status(200).json({
-              message: 'Product updated successfully',
-              product
+          // check if product actually exist before trying to update it
+          Product.findOne({
+            where: {
+              id: productId,
+              shopId
+            }
+          })
+            .then((product) => {
+              // if product is found, update the product details and save
+              if(product) {
+                product.title = title;
+                product.price = price;
+                product.image = image;
+                product.save();
+
+                res.status(200).json({
+                  message: 'Product updated successfully',
+                  product
+                });
+              } else {
+                res.status(404).json({
+                  message: 'Product does not exist',
+                });
+              }
+            })
+            .catch((error) => {
+              res.status(500).json({
+                message: 'Error occured while updating product',
+                error
+              });
             });
-          } else {
-            res.status(404).json({
-              message: 'Product does not exist',
-            });
-          }
         })
-        .catch((error) => {
-          res.status(500).json({
-            message: 'Internal server error',
-            error
-          });
-        });
-      }
+    }
   }
 
   /**
@@ -208,6 +239,7 @@ class ProductCtrl {
    * @param { Object } res 
    */
   static deleteProduct(req, res) {
+    let { id } = req.payload;
     const { productId } = req.params;
 
     // confirm that the product actually exist in the Products table
@@ -219,12 +251,16 @@ class ProductCtrl {
     })
       .then((product) => {
         if (product) {
-          product.destroy();
+          ProductCtrl.vendorAccessShop(res, id, product.shopId)
+            .then((status) => {
+              if (status !== true ) return;
+              product.destroy();
 
-          res.status(200).json({
-            message: 'Product deleted successfully',
-            productId
-          });
+              res.status(200).json({
+                message: 'Product deleted successfully',
+                productId
+              });
+            })
         } else {
           res.status(404).json({
             message: 'Product does not exist'
@@ -233,7 +269,7 @@ class ProductCtrl {
       })
       .catch((error) => {
         res.status(500).json({
-          message: 'Internal server error',
+          message: 'Error occured while deleting product',
           error
         });
       });

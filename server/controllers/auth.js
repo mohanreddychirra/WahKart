@@ -86,13 +86,13 @@ class AuthCtrl {
     } 
 
     if (!email.trim()) {
-      return res.json(400, {
+      return res.status(400).json({
         message: 'Email field is required'
       });
     } 
     
     if (!password.trim()) {
-      return res.json(400, {
+      return res.status(400).json({
         message: 'Password field is required'
       });
     }
@@ -181,7 +181,7 @@ class AuthCtrl {
     }).then(entry => {
       // respond with 409 if there is an entry with provided email
       if (entry) {
-        res.json(409, {
+        res.status(409).json({
           message: 'Email provided is already taken'
         });
       } else {
