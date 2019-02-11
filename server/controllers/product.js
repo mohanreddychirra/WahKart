@@ -1,6 +1,7 @@
 import db from '../db/models';
+import OrderCtrl from './order';
 
-const { Product, Shop } = db;
+const { Product, Shop, Review, Auth, Order, OrderItem } = db;
 
 class ProductCtrl {
 
@@ -15,13 +16,13 @@ class ProductCtrl {
   static getAll(req, res) {
     Product.findAll()
       .then((products) => {
-        res.json(200, {
+        res.status(200).json({
           message: 'Products fetched successfully',
           products
         });
       })
       .catch(() => {
-        res.json(500, {
+        res.status(500).json({
           message: 'Error occured while fetching products',
         });
       });
@@ -275,6 +276,30 @@ class ProductCtrl {
       });
   }
 
+  static checkIfPurchasedProduct(customerId, productId) {
+    // Fetch all orders for a customer
+    return Order.findAll({
+      where: {
+        customerId
+      }
+    })
+      .then(orders => {
+        if (!orders) return false;
+
+        const orderIds = orders.map(order => order.id);
+
+        return OrderItem.findOne({
+          where: {
+            orderId: orderIds,
+            productId
+          }
+        })
+          .then((orderItem) => !!orderItem)
+          .catch(() => false);
+      })
+      .catch(() => false);
+  }
+
   /**
    * 
    * @description
@@ -288,28 +313,43 @@ class ProductCtrl {
    */
   static getProduct(req, res) {
     const { productId } = req.params;
+    const customerId = req.payload ? req.payload.id : null;
 
     Product.findOne({
       where: {
-        id: productId
-      }
+        id: productId,
+      },
+      include: [{
+        model: Review,
+        include: [{
+          model: Auth,
+          attributes: ['email']
+        }]
+      }]
     })
       .then((product) => {
         if (product) {
-          res.status(200).json({
-            message: 'Product fetched successfully',
-            product
-          });
+          ProductCtrl.checkIfPurchasedProduct(customerId, productId)
+            .then(status => {
+              res.status(200).json({
+                message: 'Product fetched successfully',
+                product: { ...product.dataValues, canPostReview: status }
+              });
+            })
+            .catch(() => {
+              res.status(500).json({
+                message: 'Error occured while getting product details'
+              });
+            });
         } else {
           res.status(404).json({
             message: 'Product does not exist'
           });
         }
       })
-      .catch((error) => {
+      .catch(() => {
         res.status(500).json({
-          message: 'Internal server error',
-          error
+          message: 'Error occured while getting product details'
         });
       });
   }

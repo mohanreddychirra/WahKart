@@ -46,7 +46,7 @@ app.post('/api/cart-items', AuthMid.checkToken, CartCtrl.addCartItem)
 app.delete('/api/cart-items', AuthMid.checkToken, CartCtrl.deleteCartItem)
 app.delete('/api/cart-items/clear', AuthMid.checkToken, CartCtrl.clearCartItems)
 app.post('/api/products', AuthMid.checkToken, ProductCtrl.addProduct);
-app.get('/api/products/:productId', ProductCtrl.getProduct);
+app.get('/api/products/:productId', AuthMid.extractToken, ProductCtrl.getProduct);
 app.put('/api/products/:productId', AuthMid.checkToken, ProductCtrl.editProduct);
 app.delete('/api/products/:productId', AuthMid.checkToken, ProductCtrl.deleteProduct);
 app.get('/api/shops', ShopCtrl.getAll);

@@ -80,6 +80,26 @@ export const editProduct = (productId, productDetails, shopId) => dispatch => (
     })
 );
 
+export const getProduct = (productId) => dispatch => {
+  dispatch({ type: 'PRODUCT_FETCH_STARTED' });
+
+  axios.get(`/api/products/${productId}`, {
+    headers: {
+      token: getToken()
+    }
+  })
+    .then(response => {
+      const { product } = response.data;
+      dispatch({
+        type: 'PRODUCT_FETCHED_SUCCESSFULLY',
+        product
+      })
+    })
+    .catch(() => {
+      dispatch({ type: 'PRODUCT_FETCH_FAILED' });
+    })
+};
+
 export const deleteProduct = (productId) => dispatch => (
   axios.delete(`/api/products/${productId}`, {
     headers: {

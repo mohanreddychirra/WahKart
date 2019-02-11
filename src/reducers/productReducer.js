@@ -1,6 +1,7 @@
 const initialState = {
   products: [],
-  searchResult: null
+  searchResult: null,
+  product: null
 }
 
 const updateProduct = (products, product) => {
@@ -15,6 +16,21 @@ const updateProduct = (products, product) => {
 
 export default (state=initialState, action) => {
   switch(action.type) {
+    case 'PRODUCT_FETCH_STARTED': return {
+      ...state,
+      product: null
+    }
+
+    case 'PRODUCT_FETCHED_SUCCESSFULLY': return {
+      ...state,
+      product: { ...action.product }
+    }
+
+    case 'PRODUCT_FETCH_FAILED': return {
+      ...state,
+      product: false
+    }
+
     case 'UPDATE_SEARCH_RESULT': return {
       ...state,
       searchResult: action.value

@@ -37,6 +37,16 @@ class AuthMid {
     });
 
   }
+
+  static extractToken(req, res, next) {
+    const { token } = req.headers;
+
+    jwt.verify(token, process.env.SECRET, (error, payload) => {
+      if (error) { req.payload = null }
+      else { req.payload = payload; }
+      next();
+    });
+  }
 }
 
 export default AuthMid;

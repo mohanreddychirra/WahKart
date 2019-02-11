@@ -6,5 +6,12 @@ module.exports = (sequelize, DataTypes) => {
     price: DataTypes.STRING,
     image: DataTypes.STRING
   }, {});
+
+  Product.associate = function(models) {
+    Product.hasMany(models.Review, {
+      foreignKey: 'productId'
+    })
+  }
+
   return Product;
 };

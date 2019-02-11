@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { getProduct } from '../../actions/productAction';
+import history from '../../history'; 
 
 class Product extends Component {
   constructor(props) {
@@ -7,12 +10,28 @@ class Product extends Component {
     this.renderViewStars = this.renderViewStars.bind(this);
     this.clickStar = this.clickStar.bind(this);
     this.hoverStar = this.hoverStar.bind(this);
-  
+    this.renderView = this.renderView.bind(this);
+    this.renderReviews = this.renderReviews.bind(this);
+
     this.state = {
       starCount: 0
     }
   }
 
+  componentWillMount() {
+    const { match: { params: { productId } }} = this.props;
+    this.props.getProduct(productId);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { product } = nextProps;
+
+    if (product === false) {
+      history.push('/');
+      return
+    }
+  }
+  
   hoverStar() {
     this.setState({ starCount: 0 })
   }
@@ -58,7 +77,37 @@ class Product extends Component {
     );
   }
 
-  render() {
+  renderReviews(reviews) {
+    return (
+      <div id="reviews">
+        <h1>Reviews</h1>
+        
+        { !reviews.length && (<div> There are no reviews for this product</div>) }
+        { reviews.map(review => {
+          const { rating, review: reviewText, Auth: { email } } = review;
+
+          return (
+            <div key={review.id} className="review clearfix">
+              <img src="/images/avatar.png" />
+              <div className="content">
+                <div className="clearfix">
+                  <span>{ email.split('@')[0] }</span>
+                  <span>{ this.renderViewStars(rating) }</span>
+                </div>
+                <p>
+                  { reviewText }
+                </p>
+              </div>
+            </div>
+          );
+        }) }
+      </div>
+    );
+  }
+
+  renderView(product) {
+    const { title, image, price, Reviews, canPostReview } = product;
+
     return (
       <div id="product-page">
         <div className="aligner">
@@ -66,52 +115,39 @@ class Product extends Component {
             <span>
               <i className="fab fa-accessible-icon" />
             </span>
-            Product Title
+            { title }
           </header>
           
           <div className="row">
             <div className="col-lg-8" id="right-side">
               <div id="wrap">
-                <textarea placeholder="What do you think about this product" />
-                <div className="textarea-base clearfix">
-                  <span>Enter your review above and provide rating for product</span>
-                  <button type="button" id="post">Post Review</button>
-                  
-                  <div id="star-container">
-                    { this.renderActionStars(this.state.starCount, true) }
-                  </div>
-                </div>
-                
-                <div id="reviews">
-                  <h1>Reviews</h1>
-                  
-                  <div className="review clearfix">
-                    <img src="/images/avatar.png" />
-                    <div className="content">
-                      <div className="clearfix">
-                        <span>Customer</span>
-                        <span>{ this.renderViewStars(3) }</span>
+
+                { canPostReview && (
+                    <div id="review-post-section">
+                      <textarea placeholder="What do you think about this product" />
+                      <div className="textarea-base clearfix">
+                        <span>Enter your review above and provide rating for product</span>
+                        <button type="button" id="post">Post Review</button>
+                        
+                        <div id="star-container">
+                          { this.renderActionStars(this.state.starCount, true) }
+                        </div>
                       </div>
-                      <p>
-                        This is the content of the review and this is a duplicate
-                        This is the content of the review and this is a duplicate
-                        This is the content of the review and this is a duplicate
-                        This is the content of the review and this is a duplicate
-                      </p>
                     </div>
-                  </div>
-                </div>
+                )}
+
+                { this.renderReviews(Reviews) }
               </div>
             </div>
 
             <div className="col-lg-4">
               <div id="info">
                 <header>Product Image</header>
-                <img src="/images/products/1.jpg" />
+                <img src={image} />
                 
                 <header>Product Details</header>
                 <div className="detail">Vendor : Jumia</div>
-                <div className="detail">Price : $56555</div>
+                <div className="detail">Price : {price}</div>
               </div>
             </div>
           </div>
@@ -119,6 +155,17 @@ class Product extends Component {
       </div>
     );
   }
+
+  render() {
+    const { product } = this.props;
+    return !product ? null : this.renderView(product)
+  }
 }
 
-export default Product;
+const mapStateToProps = ({ productReducer }) => ({
+  product: productReducer.product
+});
+
+const mapDispatchToProps = { getProduct };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Product);

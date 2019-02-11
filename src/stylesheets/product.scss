@@ -45,6 +45,10 @@
       #wrap {
         width: 95%;
 
+        #review-post-section {
+          margin: 0 0 30px;
+        }
+
         textarea {
           display: block;
           width: 100%;
@@ -127,8 +131,6 @@
         }
         
         #reviews {
-          margin: 30px 0 0;
-
           h1 {
             font-size: 20px;
             font-weight: 400;

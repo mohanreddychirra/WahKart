@@ -4,6 +4,13 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('Auths', [
       {
+        email: 'customer1@gmail.com',
+        role: 'customer',
+        password: '$2b$08$aCpuR6JmocP4Wmh2v85zKuvQV.oVp9iyp.8gx4sjytxgt7mRz1Hq2',
+        createdAt: '2018-10-17 23:56:04.001+01',
+        updatedAt: '2018-10-17 23:56:04.001+01'
+      },
+      {
         email: 'vendor1@gmail.com',
         role: 'vendor',
         password: '$2b$08$aCpuR6JmocP4Wmh2v85zKuvQV.oVp9iyp.8gx4sjytxgt7mRz1Hq2',

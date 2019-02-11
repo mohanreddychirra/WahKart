@@ -30,7 +30,9 @@ class ProductCard extends Component {
 
     return (
       <div className="product-card">
-        <img src={image} alt="product image"/>
+        <Link to={ `/product/${id}` }>
+          <img src={image} alt="product image"/>
+        </Link>
 
         <div>
           <div className="title">
