@@ -67,19 +67,50 @@
             margin-top: 3px;
           }
 
-          div {
+          #star-container {
             float: right;
-            margin: 4px 30px 0 0;
+            margin: 3px 15px 0 0;
+            cursor: pointer;
 
             button {
               cursor: pointer;
 
-              &:hover {
-                color: #ff7700;
+              &#star-0:hover {
+                &,
+                & ~ #star-1,
+                & ~ #star-2,
+                & ~ #star-3,
+                & ~ #star-4,
+                { color: #ffdc00; }
+              }
+
+              &#star-1:hover {
+                &,
+                & ~ #star-2,
+                & ~ #star-3,
+                & ~ #star-4,
+                { color: #ffdc00; }
+              }
+
+              &#star-2:hover {
+                &,
+                & ~ #star-3,
+                & ~ #star-4,
+                { color: #ffdc00; }
+              }
+
+              &#star-3:hover {
+                &,
+                & ~ #star-4,
+                { color: #ffdc00; }
+              }
+
+              &#star-4:hover {
+                color: #ffdc00;
               }
             }
           }
-    
+
           #post {
             float: right;
             text-align: center;
@@ -94,19 +125,19 @@
             background: $blue;
           }
         }
-
+        
         #reviews {
-          margin: 35px 0 0;
+          margin: 30px 0 0;
 
           h1 {
             font-size: 20px;
             font-weight: 400;
-            margin: 0 0 35px;
+            margin: 0 0 30px;
           }
         
           .review {
             display: block;
-            padding: 10px 20px;
+            padding: 10px 20px 5px;
             overflow: hidden;
             border-radius: 2px;
             margin: 0 auto 20px;
@@ -115,7 +146,8 @@
 
             img {
               float: left;
-              width: 10%;
+              display: block;
+              width: 8%;
               margin-top: 20px;
             }
 
@@ -124,7 +156,7 @@
               width: 88%;
 
               div {
-                margin-bottom: 10px;
+                margin-bottom: 5px;
                 span {
                   &:nth-child(1) {
                     float: left;
@@ -141,9 +173,9 @@
 
               p {
                 display: block;
-                font-size: 16px;
+                font-size: 15px;
                 font-weight: 300;
-                line-height: 180%;
+                line-height: 170%;
               }
             }
           }

@@ -3,17 +3,58 @@ import React, { Component } from 'react';
 class Product extends Component {
   constructor(props) {
     super(props);
-    this.renderStars = this.renderStars.bind(this);
-    this.state = {}
+    this.renderActionStars = this.renderActionStars.bind(this);
+    this.renderViewStars = this.renderViewStars.bind(this);
+    this.clickStar = this.clickStar.bind(this);
+    this.hoverStar = this.hoverStar.bind(this);
+  
+    this.state = {
+      starCount: 0
+    }
   }
 
-  renderStars(value) {
+  hoverStar() {
+    this.setState({ starCount: 0 })
+  }
+
+  clickStar(value) {
+    this.setState({ starCount: value })
+  }
+
+  renderViewStars(value) {
+    value = 5 - (parseInt(value) || 0);
+
     return (
-      [1,2,3,4,5].map(() => (
-        <button className="star" type="button">
-          <i className="fas fa-star" />
-        </button>
-      ))
+      <div className="star-group">
+        { Array(5).fill(0).map((_, index) => (
+          <button type="button"
+            key={index}
+            className={`star${ value <= index ? ' active' : '' }`}
+          >
+            <i className="fas fa-star" />
+          </button>
+        )) }
+      </div>
+    );
+  }
+
+  renderActionStars(value) {
+    value = 5 - (parseInt(value) || 0);
+
+    return (
+      <div className="star-group">
+        { Array(5).fill(0).map((_, index) => (
+          <button type="button"
+            onClick={() => this.clickStar(5 - index) }
+            onMouseEnter={this.hoverStar}
+            id={ `star-${index}` }
+            key={index}
+            className={`star${ value <= index ? ' active' : '' }`}
+          >
+            <i className="fas fa-star" />
+          </button>
+        )) }
+      </div>
     );
   }
 
@@ -36,7 +77,9 @@ class Product extends Component {
                   <span>Enter your review above and provide rating for product</span>
                   <button type="button" id="post">Post Review</button>
                   
-                  <div>{ this.renderStars(3) }</div>
+                  <div id="star-container">
+                    { this.renderActionStars(this.state.starCount, true) }
+                  </div>
                 </div>
                 
                 <div id="reviews">
@@ -47,7 +90,7 @@ class Product extends Component {
                     <div className="content">
                       <div className="clearfix">
                         <span>Customer</span>
-                        <span>{ this.renderStars(3) }</span>
+                        <span>{ this.renderViewStars(3) }</span>
                       </div>
                       <p>
                         This is the content of the review and this is a duplicate
