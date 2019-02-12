@@ -16,6 +16,15 @@ const updateProduct = (products, product) => {
 
 export default (state=initialState, action) => {
   switch(action.type) {
+    case 'REVIEW_POSTED_SUCCESSFULLY': return {
+      ...state,
+      product: {
+        ...state.product,
+        Reviews: [ action.review, ...state.product.Reviews ],
+        canPostReview: false
+      }
+    }
+
     case 'PRODUCT_FETCH_STARTED': return {
       ...state,
       product: null
@@ -23,7 +32,10 @@ export default (state=initialState, action) => {
 
     case 'PRODUCT_FETCHED_SUCCESSFULLY': return {
       ...state,
-      product: { ...action.product }
+      product: {
+        ...action.product,
+        Reviews: action.product.Reviews.reverse()
+      }
     }
 
     case 'PRODUCT_FETCH_FAILED': return {

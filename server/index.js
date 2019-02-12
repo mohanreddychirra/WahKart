@@ -14,6 +14,7 @@ import ShopCtrl from './controllers/shop';
 import AuthMid from './middlewares/auth';
 import OrderCtrl from './controllers/order';
 import AdminCtrl from './controllers/admin';
+import ReviewCtrl from './controllers/review';
 
 // create an express server
 const app = express();
@@ -47,6 +48,7 @@ app.delete('/api/cart-items', AuthMid.checkToken, CartCtrl.deleteCartItem)
 app.delete('/api/cart-items/clear', AuthMid.checkToken, CartCtrl.clearCartItems)
 app.post('/api/products', AuthMid.checkToken, ProductCtrl.addProduct);
 app.get('/api/products/:productId', AuthMid.extractToken, ProductCtrl.getProduct);
+app.post('/api/products/:productId/reviews', AuthMid.checkToken, ReviewCtrl.postReview);
 app.put('/api/products/:productId', AuthMid.checkToken, ProductCtrl.editProduct);
 app.delete('/api/products/:productId', AuthMid.checkToken, ProductCtrl.deleteProduct);
 app.get('/api/shops', ShopCtrl.getAll);

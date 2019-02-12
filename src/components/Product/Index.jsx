@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getProduct } from '../../actions/productAction';
 import history from '../../history'; 
+import { postReview } from '../../actions/reviewAction';
+import toastr from 'toastr';
 
 class Product extends Component {
   constructor(props) {
@@ -9,13 +11,42 @@ class Product extends Component {
     this.renderActionStars = this.renderActionStars.bind(this);
     this.renderViewStars = this.renderViewStars.bind(this);
     this.clickStar = this.clickStar.bind(this);
-    this.hoverStar = this.hoverStar.bind(this);
     this.renderView = this.renderView.bind(this);
     this.renderReviews = this.renderReviews.bind(this);
+    this.handlePostReview = this.handlePostReview.bind(this);
+    this.reviewChange = this.reviewChange.bind(this);
+    this.calculateAverageRating = this.calculateAverageRating.bind(this);
 
     this.state = {
-      starCount: 0
+      starCount: 0,
+      review: '',
+      error: null
     }
+  }
+
+  calculateAverageRating(reviews) {
+    const sum = reviews.reduce((aggregate, review) => {
+      const { rating } = review;
+      return aggregate + (parseFloat(rating) || 0);
+    }, 0);
+
+    return (!reviews ? 0 : (sum / reviews.length)).toFixed(1);
+  }
+
+  reviewChange(event) {
+    const { target: { value } } = event;
+    this.setState({ review: value });
+  }
+
+  handlePostReview() {
+    const { starCount, review } = this.state;
+    const { match: { params: { productId } }} = this.props;
+    this.props.postReview(productId, review, starCount)
+      .then((message) => {
+        if (message !== true) {
+          toastr.error(message);
+        }
+      }).catch(() => {})
   }
 
   componentWillMount() {
@@ -30,10 +61,6 @@ class Product extends Component {
       history.push('/');
       return
     }
-  }
-  
-  hoverStar() {
-    this.setState({ starCount: 0 })
   }
 
   clickStar(value) {
@@ -65,7 +92,6 @@ class Product extends Component {
         { Array(5).fill(0).map((_, index) => (
           <button type="button"
             onClick={() => this.clickStar(5 - index) }
-            onMouseEnter={this.hoverStar}
             id={ `star-${index}` }
             key={index}
             className={`star${ value <= index ? ' active' : '' }`}
@@ -78,12 +104,29 @@ class Product extends Component {
   }
 
   renderReviews(reviews) {
+    const { id } = this.props.auth;
+
+    let ownReview = null;
+    const otherReviews = reviews.filter(review => {
+      if (`${review.customerId}` == `${id}`) {
+        ownReview = review;
+        return false;
+      }
+
+      return true;
+    });
+
+    const sortedReviews = ownReview ? [
+      ownReview,
+      ...otherReviews
+    ] : otherReviews
+
     return (
       <div id="reviews">
         <h1>Reviews</h1>
         
-        { !reviews.length && (<div> There are no reviews for this product</div>) }
-        { reviews.map(review => {
+        { !sortedReviews.length && (<div> There are no reviews for this product</div>) }
+        { sortedReviews.map(review => {
           const { rating, review: reviewText, Auth: { email } } = review;
 
           return (
@@ -106,7 +149,13 @@ class Product extends Component {
   }
 
   renderView(product) {
-    const { title, image, price, Reviews, canPostReview } = product;
+    const {
+      Shop: { name: shopName },
+      title, image, price,
+      Reviews, canPostReview
+    } = product;
+
+    const avgRating = this.calculateAverageRating(Reviews);
 
     return (
       <div id="product-page">
@@ -124,10 +173,20 @@ class Product extends Component {
 
                 { canPostReview && (
                     <div id="review-post-section">
-                      <textarea placeholder="What do you think about this product" />
+                      <textarea
+                        onChange={this.reviewChange}
+                        value={this.state.review}
+                        placeholder="What do you think about this product"
+                      />
                       <div className="textarea-base clearfix">
                         <span>Enter your review above and provide rating for product</span>
-                        <button type="button" id="post">Post Review</button>
+                        <button
+                          type="button"
+                          id="post"
+                          onClick={this.handlePostReview}
+                        >
+                          Post Review
+                        </button>
                         
                         <div id="star-container">
                           { this.renderActionStars(this.state.starCount, true) }
@@ -146,8 +205,9 @@ class Product extends Component {
                 <img src={image} />
                 
                 <header>Product Details</header>
-                <div className="detail">Vendor : Jumia</div>
+                <div className="detail mt-3">Shop : { shopName }</div>
                 <div className="detail">Price : {price}</div>
+                <div className="detail">Average Rating : {avgRating}</div>
               </div>
             </div>
           </div>
@@ -162,10 +222,11 @@ class Product extends Component {
   }
 }
 
-const mapStateToProps = ({ productReducer }) => ({
-  product: productReducer.product
+const mapStateToProps = ({ authReducer, productReducer }) => ({
+  product: productReducer.product,
+  auth: authReducer
 });
 
-const mapDispatchToProps = { getProduct };
+const mapDispatchToProps = { getProduct, postReview };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Product);

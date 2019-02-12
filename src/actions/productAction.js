@@ -41,7 +41,6 @@ export const loadVendorProducts = () => dispatch => {
     })
 };
 
-
 export const addProduct = (productDetails, shopId) => dispatch => (
   axios.post('/api/products', { ...productDetails, shopId }, {
     headers: {

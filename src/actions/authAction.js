@@ -3,7 +3,11 @@ import { getCartItems } from './cartAction';
 import history from '../history';
 import { getOrders } from './orderAction';
 import { getRequests } from './adminAction';
-import { vendorRedirectPath, redirectPath } from '../utils';
+import {
+  vendorRedirectPath,
+  customerRedirectPath,
+  adminRedirectPath
+} from '../utils';
 
 const loadData = (user, dispatch) => {
   const role = user.role;
@@ -11,11 +15,11 @@ const loadData = (user, dispatch) => {
 
   if (role == 'admin') {
     dispatch(getRequests());
-    const redirect = redirectPath(pathname, role);
+    const redirect = adminRedirectPath(pathname);
     history.push(redirect);
   }
 
-  if (role === 'vendor') {
+  else if (role === 'vendor') {
     const details = {
       shop: user.Shop,
       request: user.VendorRequest
@@ -41,11 +45,20 @@ const loadData = (user, dispatch) => {
     history.push(redirect);
   }
 
-  if (role === 'customer') {
+  else if (role === 'customer') {
     dispatch(getCartItems());
     dispatch(getOrders());
+
+    const redirect = ['/login', '/register'].includes(pathname)
+      ? '/'  
+      : customerRedirectPath(pathname);
+    history.push(redirect);
+  }
+
+  else {
     history.push('/');
   }
+
 }
 
 export const login = (email, password) => dispatch => (
@@ -63,6 +76,9 @@ export const login = (email, password) => dispatch => (
   
       loadData(user, dispatch);
     })
+    .catch(error => {
+      throw error
+    })
 );
 
 export const register = (email, password, role, shopName) => dispatch => {
@@ -79,6 +95,9 @@ export const register = (email, password, role, shopName) => dispatch => {
         type: 'AUTH_SUCCESSFULL',
         user
       });
+    })
+    .catch(error => {
+      throw error
     })
 }
 

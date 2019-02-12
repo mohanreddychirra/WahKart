@@ -1,5 +1,4 @@
 import db from '../db/models';
-import OrderCtrl from './order';
 
 const { Product, Shop, Review, Auth, Order, OrderItem } = db;
 
@@ -319,26 +318,52 @@ class ProductCtrl {
       where: {
         id: productId,
       },
-      include: [{
-        model: Review,
-        include: [{
-          model: Auth,
-          attributes: ['email']
-        }]
+      include: [
+        {
+          model: Shop,
+          attributes: [ 'name' ]
+        },
+        {
+          model: Review,
+          include: [{
+            model: Auth,
+            attributes: ['email']
+          }
+      ]
       }]
     })
       .then((product) => {
         if (product) {
-          ProductCtrl.checkIfPurchasedProduct(customerId, productId)
-            .then(status => {
-              res.status(200).json({
-                message: 'Product fetched successfully',
-                product: { ...product.dataValues, canPostReview: status }
-              });
+          Review.findOne({
+            where: {
+              customerId,
+              productId
+            }
+          })
+            .then(review => {
+              if (review) {
+                return res.status(200).json({
+                  message: 'Product fetched successfully',
+                  product: { ...product.dataValues, canPostReview: false }
+                });
+              }
+
+              ProductCtrl.checkIfPurchasedProduct(customerId, productId)
+                .then(status => {
+                  res.status(200).json({
+                    message: 'Product fetched successfully',
+                    product: { ...product.dataValues, canPostReview: status }
+                  });
+                })
+                .catch(() => {
+                  res.status(500).json({
+                    message: 'Error occured while getting product details'
+                  });
+                });
             })
             .catch(() => {
               res.status(500).json({
-                message: 'Error occured while getting product details'
+                message: 'Error occured while checking review'
               });
             });
         } else {
