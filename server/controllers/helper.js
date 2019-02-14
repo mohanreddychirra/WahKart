@@ -3,6 +3,13 @@ import db from '../db/models';
 const { Order, OrderItem } = db;
 
 class Helper {
+  /**
+   * 
+   * @description To check if customer has purchased product before
+   * 
+   * @param {*} customerId 
+   * @param {*} productId 
+   */
   static checkIfPurchasedProduct(customerId, productId) {
     // Fetch all orders for a customer
     return Order.findAll({

@@ -314,6 +314,7 @@ class ProductCtrl {
     const { productId } = req.params;
     const customerId = req.payload ? req.payload.id : null;
 
+    // Find the product in the product table
     Product.findOne({
       where: {
         id: productId,
@@ -334,6 +335,8 @@ class ProductCtrl {
     })
       .then((product) => {
         if (product) {
+          // Check if customer already has a review posted and
+          // set canPostReview appropriately
           Review.findOne({
             where: {
               customerId,

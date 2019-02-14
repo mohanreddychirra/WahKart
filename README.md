@@ -30,3 +30,9 @@ Files in this folder includes stylesheets, react components in JSX, reducers, ac
 > - Others
 
 Other files at the root path of the project folder are mostly configuration files for our `bundler (webpack)`, `transpiler (babel)`, `node package management (package.json)`.
+
+> - Model Association
+
+For associations in model, we use either benlongsTo or hasOne depending on the location of the foreignKey.
+* We use belongsTo association if the foreignKey is on the source model 
+* While we use hasOne association if the foreignKey is on the target model 

@@ -4,6 +4,13 @@ import Helper from './helper';
 const { Review, Auth } = db;
 
 class ReviewCtrl {
+  /**
+   * 
+   * @description Submit a review from a customer
+   * 
+   * @param {*} req 
+   * @param {*} res 
+   */
   static postReview(req, res) {
     const { id } = req.payload;
     const { review, rating } = req.body;

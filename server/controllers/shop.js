@@ -27,6 +27,12 @@ class ShopCtrl {
       });
   }
 
+  /**
+   * 
+   * @description Get all products in a single shop
+   * @param {*} req 
+   * @param {*} res 
+   */
   static getProducts(req, res) {
     const { shopId } = req.params;
 

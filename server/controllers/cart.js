@@ -75,6 +75,13 @@ class CartCtrl {
       });
   }
 
+  /**
+   * 
+   * @description delete all cart items for a customer
+   *  
+   * @param {*} req 
+   * @param {*} res 
+   */
   static clearCartItems(req, res) {
     const { id } = req.payload;
 

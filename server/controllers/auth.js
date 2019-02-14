@@ -209,7 +209,7 @@ class AuthCtrl {
                 role: entry.role
               }, process.env.SECRET, (error, token) => {
 
-                // If vendor get request annd shop details
+                // If vendor, create vendor request for the vendor
                 if (user.role === 'vendor') {
                   VendorRequest.create({
                     vendorId: user.id,
@@ -231,8 +231,7 @@ class AuthCtrl {
                         token
                       });
                     })
-                    .catch((error) => {
-                      console.log(error);
+                    .catch(() => {
                       res.json(500, {
                         message: 'Internal error',
                       });

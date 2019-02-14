@@ -3,6 +3,11 @@ const { Order, OrderItem, Product } = db;
 const alphas = [ 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'];
 
 class OrderCtrl {
+  /**
+   * 
+   * @description Fetch all orders that belongs to a customer
+   * @param {*} id 
+   */
   static fetchOrdersForCustomers(id) {
     return Order.findAll({
       where: {
@@ -24,6 +29,12 @@ class OrderCtrl {
       });
   }
 
+  /**
+   * 
+   * @description To get all order items associated with ann order
+   * 
+   * @param {*} id 
+   */
   static fetchOrdertemsIForAnOrder(id) {
     return OrderItem.findAll({
       where: {
@@ -42,6 +53,14 @@ class OrderCtrl {
       });
   }
 
+  /**
+   * 
+   * 
+   * @description Get all the orders for a customer
+   * 
+   * @param {*} req 
+   * @param {*} res 
+   */
   static getOrders(req, res) {
     const { id } = req.payload;
 
@@ -60,6 +79,13 @@ class OrderCtrl {
       });
   }
 
+  /**
+   * 
+   * @description Place an order
+   * 
+   * @param {*} req 
+   * @param {*} res 
+   */
   static addOrder(req, res) {
     const { id } = req.payload;
     const { order: { amount, products } } = req.body;
@@ -78,6 +104,7 @@ class OrderCtrl {
           }
         });
 
+        // Insert order items if order has been inserted successfully
         OrderItem.bulkCreate(newdata)
           .then(() => {
             OrderCtrl.fetchOrdertemsIForAnOrder(order.id)
@@ -109,6 +136,10 @@ class OrderCtrl {
       });
   }
 
+  /**
+   * 
+   * @description This is to generate a unique ID for each order
+   */
   static generateTrackingId() {
     let trackingId = '';
     let i;

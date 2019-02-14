@@ -38,6 +38,18 @@ class AuthMid {
 
   }
 
+  /**
+   * 
+   * @description
+   * This middleware helps to extract token payload if exist,
+   * it then attach it to the request object via the payload key.
+   * 
+   * This is different from the above, as this allow for when even token is invalid 
+   * 
+   * @param { Object } req 
+   * @param { Object } res 
+   * @param { Function } next 
+   */
   static extractToken(req, res, next) {
     const { token } = req.headers;
 
