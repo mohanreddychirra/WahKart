@@ -5,7 +5,7 @@ import '../../stylesheets/home.scss';
 const ProductList = (props) => (
   <div className="row">
      { props.products.map((product, index) => (
-        <div key={index} className="col-3 text-center">
+        <div key={index} className="col-xs-12 col-md-6 col-lg-4 col-xl-3 text-center">
           <ProductCard
             id={product.id}
             auth={props.auth}

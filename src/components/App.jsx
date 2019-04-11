@@ -13,6 +13,7 @@ import VendorRequests from './Admin/VendorRequests';
 import Admin from './Admin/Index';
 
 import '../stylesheets/header.scss';
+import '../stylesheets/navbar.scss';
 
 const App = () => (
   <Fragment>

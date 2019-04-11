@@ -80,42 +80,43 @@ body {
   background: $light-gray;
   overflow: hidden;
 
-  img {
-    display: block;
-    max-width: 90%;
-    border-radius: 2px;
-    margin: 20px auto;
-    height: 200px;
-  }
-
-  div {
-    width: 70%;
+  .align {
+    display: inline-block;
     margin: 0 auto;
 
-    .title {
-      width: 100%;
-      margin: 0 auto 10px;
-      font-size: 17px;
-      text-align: left;
-      font-weight: 100;
+    img {
+      display: block;
+      border-radius: 2px;
+      margin: 20px 0;
+      height: 200px;
     }
 
     div {
-      width: 100%;
-      margin-bottom: 20px;
-
-      .price {
-        float: left;
-        font-weight: 400;
+      .title {
+        width: 100%;
+        margin: 0 auto 10px;
         font-size: 17px;
-        color: $blue;
+        text-align: left;
+        font-weight: 100;
       }
 
-      .cart {
-        float: right;
-        margin-top: -5px;
-        font-size: 24px;
-        color: $gray;
+      div {
+        width: 100%;
+        margin-bottom: 20px;
+
+        .price {
+          float: left;
+          font-weight: 400;
+          font-size: 17px;
+          color: $blue;
+        }
+
+        .cart {
+          float: right;
+          margin-top: -5px;
+          font-size: 24px;
+          color: $gray;
+        }
       }
     }
   }

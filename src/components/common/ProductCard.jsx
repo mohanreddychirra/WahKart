@@ -30,57 +30,59 @@ class ProductCard extends Component {
 
     return (
       <div className="product-card">
-        <Link to={ `/product/${id}` }>
-          <img src={image} alt="product image"/>
-        </Link>
+        <div className="align">
+          <Link to={ `/product/${id}` }>
+            <img src={image} alt="product image"/>
+          </Link>
 
-        <div>
-          <div className="title">
-            { title }
-          </div>
+          <div>
+            <div className="title">
+              { title }
+            </div>
 
-          <div className="clearfix">
-            <span className="price">
-              { price }
-            </span>
+            <div className="clearfix">
+              <span className="price">
+                { price }
+              </span>
 
-            {
-              auth && auth.role === 'customer' && !inCart && (
-                <Link to="#" onClick={() => this.addToCartHandler(id)}>
-                  <span className="cart">
-                    <i className="fas fa-cart-plus" />
-                  </span>
-                </Link>
-              )
-            }
+              {
+                auth && auth.role === 'customer' && !inCart && (
+                  <Link to="#" onClick={() => this.addToCartHandler(id)}>
+                    <span className="cart">
+                      <i className="fas fa-cart-plus" />
+                    </span>
+                  </Link>
+                )
+              }
 
-            {
-              cart && (
-                <Link to="#" onClick={() => this.deleteFromCartHandler(id)}>
-                  <span className="cart">
-                    <i className="fas fa-trash" />
-                  </span>
-                </Link>
-              )
-            }
-
-            {
-              auth && auth.role === 'vendor' && (
-                <Fragment>
-                  <Link to="#" onClick={() => this.deleteProductHandler(id)}>
-                    <span className="cart ml-3">
+              {
+                cart && (
+                  <Link to="#" onClick={() => this.deleteFromCartHandler(id)}>
+                    <span className="cart">
                       <i className="fas fa-trash" />
                     </span>
                   </Link>
+                )
+              }
 
-                  <Link to={`/product/edit/${id}`}>
-                    <span className="cart">
-                      <i className="fas fa-edit" />
-                    </span>
-                  </Link>
-                </Fragment>
-              )
-            }
+              {
+                auth && auth.role === 'vendor' && (
+                  <Fragment>
+                    <Link to="#" onClick={() => this.deleteProductHandler(id)}>
+                      <span className="cart ml-3">
+                        <i className="fas fa-trash" />
+                      </span>
+                    </Link>
+
+                    <Link to={`/product/edit/${id}`}>
+                      <span className="cart">
+                        <i className="fas fa-edit" />
+                      </span>
+                    </Link>
+                  </Fragment>
+                )
+              }
+            </div>
           </div>
         </div>
       </div>
