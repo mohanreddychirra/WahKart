@@ -1,10 +1,15 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import NavBar from './NavBar';
 import { logout } from '../../actions/authAction';
+import { toogleNavBar } from '../../actions/navbarAction';
+import NavOutItems from './NavOutItems';
 
-const Header = ({ orders, request, cart, auth, logout }) => (
+const Header = ({
+  toogleNavBar: navbarClick,
+  show, orders, request, cart,
+  auth, logout
+}) => (
   <Fragment>
     <div id="header">
       <div className="aligner clearfix">
@@ -19,68 +24,24 @@ const Header = ({ orders, request, cart, auth, logout }) => (
         </Link>
         
         <div id="nav-icon">
-          <span><i className="fas fa-bars" /></span>
-          <NavBar />
+          <Link to="#" onClick={() => navbarClick()}>
+            <span>
+              <i className={`fas fa-${ show ? 'times' : 'bars'}`}/>
+            </span>
+          </Link>
         </div>
 
-        <div style={{ display: "none" }}>
-          {
-            (!auth.id || !auth.role || !auth.email) && (
-              <Fragment>
-                <Link to="/login">
-                  <span className="navlink">LOGIN</span>
-                </Link>
-
-                <Link to="/register">
-                  <span className="navlink">REGISTER</span>
-                </Link>
-              </Fragment>
-            )
-          }
-
-          {
-            auth.id && auth.role && auth.email && (
-              <Fragment>
-                <Link to="#" onClick={logout}>
-                  <span className="navlink">LOGOUT</span>
-                </Link>
-      
-                <Link to={
-                  ['vendor', 'admin'].includes(auth.role)
-                    ? `/${auth.role}`
-                    : '#'
-                }>
-                  <div id="profile" className="clearfix">
-                    <img src="/images/avatar.png" alt="user avatar"/>
-                    <span>{ auth.email.split('@')[0] }</span>
-                  </div>
-                </Link>
-              </Fragment>
-            )
-          }
-
-          { 
-            auth.role === 'customer' && (
-              <Fragment>
-                <Link to="/orders">
-                  <div id="order">
-                    <i className="fas fa-credit-card" />
-                    <span>{ orders.length }</span>
-                  </div>
-                </Link>
-
-                <Link to="/cart">
-                  <div id="cart">
-                    <i className="fas fa-cart-arrow-down" />
-                    <span>{ cart.length }</span>
-                  </div>
-                </Link>
-            </Fragment>
-            )
-          }
+        <div id="nav-out-items">
+          <NavOutItems
+            auth={auth}
+            orders={orders}
+            cart={cart}
+            logout={logout}
+          />
         </div>
       </div>
     </div>
+
     <div id="header-spacer" />
   </Fragment>
 );
@@ -89,11 +50,12 @@ const mapStateToProps = (state) => ({
   auth: state.authReducer,
   cart: state.cartReducer,
   orders: state.orderReducer.orders,
-  request: state.vendorReducer.request
+  request: state.vendorReducer.request,
+  show: state.navbarReducer.show
 });
 
 const mapDispatchToProps = {
-  logout
+  logout, toogleNavBar
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

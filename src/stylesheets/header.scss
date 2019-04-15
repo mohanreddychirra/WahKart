@@ -9,80 +9,91 @@
   padding-top: 1px; 
   background: $blue;
 
+  a {
+    .page-name {
+      float: left;
+      color: $white;
+      font-size: 20px;
+      font-weight: 100;
+    }
+
+    .navlink {
+      color: $white;
+      font-size: 14px;
+      margin: 5px 0 0 25px;
+      float: right;
+      font-weight: 400;
+    }
+  }
+
   .aligner {
     margin-top: 13px;
 
     #nav-icon {
+      display: none;
       float: right;
       position: relative;
 
       span {
         display: block;
         color: white;
-        margin-top: -5px;
+        margin-top: -7px;
         font-size: 30px;
         cursor: pointer;
       }
-    }
 
-    #cart, #order {
-      float: right;
-      margin: 2px 15px 0 0;
-
-      i {
-        float: left;
-        font-size: 25px;
-        color: $light-gray;
-      }
-
-      span {
-        float: left;
-        margin: -4px 0 0 -8px;
-        background: $red;
-        width: 20px;
-        font-size: 10px;
-        font-weight: 400;
-        border-radius: 50%;
-        overflow: hidden;
-        padding-top: 3px;
-        color: $white; 
-        height: 20px;
-        text-align: center;
+      @media all and (max-width: 490px) {
+        display: block
       }
     }
 
-    #profile {
-      float: right;
-
-      img {
-        float: left;
-        height: 30px;
+    #nav-out-items {
+      @media all and (max-width: 490px) {
+        display: none
       }
 
-      span {
-        float: left;
-        font-weight: 200;
-        margin: 1px 0 0 8px;
-        font-size: 19px;
-        text-transform: capitalize;
-        color: $white;
-      }
-    }
-  
-    a {
-      .page-name {
-        float: left;
-        color: $white;
-        font-size: 20px;
-        font-weight: 100;
-      }
-
-      .navlink {
-        color: $white;
-        font-size: 14px;
-        margin: 5px 0 0 25px;
+      #cart, #order {
         float: right;
-        font-weight: 400;
+        margin: 2px 15px 0 0;
+
+        i {
+          float: left;
+          font-size: 25px;
+          color: $light-gray;
+        }
+
+        span {
+          float: left;
+          margin: -4px 0 0 -8px;
+          background: $red;
+          width: 20px;
+          font-size: 10px;
+          font-weight: 400;
+          border-radius: 50%;
+          overflow: hidden;
+          padding-top: 3px;
+          color: $white; 
+          height: 20px;
+          text-align: center;
+        }
+      }
+
+      #profile {
+        float: right;
+
+        img {
+          float: left;
+          height: 30px;
+        }
+
+        span {
+          float: left;
+          font-weight: 200;
+          margin: 1px 0 0 8px;
+          font-size: 19px;
+          text-transform: capitalize;
+          color: $white;
+        }
       }
     }
   }

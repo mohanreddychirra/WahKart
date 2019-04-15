@@ -36,6 +36,7 @@ a:link {
 
 body {
   font-family: 'Roboto', Arial;
+  min-width: 320px;
 }
 
 .empty {
@@ -129,6 +130,11 @@ body {
   min-height: 300px;
   border-radius: 2px;
   border: 1px solid #E8E8E8;
+
+  @media all and (max-width: 527px) {
+    min-width: unset;
+    width: 90%;
+  }
 
   .heading {
     width: 100%;
