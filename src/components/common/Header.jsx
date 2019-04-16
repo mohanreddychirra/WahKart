@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import NavBar from './NavBar';
 import { logout } from '../../actions/authAction';
-import { toggleNavBar } from '../../actions/appAction';
-import { toggleOverlay } from '../../actions/appAction';
+import { setNavBarShow, setOverlayShow } from '../../actions/appAction';
 import NavOutItems from './NavOutItems';
 import Overlay from './Overlay';
 import history from '../../history';
@@ -15,17 +14,17 @@ class Header extends Component {
     this.navIconClick = this.navIconClick.bind(this);
   }
 
-  toogleNavComponent() {
-    this.props.toggleOverlay();
-    this.props.toggleNavBar();
+  setNavCompShow(show) {
+    this.props.setNavBarShow(show);
+    this.props.setOverlayShow(show);
   }
 
   navIconClick() {
-    this.toogleNavComponent();
+    this.setNavCompShow(!this.props.showNavBar);
   }
 
   linkClick() {
-    this.toogleNavComponent();
+    this.setNavCompShow(false);
     history.push('/');
   }
 
@@ -48,7 +47,7 @@ class Header extends Component {
             
             <div id="nav-icon">
               <Link to="#" onClick={() => this.navIconClick()}>
-                <span>
+                <span className="fa-icon">
                   <i className={`fas fa-${ showNavBar ? 'times' : 'bars'}`}/>
                 </span>
               </Link>
@@ -86,7 +85,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  logout, toggleNavBar, toggleOverlay
+  logout, setNavBarShow, setOverlayShow
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

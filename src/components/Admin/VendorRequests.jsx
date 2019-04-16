@@ -32,26 +32,26 @@ class VendorRequests extends Component {
             </header>
 
             <div className="row">
-              <div className="col-lg-9">
+              <div className="col-12 col-xl-9">
                 <div id="requests-table">
                   { 
                     requests.map((request) => (
                       <div className="row" key={request.id}>
-                        <div className="col-lg-3">
+                        <div className="col-12 col-md-3">
                           <i className="fa fa-shopping-bag" />
                           <span>{ request.shopName }</span>
                         </div>
             
-                        <div className="col-lg-2">
+                        <div className="col-12 col-md-2">
                           <i className="fa fa-user" />
                           <span>{ request.Auth.email.split('@')[0] }</span>
                         </div>
 
-                        <div className="col-lg-4">
+                        <div className="col-12 col-md-4">
                           <i className="fa fa-envelope-open-text" />
                           <span>{ request.Auth.email }</span>
                         </div>
-                        <div className="col-lg-3">
+                        <div className="col-4 offset-8 col-md-3 offset-md-0">
                           { request.status == 'open' && (
                             <Fragment>
                               <button
@@ -84,7 +84,7 @@ class VendorRequests extends Component {
                 </div>
               </div>
 
-              <div className="col-lg-3">
+              <div className="col-lg-3 d-none d-sm-none d-md-none d-xl-block">
                 <div id="info">
                   <header>All Shops</header>
                   <div>First Shop</div>

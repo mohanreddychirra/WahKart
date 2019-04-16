@@ -34,10 +34,11 @@ class Cart extends Component {
 
   render() {
     const { products } = this.props;
+
     return (
       <div id="cart-div" className="aligner">
         <div className="row">
-          <div className="col-8">
+          <div className="col-12 col-xl-8">
             <header>
               <span>{ products.length }</span>
               Products added to cart
@@ -54,7 +55,7 @@ class Cart extends Component {
             <div className="row">
               {
                 products.map(product => (
-                  <div key={product.id} className="col-4">
+                  <div key={product.id} className="col-xs-12 col-sm-6 col-lg-4 col-xl-4 text-center">
                     <ProductCard
                       cart
                       id={product.id}
@@ -67,7 +68,7 @@ class Cart extends Component {
               }
             </div>
           </div>
-          <div className="col-4">
+          <div className="col-12 col-xl-4">
             { !!products.length && (
                 <Checkout
                   products={products}

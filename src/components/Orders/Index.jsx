@@ -114,7 +114,7 @@ class Orders extends Component {
           ) }
 
           <div className="row">
-            <div className="col-lg-6">
+            <div className="col-12 col-xl-6">
               {
                 halfCount > 0 && (
                   this.genIndexes(0, halfCount)
@@ -123,7 +123,7 @@ class Orders extends Component {
               }
             </div>
 
-            <div className="col-lg-6">
+            <div className="col-12 col-xl-6">
               {
                 this.genIndexes(halfCount, orders.length)
                   .map(index => this.renderOrder(orders[index]))

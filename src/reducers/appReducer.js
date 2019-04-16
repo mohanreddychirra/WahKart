@@ -7,12 +7,12 @@ export default (state=initialState, action) => {
   switch(action.type) {
     case 'SET_OVERLAY_SHOW': return {
       ...state,
-      showOverlay: !state.showOverlay
+      showOverlay: action.show
     }
 
     case 'SET_NAVBAR_SHOW': return {
       ...state,
-      showNavBar: !state.showNavBar
+      showNavBar: action.show
     }
 
     default: return state;
