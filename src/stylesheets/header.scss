@@ -30,9 +30,9 @@
     margin-top: 13px;
 
     #nav-icon {
+      position: relative;
       display: none;
       float: right;
-      position: relative;
 
       span {
         display: block;
@@ -40,6 +40,10 @@
         margin-top: -7px;
         font-size: 30px;
         cursor: pointer;
+      }
+
+      #page-overlay {
+        left: 0;
       }
 
       @media all and (max-width: 490px) {

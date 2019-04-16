@@ -6,7 +6,6 @@ import Cart from './Cart/Index';
 import ManageProduct from './Vendor/ManageProduct';
 import Product from './Product/Index';
 import Header from './common/Header';
-import NavBar from './common/NavBar';
 import Modal from './Modal/Index';
 import Orders from './Orders/Index';
 import Vendor from './Vendor/Index';
@@ -20,7 +19,6 @@ const App = () => (
   <Fragment>
     <Modal />
     <Header />
-    <NavBar />
 
     <Switch>
       <Route exact path="/" component={Home} />

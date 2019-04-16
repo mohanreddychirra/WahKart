@@ -7,7 +7,7 @@ import modalReducer from './modalReducer';
 import orderReducer from './orderReducer';
 import adminReducer from './adminReducer';
 import vendorReducer from './vendorReducer';
-import navbarReducer from './navbarReducer';
+import appReducer from './appReducer';
 
 export default combineReducers({
   productReducer,
@@ -18,5 +18,5 @@ export default combineReducers({
   orderReducer,
   adminReducer,
   vendorReducer,
-  navbarReducer
+  appReducer
 });
