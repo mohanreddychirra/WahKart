@@ -43,7 +43,8 @@
 
     #right-side {
       #wrap {
-        width: 95%;
+        width: 100%;
+        margin-bottom: 50px;
 
         #review-post-section {
           margin: 0 0 30px;
@@ -84,7 +85,7 @@
                 & ~ #star-1,
                 & ~ #star-2,
                 & ~ #star-3,
-                & ~ #star-4,
+                & ~ #star-4
                 { color: #ffdc00; }
               }
 
@@ -92,20 +93,20 @@
                 &,
                 & ~ #star-2,
                 & ~ #star-3,
-                & ~ #star-4,
+                & ~ #star-4
                 { color: #ffdc00; }
               }
 
               &#star-2:hover {
                 &,
                 & ~ #star-3,
-                & ~ #star-4,
+                & ~ #star-4
                 { color: #ffdc00; }
               }
 
               &#star-3:hover {
                 &,
-                & ~ #star-4,
+                & ~ #star-4
                 { color: #ffdc00; }
               }
 
@@ -190,6 +191,7 @@
       border-radius: 2px;
       border: 1px solid lightgray;
       min-height: 200px;
+      margin-bottom: 20px;
       
       .detail {
         display: block;

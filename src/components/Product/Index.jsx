@@ -168,7 +168,19 @@ class Product extends Component {
           </header>
           
           <div className="row">
-            <div className="col-lg-8" id="right-side">
+            <div className="col-12 col-md-6 col-lg-4">
+              <div id="info">
+                <header>Product Image</header>
+                <img src={image} />
+                
+                <header>Product Details</header>
+                <div className="detail mt-3">Shop : { shopName }</div>
+                <div className="detail">Price : {price}</div>
+                <div className="detail">Average Rating : {avgRating}</div>
+              </div>
+            </div>
+
+            <div className="col-12 col-md-6 col-lg-8" id="right-side">
               <div id="wrap">
 
                 { canPostReview && (
@@ -196,18 +208,6 @@ class Product extends Component {
                 )}
 
                 { this.renderReviews(Reviews) }
-              </div>
-            </div>
-
-            <div className="col-lg-4">
-              <div id="info">
-                <header>Product Image</header>
-                <img src={image} />
-                
-                <header>Product Details</header>
-                <div className="detail mt-3">Shop : { shopName }</div>
-                <div className="detail">Price : {price}</div>
-                <div className="detail">Average Rating : {avgRating}</div>
               </div>
             </div>
           </div>
