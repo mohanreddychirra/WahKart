@@ -4,16 +4,16 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('VendorRequests', [
       {
-        vendorId: 2,
+        vendorId: 3,
         status: 'approved',
         shopName: 'Macys',
         createdAt: '2019-02-02',
         updatedAt: '2019-02-02'
       },
       {
-        vendorId: 3,
-        shopName: 'Nordstorm',
+        vendorId: 4,
         status: 'open',
+        shopName: 'Nordstorm',
         createdAt: '2019-02-02',
         updatedAt: '2019-02-02'
       }

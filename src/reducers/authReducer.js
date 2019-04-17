@@ -9,6 +9,11 @@ const initialState = {
 
 export default (state=initialState, action) => {
   switch(action.type) {
+    case 'AUTH_IN_PROGRESS': return {
+      ...state,
+      inProgress: true
+    }
+
     case 'NO_LOGIN': return {
       ...state,
       noLogin: true

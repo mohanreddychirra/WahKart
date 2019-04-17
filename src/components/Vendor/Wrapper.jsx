@@ -17,6 +17,8 @@ class Wrapper extends Component {
    */
   componentWillMount() {
     const { auth: { role, inProgress, noLogin } } = this.props;
+    
+    console.log(inProgress);
 
     if(!inProgress) {
       if (noLogin || role != 'vendor') {
@@ -34,7 +36,7 @@ class Wrapper extends Component {
   shouldComponentUpdate(nextProps) {
     const { auth } = this.props;
     const { auth: nextAuth } = nextProps;
-  
+    
     if (nextAuth.noLogin) {
       history.push('/');
       return false;
@@ -46,7 +48,7 @@ class Wrapper extends Component {
         return false;
       }
     }
-  
+    
     return true;
   }
 

@@ -4,14 +4,14 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('Shops', [
       {
-        vendorId: 1,
+        vendorId: 3,
         name: 'Macys',
         location: 'Chicago US'
       },
       {
-        vendorId: 2,
+        vendorId: 4,
         name: 'Nordstorm',
-        email: 'v2shop@gmmail.com'
+        location: 'Chicago US'
       }
     ], {});
   },

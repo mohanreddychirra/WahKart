@@ -61,8 +61,14 @@ const loadData = (user, dispatch) => {
 
 }
 
-export const login = (email, password) => dispatch => (
-  axios.post('/api/login', {
+export const authInProgress = () => ({
+  type: 'AUTH_IN_PROGRESS'
+});
+
+export const login = (email, password) => dispatch => {
+  dispatch(authInProgress());
+
+  return axios.post('/api/login', {
     email, password
   })
     .then(response => {
@@ -79,9 +85,11 @@ export const login = (email, password) => dispatch => (
     .catch(error => {
       throw error
     })
-);
+}
 
 export const register = (email, password, role, shopName) => dispatch => {
+  dispatch(authInProgress());
+
   return axios.post('/api/register', {
     email, password, role, shopName
   })
@@ -97,7 +105,7 @@ export const register = (email, password, role, shopName) => dispatch => {
       });
     })
     .catch(error => {
-      throw error
+      throw error;
     })
 }
 

@@ -6,11 +6,16 @@ import { getCartProducts } from '../../helpers';
 import Checkout from './Checkout';
 import { clearCartItems } from '../../actions/cartAction';
 import { addOrderToHistory } from '../../actions/orderAction';
+import { loadProducts } from '../../actions/productAction';
 
 class Cart extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+  }
+
+  componentWillMount() {
+    this.props.loadProducts();
   }
 
   shouldComponentUpdate(nextProps) {
@@ -92,6 +97,6 @@ const mapStateToProps = ({ productReducer, cartReducer, authReducer }) => ({
   )
 });
 
-const mapDispatchToProps = { addOrderToHistory, clearCartItems };
+const mapDispatchToProps = { addOrderToHistory, clearCartItems, loadProducts };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);
