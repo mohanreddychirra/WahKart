@@ -15,6 +15,7 @@ import AuthMid from './middlewares/auth';
 import OrderCtrl from './controllers/order';
 import AdminCtrl from './controllers/admin';
 import ReviewCtrl from './controllers/review';
+import CategoryCtrl from './controllers/category';
 
 // create an express server
 const app = express();
@@ -61,6 +62,9 @@ app.delete('/api/cart-items/clear', AuthMid.checkToken, CartCtrl.clearCartItems)
 app.get('/api/shops', ShopCtrl.getAll);
 app.post('/api/shops', ShopCtrl.createShop);
 app.get('/api/shops/:shopId/products', ShopCtrl.getProducts);
+
+// categories
+app.get('/api/shops/:shopId/categories', CategoryCtrl.getAll);
 
 // orders routes
 app.get('/api/orders',AuthMid.checkToken, OrderCtrl.getOrders);

@@ -3,7 +3,6 @@ import db from '../db/models';
 const { Cart } = db;
 
 class CartCtrl {
-
   /**
    * 
    * @description Cart controller method to get all customers cart items
