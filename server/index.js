@@ -62,9 +62,10 @@ app.delete('/api/cart-items/clear', AuthMid.checkToken, CartCtrl.clearCartItems)
 app.get('/api/shops', ShopCtrl.getAll);
 app.post('/api/shops', ShopCtrl.createShop);
 app.get('/api/shops/:shopId/products', ShopCtrl.getProducts);
+app.get('/api/shops/:shopId/categories', CategoryCtrl.getAll);
 
 // categories
-app.get('/api/shops/:shopId/categories', CategoryCtrl.getAll);
+app.post('/api/categories', AuthMid.checkAdminToken, CategoryCtrl.addCategory);
 
 // orders routes
 app.get('/api/orders',AuthMid.checkToken, OrderCtrl.getOrders);

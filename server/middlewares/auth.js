@@ -1,5 +1,8 @@
 import jwt from 'jsonwebtoken';
 import dotEnv from 'dotenv';
+import db from '../db/models';
+
+const { Auth } = db;
 
 dotEnv.config()
 
@@ -35,7 +38,85 @@ class AuthMid {
         next();
       }
     });
+  }
 
+  static checkVendorToken(req, res, next) {
+    const { token } = req.headers;
+
+    jwt.verify(token, process.env.SECRET, (error, payload) => {
+      if (error) {
+        res.status(401).json({
+          message: "token provided is invalid"
+        });
+      } else if (payload.role !== 'vendor') {
+        res.status(401).json({
+          message: "Only vendors can access this endpoint"
+        });
+      } else {
+        Auth.findOne({
+          where: {
+            email: payload.email,
+            id: payload.id,
+            role: payload.role
+          }
+        })
+          .then(user => {
+            if(user) {
+              req.payload = payload;
+              next();
+            } else {
+              res.status(401).json({
+                message: "User does not exist"
+              });
+            }
+          })
+          .catch(error => {
+            res.status(500).json({
+              message: "Error occured while authenticating"
+            });
+          });
+      }
+    });
+
+  }
+
+  static checkAdminToken(req, res, next) {
+    const { token } = req.headers;
+
+    jwt.verify(token, process.env.SECRET, (error, payload) => {
+      if (error) {
+        res.status(401).json({
+          message: "token provided is invalid"
+        });
+      } else if (payload.role !== 'admin') {
+        res.status(401).json({
+          message: "You have no permissions to access this resource"
+        });
+      } else {
+        Auth.findOne({
+          where: {
+            email: payload.email,
+            id: payload.id,
+            role: payload.role
+          }
+        })
+          .then(user => {
+            if(user) {
+              req.payload = payload;
+              next();
+            } else {
+              res.status(401).json({
+                message: "User does not exist"
+              });
+            }
+          })
+          .catch(error => {
+            res.status(500).json({
+              message: "Error occured while authenticating"
+            });
+          });
+      }
+    });
   }
 
   /**
