@@ -1,27 +1,44 @@
 import db from '../db/models';
+import { capitalize } from '../utils';
 
-const { Category, Shop} = db;
+const { Category } = db;
 
 class CategoryCtrl {
-  static getAll(req, res) {
-    const { shopId } = req.params;
+  static validateCategoryName(categoryName) {
+    return new Promise((resolve, reject) => {
+      if(
+        typeof(categoryName) !== 'string' ||
+        categoryName.trim() == '' ||
+        !categoryName.match(/^[a-zA-Z ]+$/)
+      ) {
+        return resolve('Category name is not valid');
+      }
 
-    Shop.findOne({
-      where: { id: shopId },
-      include: [{ model: Category }]
-    })
-      .then(shop => {
-        if(!shop) {
-          return res.status(404).json({
-            message: 'Shop does not exist'
-          });
-        } else {
-          return res.status(200).json({
-            message: 'Categories fetched successfully',
-            Categories: shop.Categories
-          });
+      Category.findOne({
+        where: {
+          name: categoryName
         }
-        
+      })
+        .then(category => {
+          if(category) {
+            return resolve('Category already exists');
+          }
+
+          return resolve(true);
+        })
+        .catch(error => reject(error));
+    });
+  }
+
+  static getAll(req, res) {
+    Category.findAll({})
+      .then(categories => {
+        if(!categories) categories = [];
+
+        return res.status(200).json({
+          message: 'Categories fetched successfully',
+          Categories: categories
+        });
       })
       .catch(() => {
         res.status(500).json({
@@ -31,30 +48,17 @@ class CategoryCtrl {
   }
 
   static addCategory(req, res) {  
-    const { categoryName } = req.body; 
+    let { categoryName } = req.body; 
+    categoryName = capitalize(categoryName);
 
-    if(
-      typeof(categoryName) !== 'string' ||
-      categoryName.trim() == '' ||
-      !categoryName.match(/^[a-zA-Z ]+$/)
-    ) {
-      return res.status(400).json({
-        message: 'Category name is not valid'
-      });
-    }
-
-    Category.findOne({
-      where: {
-        name: categoryName
-      }
-    })
-      .then(category => {
-        if(category) {
+    CategoryCtrl.validateCategoryName(categoryName)
+      .then((error) => {
+        if(error !== true) {
           return res.status(400).json({
-            message: 'Category already exists'
+            message: error
           });
         }
-
+      
         Category.create({
           name: categoryName
         })
@@ -64,20 +68,90 @@ class CategoryCtrl {
               category
             });
           })
-          .catch(error => {
-            console.log(error);
+          .catch(() => {
             res.status(500).json({
               message: 'Error occured while getting shop'
             });
           });
-
       })
-      .catch(error => {
-        console.log(error);
+      .catch(() => {
         res.status(500).json({
-          message: 'Error occured while getting shop'
+          message: 'Internal server error'
         });
       });
+  }
+
+  static deleteCategory(req, res) {
+    const { categoryId } = req.params;
+
+    Category.findOne({
+      where: {
+        id: categoryId
+      }
+    })
+      .then(category => {
+        if(!category) {
+          return res.status(404).json({
+            message: 'Category does not exist'
+          });
+        }
+
+        category.destroy();
+
+        return res.status(200).json({
+          message: 'Category deleted successfully'
+        });
+      })
+      .catch(error => {
+        res.status(500).json({
+          message: 'Error occured while getting category'
+        });
+      });;
+  }
+
+  static updateCategory(req, res) {
+    const { categoryId } = req.params;
+    let { categoryName } = req.body;
+    categoryName = capitalize(categoryName);
+
+    Category.findOne({
+      where: {
+        id: categoryId
+      }
+    })
+      .then(category => {
+        if(!category) {
+          return res.status(404).json({
+            message: 'Category does not exist'
+          });
+        }
+
+        CategoryCtrl.validateCategoryName(categoryName)
+          .then(error => {
+            if(error !== true) {
+              return res.status(400).json({
+                message: error
+              }); 
+            }
+
+            category.name = categoryName;
+            category.save();
+    
+            return res.status(200).json({
+              message: 'Category updated successfully'
+            });
+          })
+          .catch(error => {
+            res.status(500).json({
+              message: 'Error occured while updating category'
+            });
+          });
+      })
+      .catch(error => {
+        res.status(500).json({
+          message: 'Error occured while getting category'
+        });
+      });;
   }
 }
 
