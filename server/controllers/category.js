@@ -1,7 +1,7 @@
 import db from '../db/models';
 import { capitalize } from '../utils';
 
-const { Category } = db;
+const { Category, Product } = db;
 
 class CategoryCtrl {
   static validateCategoryName(categoryName) {
@@ -152,6 +152,54 @@ class CategoryCtrl {
           message: 'Error occured while getting category'
         });
       });;
+  }
+
+  static addProduct(req, res) {
+    const { categoryId, productId } = req.params;
+
+    Product.findOne({
+      where: {
+        id: productId
+      }
+    })
+      .then(product => {
+        if(!product) {
+          return res.status(404).json({
+            message: 'Product was not found'
+          });
+        }
+
+        Category.findOne({
+          where: {
+            id: categoryId
+          }
+        })
+          .then(category => {
+            if(!category) {
+              return res.status(404).json({
+                message: 'Category was not found'
+              });
+            }
+
+            // category and product exist
+            product.categoryId = categoryId;
+            product.save();
+
+            return res.status(200).json({
+              message: 'Product added to category'
+            });
+          })
+          .catch(error => {
+            res.status(500).json({
+              message: 'Error occured while getting product'
+            });
+          });
+      })
+      .catch(error => {
+        res.status(500).json({
+          message: 'Error occured while getting product'
+        });
+      });
   }
 }
 
