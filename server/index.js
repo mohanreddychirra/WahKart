@@ -46,10 +46,12 @@ app.post('/api/auth', AuthCtrl.authenticate);
 
 // product routes
 app.get('/api/products', ProductCtrl.getAll);
+app.get('/api/products/categories/:categoryId', ProductCtrl.getByCategory);
 app.post('/api/products', AuthMid.checkToken, ProductCtrl.addProduct);
 app.get('/api/products/:productId', AuthMid.extractToken, ProductCtrl.getProduct);
 app.post('/api/products/:productId/reviews', AuthMid.checkToken, ReviewCtrl.postReview);
-app.patch('/api/products/:productId/categories/:categoryId', AuthMid.checkToken, CategoryCtrl.addProduct);
+// app.patch('/api/products/:productId/categories/:categoryId', AuthMid.checkToken, CategoryCtrl.addProduct);
+// app.patch('/api/products/:productId', AuthMid.checkToken, ProductCtrl.removeFromCategory);
 app.put('/api/products/:productId', AuthMid.checkToken, ProductCtrl.editProduct);
 app.delete('/api/products/:productId', AuthMid.checkToken, ProductCtrl.deleteProduct);
 

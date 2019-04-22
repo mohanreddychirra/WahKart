@@ -5,6 +5,7 @@ import history from '../../history';
 import { addProduct, editProduct } from '../../actions/productAction';
 import '../../stylesheets/product.scss'
 import Wrapper from './Wrapper';
+import { getCategories } from '../../actions/categoryAction';
 
 class ManageProduct extends Component {
   constructor(props) {
@@ -19,13 +20,16 @@ class ManageProduct extends Component {
       form: {
         title: '',
         price: '',
-        image: ''
+        categoryId: '',
+        image: '',
       }
     }
   }
 
   componentWillMount() {
     const { products, match, match: { params: { productId } } } = this.props;
+
+    this.props.getCategories();
 
     const page = match.path === '/product/add' ? 0 : 1;
     this.setState({ page });
@@ -34,6 +38,7 @@ class ManageProduct extends Component {
       this.setState({ form: {
         title: '',
         price: '',
+        categoryId: null,
         image: ''
       } });
     } else {
@@ -116,12 +121,13 @@ class ManageProduct extends Component {
   }
 
   extractProductDetails(product) {
-    const { title, image, price } = product;
-    return { title, image, price };
+    const { title, image, price, categoryId } = product;
+    return { title, image, price, categoryId };
   }
 
   render() {
     const { page, form, error  } = this.state;
+    const { categories } = this.props;
 
     return (
       <Wrapper>
@@ -142,10 +148,29 @@ class ManageProduct extends Component {
 
             <form onSubmit={this.onSubmit}>
               <div className="fieldset">
+                <label>Category</label>
+                <select
+                  name="categoryId"
+                  onChange={this.onChange}
+                  value={form.categoryId}
+                >
+                  <option value={null}>-- Select --</option>
+                  { categories.map(category => (
+                    <option
+                      key={category.id}  
+                      value={category.id}
+                    >
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="fieldset">
                 <label>Title</label>
                 <input
                   name="title"
-                  type="title"
+                  type="text"
                   value={form.title}
                   onChange={this.onChange}
                 />
@@ -155,7 +180,7 @@ class ManageProduct extends Component {
                 <label>Price</label>
                 <input
                   name="price"
-                  type="title"
+                  type="text"
                   value={form.price}
                   onChange={this.onChange}
                 />
@@ -165,7 +190,7 @@ class ManageProduct extends Component {
                 <label>Image URL</label>
                 <input
                   name="image"
-                  type="title"
+                  type="text"
                   value={form.image}
                   onChange={this.onChange}
                 />
@@ -188,12 +213,14 @@ class ManageProduct extends Component {
 const mapStateToProps = (state) => ({
   auth: state.authReducer,
   products: state.productReducer.products,
-  shopId: state.vendorReducer.shop ? state.vendorReducer.shop.id : null
+  shopId: state.vendorReducer.shop ? state.vendorReducer.shop.id : null,
+  categories: state.categoryReducer
 });
 
 const mapDispatchToProps = {
   addProduct,
-  editProduct
+  editProduct,
+  getCategories
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManageProduct);

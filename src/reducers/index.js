@@ -8,6 +8,7 @@ import orderReducer from './orderReducer';
 import adminReducer from './adminReducer';
 import vendorReducer from './vendorReducer';
 import appReducer from './appReducer';
+import categoryReducer from './categoryReducer';
 
 export default combineReducers({
   productReducer,
@@ -18,5 +19,6 @@ export default combineReducers({
   orderReducer,
   adminReducer,
   vendorReducer,
-  appReducer
+  appReducer,
+  categoryReducer
 });

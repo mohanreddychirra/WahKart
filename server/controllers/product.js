@@ -1,6 +1,6 @@
 import db from '../db/models';
 
-const { Product, Shop, Review, Auth, Order, OrderItem } = db;
+const { Product, Shop, Review, Auth, Order, OrderItem, Category } = db;
 
 class ProductCtrl {
 
@@ -27,6 +27,39 @@ class ProductCtrl {
       });
   }
 
+  static getByCategory(req, res) {
+    const { categoryId } = req.params;
+
+    Category.findOne({ where: { id: categoryId }})
+      .then(category => {
+        if(!category) {
+          return res.status(400).json({
+            message: 'Category does not exist',
+          });
+        }
+
+        Product.findAll({
+          where: { categoryId }
+        })
+        .then((products) => {
+          res.status(200).json({
+            message: 'Products fetched successfully',
+            products
+          });
+        })
+        .catch(() => {
+          res.status(500).json({
+            message: 'Error occured while fetching products',
+          });
+        });
+      })
+      .catch(() => {
+        res.status(500).json({
+          message: 'Error occured while fetching category',
+        });
+      });
+  }
+
   /**
    * 
    * @description
@@ -39,7 +72,7 @@ class ProductCtrl {
    * 
    * @returns { true | false }
    */
-  static validateProduct(res, title, price, image, shopId) {
+  static validateProduct(res, title, price, image, shopId, categoryId) {
     if (!shopId || !`${shopId}`.match(/^[0-9]+$/)) {
       res.status(400).json({
         message: "Invalid shopId",
@@ -47,6 +80,15 @@ class ProductCtrl {
   
       return false;
     }
+
+    if (!categoryId || !`${categoryId}`.match(/^[0-9]+$/)) {
+      res.status(400).json({
+        message: "Select a category",
+      });
+  
+      return false;
+    }
+
 
     if (!title || title.trim().length === 0) {
       res.status(400).json({
@@ -106,11 +148,10 @@ class ProductCtrl {
    */
   static addProduct(req, res) {
     let { id } = req.payload;
-    let { title, price, image, shopId } = req.body;
-    
+    let { title, price, image, shopId, categoryId } = req.body;
     // runs the validation function and run the below code
     // if validation was successfull
-    if (ProductCtrl.validateProduct(res, title, price, image, shopId)) {
+    if (ProductCtrl.validateProduct(res, title, price, image, shopId, categoryId)) {
       ProductCtrl.vendorAccessShop(res, id, shopId)
         .then((status) => {
           if (status !== true ) return;
@@ -139,7 +180,8 @@ class ProductCtrl {
                   title,
                   price,
                   image,
-                  shopId
+                  shopId,
+                  categoryId
                 })
                   .then((product) => {
                     res.status(201).json({
@@ -178,12 +220,12 @@ class ProductCtrl {
    */
   static editProduct(req, res) {
     let { id } = req.payload;
-    let { title, price, image, shopId } = req.body;
+    let { title, price, image, shopId, categoryId } = req.body;
     const { productId } = req.params;
 
     // runs the validation function and run the below code
     // if validation was successfull
-    if (ProductCtrl.validateProduct(res, title, price, image, shopId)) {
+    if (ProductCtrl.validateProduct(res, title, price, image, shopId, categoryId)) {
       ProductCtrl.vendorAccessShop(res, id, shopId)
         .then((status) => {
           if (status !== true ) return;
@@ -205,6 +247,7 @@ class ProductCtrl {
                 product.title = title;
                 product.price = price;
                 product.image = image;
+                product.categoryId = categoryId;
                 product.save();
 
                 res.status(200).json({
@@ -382,6 +425,35 @@ class ProductCtrl {
       });
   }
 
+  // static removeFromCategory(req, res) {
+  //   const { productId } = req.params;
+
+  //   Product.findOne({
+  //     where: {
+  //       id: productId,
+  //     }
+  //   })
+  //     .then(product => {
+  //       if(!product) {
+  //         return res.status(404).json({
+  //           message: 'Product not found'
+  //         });
+  //       } else {
+
+  //       product.categoryId = null;
+  //       product.save();
+
+  //       return res.status(200).json({
+  //         message: 'Product removed from category'
+  //       });
+  //     }
+  //     })
+  //     .catch(() => {
+  //       res.status(500).json({
+  //         message: 'Error occured while getting product'
+  //       });
+  //     });
+  // }
  }
 
 export default ProductCtrl;
