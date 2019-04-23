@@ -6,6 +6,8 @@ import NoProducts from './NoProducts';
 import { openModal } from '../../actions/modalAction';
 import { loadProducts, setSearchResult } from '../../actions/productAction';
 import history from '../../history';
+import CategoriesNav from '../common/CategoriesNav';
+import { getCategories } from '../../actions/categoryAction';
 
 import '../../stylesheets/home.scss';
 
@@ -27,6 +29,8 @@ class Home extends Component{
    */
   componentWillMount() {
     const { request, auth: { role, inProgress } } = this.props;
+
+    this.props.getCategories();
 
     if(!inProgress) {
       if (role === 'vendor' && request && request.status !== 'approved' ) {
@@ -84,34 +88,37 @@ class Home extends Component{
   }
 
   render() {
+    const { categories } = this.props;
+
     return (
       <div id="home" className="aligner">
+        <CategoriesNav categories={categories} />
+  
+        <div id="home-products">
+          {
+            this.props.products.length > 0
+            ? (
+              <Fragment>
+                {/* <SearchField
+                  value={this.state.searchText}
+                  onChange={this.searchTextChange}
+                  role={this.props.auth.role}
+                  openFilterModal={this.openFilterModal}
+                /> */}
 
-        {
-          this.props.products.length > 0
-          ? (
-            <Fragment>
-              <SearchField
-                value={this.state.searchText}
-                onChange={this.searchTextChange}
-                role={this.props.auth.role}
-                openFilterModal={this.openFilterModal}
-              />
-
-              <ProductList
-                auth={this.props.auth}
-                products={
-                  this.props.searchResult === null
-                    ? this.props.products
-                    : this.props.searchResult
-                }
-              />
-            </Fragment>
-          )
-          : <NoProducts role={this.props.auth.role} />
-        }
-        
-        
+                <ProductList
+                  auth={this.props.auth}
+                  products={
+                    this.props.searchResult === null
+                      ? this.props.products
+                      : this.props.searchResult
+                  }
+                />
+              </Fragment>
+            )
+            : <NoProducts role={this.props.auth.role} />
+          }
+        </div>  
       </div>
     );
   }
@@ -121,13 +128,15 @@ const mapStateToProps = (state) => ({
   products: state.productReducer.products,
   searchResult: state.productReducer.searchResult,
   auth: state.authReducer,
-  request: state.vendorReducer.request
+  request: state.vendorReducer.request,
+  categories: state.categoryReducer
 });
 
 const mapDispatchToProps = {
   openModal,
   setSearchResult,
-  loadProducts
+  loadProducts,
+  getCategories
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

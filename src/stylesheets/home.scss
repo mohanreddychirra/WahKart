@@ -1,6 +1,10 @@
 @import './global.scss';
 
 #home {
+  #home-products {
+    margin-top: 40px;
+  }
+  
   #no-product {
     display: block;
     font-size: 25px;

@@ -45,6 +45,19 @@ class Header extends Component {
               </span>
             </Link>
             
+            <div id="search-div">
+              <input
+                type="text"
+                name="search"
+                placeholder="Search"
+                onChange={(e) => console.log(e.target.value)}
+              />
+
+              <button type="button">
+                <i className="fas fa-search" />
+              </button>
+            </div>
+
             <div id="nav-icon">
               <Link to="#" onClick={() => this.navIconClick()}>
                 <span className="fa-icon">

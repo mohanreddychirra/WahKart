@@ -29,6 +29,50 @@
   .aligner {
     margin-top: 13px;
 
+    #search-div {
+      $hdiv: 30px;
+
+      position: relative;
+      overflow: hidden;
+      width: 30%;
+      height: $hdiv;
+      background: white;
+      border-radius: 2px;
+      margin-left: 3%;
+      float: left;
+
+      input {
+        display: block;
+        width: calc(100% - 40px);
+        height: $hdiv;
+        padding: 5px 10px;
+        font-size: 15px;
+        outline: none;
+        font-weight: 300;
+        border: none;
+        background: none;
+      }
+
+      button {
+        display: inline-block;
+        position: absolute;
+        right: 0; top: 0;
+        background: none;
+        height: $hdiv;
+        width: 40px;
+        padding-top: 2px;
+        color: gray;
+        border: none;
+        font-size: 17px;
+        cursor: pointer;
+        outline: none;
+
+        &:hover {
+          color: black;
+        }
+      }
+    }
+
     #nav-icon {
       position: relative;
       display: none;
