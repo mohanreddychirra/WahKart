@@ -27,8 +27,12 @@ class CategoriesNav extends Component {
         </Link>
 
         { categories.map(category => (
-          <Link to="#">
-            <span className={`${active === category.id ? 'active' : ''}`}>{category.name}</span>
+          <Link key={category.id} to="#">
+            <span
+              className={`${active === category.id ? 'active' : ''}`}
+            >
+              {category.name}
+            </span>
           </Link>
         ))}
       </div>

@@ -9,12 +9,11 @@ import {
   setFilterMin
 } from '../../actions/modalAction';
 
-class FilterModal extends Component {
+class Filter extends Component {
   constructor(props) {
     super(props);
     this.handleCheckboxClick = this.handleCheckboxClick.bind(this);
     this.handlePriceRangeChange = this.handlePriceRangeChange.bind(this);
-    this.handleDone = this.handleDone.bind(this);
     this.matchProduct = this.matchProduct.bind(this);
     this.state = {
       min: '',
@@ -51,19 +50,6 @@ class FilterModal extends Component {
     return matchShopId && matchMinMax;
   }
 
-  handleDone() {
-    const { filters: {min, max, shopIds } } = this.props;
-
-    if (!shopIds.length && !min && !max) {
-      this.props.setSearchResult(this.props.products);
-    } else {
-      const results = this.props.products.filter(this.matchProduct);
-      this.props.setSearchResult(results);
-    }
-
-    this.props.closeModal();
-  }
-
   handlePriceRangeChange(event) {
     let { target: { name, value } } = event;
 
@@ -95,16 +81,9 @@ class FilterModal extends Component {
     const { shops, filters: { shopIds, min, max } } = this.props;
 
     return (
-      <div id="filter-modal">
+      <div id="filter">
         <div className="heading">
           Filter by shops
-          <button
-            id="done"
-            type="button"
-            onClick={this.handleDone}
-          >
-            Done
-        </button>
         </div>
 
         <div id="shop-listing">
@@ -168,4 +147,4 @@ const mapDispatchToProps = {
   setSearchResult
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FilterModal);
+export default connect(mapStateToProps, mapDispatchToProps)(Filter);

@@ -1,50 +1,176 @@
 @import './global.scss';
 
-#home {
-  #home-products {
-    margin-top: 40px;
-  }
+@mixin fill {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;  
+}
+
+html {
+  @include fill(); 
+  body {
+    @include fill();
+
+    #app-view {
+      @include fill();
+
+      #home-wrapper {
+        @include fill();
+        
+        #sidebar {
+          float: left;
+          height: 100%;
+          width: 23%;
+          border-right: 1px solid #E8E8E8;
+
+          #filter {
+            display: block;
+            width: 90%;
+            margin: 40px auto 0;
   
-  #no-product {
-    display: block;
-    font-size: 25px;
-    font-weight: 100;
-    width: 98%;
-    text-align: center;
-    margin: 13% auto 0;
-    
-    button {
-      @include addProdBut();
-      display: block;
-      padding: 8px 20px;
-      margin: 30px auto 0;
-    }
+            .heading {
+              display: block;
+              width: 100%;
+              background: #F1F1F1;
+              font-size: 18px;
+              font-weight: 200;
+              padding: 15px 15px 0;
+              height: 55px;
+              overflow: hidden;
+  
+              #done {
+                float: right;
+                text-align: center;
+                padding: 8px 10px;
+                border-radius: 2px;
+                color: $white;
+                font-size: 13px;
+                cursor: pointer;
+                outline: none;
+                margin-top: -4px;
+                font-weight: 400;
+                border: none;
+                background: $blue;
+              }
+            }
+  
+            #shop-listing {
+              display: block;
+              width: 100%;
+              min-height: calc(100% - 210px);
+              max-height: calc(100% - 210px);
+              margin-bottom: 20px;
+              overflow-x: hidden;
+              overflow-y: auto;
+  
+              .one-shop-listing {
+                display: block;
+                padding: 20px 15px;
+  
+                input {
+                  float: left;
+                  cursor: pointer;
+                  margin-top: 3px;
+                }
+  
+                span {
+                  float: left;
+                  font-size: 15px;
+                  font-weight: 400;
+                  margin-left: 12px;
+                }
+              }
+            }
+  
+            #price-filter {
+              text-align: center;
+              margin: 15px 0 0;
+          
+              #aligner {
+                display: inline-block;
+            
+                input {
+                  width: 100px;
+                  float: left;
+                  padding: 8px 10px;
+                  text-align: center;
+                  font-size: 15px;
+                  font-weight: 400;
+                  background: white;
+                  border: 1px solid lightgray;
+                  outline: none;
+                }
+  
+                span {
+                  float: left;
+                  margin: 5px 15px 0;
+                  font-weight: 600;
+                }
+              }
+            }
+          }
+        }
+        
+        #content {
+          float: left;
+          height: 100%;
+          width: 77%;
+          overflow-x: hidden;
+          overflow-y: auto;
+          
+          #home {
+            width: 98%;
+            margin: 0 auto;
 
-    i {
-      display: block;
-      margin-bottom: 30px;
-      font-size: 40px;
-    }
-  }
-
-  #search-field {
-    width: 98%;
-    margin: 30px auto 50px;
-
-    input {
-      float: left;
-      width: 50%;
-      padding: 7px 10px;
-      background: $light-gray;
-      border: 1px solid #F0F0F0;
-      border-radius: 2px;
-      font-size: 18px;
-      outline: none;
-      font-weight: 100;
-    }
-
-    button {
-      @include addProdBut()
+            #home-products {
+              margin-top: 40px;
+            }
+            
+            #no-product {
+              display: block;
+              font-size: 25px;
+              font-weight: 100;
+              width: 98%;
+              text-align: center;
+              margin: 13% auto 0;
+              
+              button {
+                @include addProdBut();
+                display: block;
+                padding: 8px 20px;
+                margin: 30px auto 0;
+              }
+  
+              i {
+                display: block;
+                margin-bottom: 30px;
+                font-size: 40px;
+              }
+            }
+  
+            #search-field {
+              width: 98%;
+              margin: 30px auto 50px;
+  
+              input {
+                float: left;
+                width: 50%;
+                padding: 7px 10px;
+                background: $light-gray;
+                border: 1px solid #F0F0F0;
+                border-radius: 2px;
+                font-size: 18px;
+                outline: none;
+                font-weight: 100;
+              }
+  
+              button {
+                @include addProdBut()
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
