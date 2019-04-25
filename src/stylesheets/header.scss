@@ -73,6 +73,23 @@
       }
     }
 
+    #category-dropdown {
+      width: 17%;
+      margin-left: 1%;
+      float: left;
+
+      select {
+        width: 100%;
+        background: white;
+        border: none;
+        border-radius: 2px !important;
+        height: 30px;
+        font-size: 15px;
+        font-weight: 300;
+        cursor: pointer;
+      }
+    }
+
     #nav-icon {
       position: relative;
       display: none;

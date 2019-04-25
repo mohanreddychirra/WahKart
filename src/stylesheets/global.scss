@@ -30,6 +30,21 @@ $pale-blue: #66A0DE;
   padding: 0;
 }
 
+.app-spinner {
+  font-size: 40px;
+  display: block;
+  margin: 80px auto 0;
+  text-align: center;
+}
+
+.no-prod {
+  display: block;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 300;
+  margin-top: 60px;
+}
+
 a:link {
   text-decoration: none;
 }

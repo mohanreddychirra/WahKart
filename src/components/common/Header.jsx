@@ -29,7 +29,10 @@ class Header extends Component {
   }
 
   render() {
-    const { showNavBar, orders, request, cart, auth, logout } = this.props;
+    const {
+      showNavBar, orders, request,
+      cart, auth, logout, categories
+    } = this.props;
 
     return (
       <Fragment>
@@ -56,6 +59,15 @@ class Header extends Component {
               <button type="button">
                 <i className="fas fa-search" />
               </button>
+            </div>
+            
+            <div id="category-dropdown">
+              <select name="category">
+                <option value={null}>All Products</option>
+                { categories.map(category => (
+                  <option key={category.id}>{category.name}</option>
+                ))}
+              </select>
             </div>
 
             <div id="nav-icon">
@@ -94,7 +106,8 @@ const mapStateToProps = (state) => ({
   cart: state.cartReducer,
   orders: state.orderReducer.orders,
   request: state.vendorReducer.request,
-  showNavBar: state.appReducer.showNavBar
+  showNavBar: state.appReducer.showNavBar,
+  categories: state.categoryReducer.categories
 });
 
 const mapDispatchToProps = {

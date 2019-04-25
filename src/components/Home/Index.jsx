@@ -1,9 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import ProductList from './ProductList';
-import NoProducts from './NoProducts';
-import { loadProducts, setSearchResult } from '../../actions/productAction';
-import history from '../../history';
+import Spinner from '../common/Spinner';
+import { loadProducts, setHomeProducts } from '../../actions/productAction';
 import CategoriesNav from '../common/CategoriesNav';
 import { getCategories } from '../../actions/categoryAction';
 import Filter from './Filter';
@@ -13,29 +12,49 @@ import '../../stylesheets/home.scss';
 class Home extends Component{
   constructor(props) {
     super(props);
+    this.state = {
+      currentCategory: null
+    }
+    this.handleCategoryClick = this.handleCategoryClick.bind(this);
   }
   
+  componentWillMount() {
+    this.props.getCategories();
+    this.props.loadProducts();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.loading === true && nextProps.loading === false) {
+      this.props.setHomeProducts(null);
+    }
+  }
+
+  handleCategoryClick(categoryId) {
+    this.setState({ currentCategory: categoryId });
+    this.props.setHomeProducts(categoryId);
+  }
+
   /**
    * 
    * @description Handles page access via link
    * 
    * @param {*} nextProps 
    */
-  componentWillMount() {
-    const { request, auth: { role, inProgress } } = this.props;
+  // componentWillMount() {
+  //   const { request, auth: { role, inProgress } } = this.props;
 
-    this.props.getCategories();
+  //   this.props.getCategories();
 
-    if(!inProgress) {
-      if (role === 'vendor' && request && request.status !== 'approved' ) {
-        history.push('/vendor');
-      }
+  //   if(!inProgress) {
+  //     if (role === 'vendor' && request && request.status !== 'approved' ) {
+  //       history.push('/vendor');
+  //     }
 
-      if (role !== 'vendor') {
-        this.props.loadProducts();
-      }
-    }
-  }
+  //     if (role !== 'vendor') {
+  //       this.props.loadProducts();
+  //     }
+  //   }
+  // }
 
   /**
    * 
@@ -43,30 +62,31 @@ class Home extends Component{
    * 
    * @param {*} nextProps 
    */
-  shouldComponentUpdate(nextProps) {
-    const { auth } = this.props;
-    const { request, auth: nextAuth } = nextProps;
+  // shouldComponentUpdate(nextProps) {
+  //   const { auth } = this.props;
+  //   const { request, auth: nextAuth } = nextProps;
 
-    if (auth.inProgress === true && nextAuth.inProgress === false) {
-      if (nextAuth.role === 'vendor' && request && request.status !== 'approved') {
-        history.push('/vendor');
-        return false;
-      }
+  //   if (auth.inProgress === true && nextAuth.inProgress === false) {
+  //     if (nextAuth.role === 'vendor' && request && request.status !== 'approved') {
+  //       history.push('/vendor');
+  //       return false;
+  //     }
 
-      if (nextAuth.role !== 'vendor') {
-        this.props.loadProducts();
-      }
-    }
+  //     if (nextAuth.role !== 'vendor') {
+  //       this.props.loadProducts();
+  //     }
+  //   }
     
-    if (auth.role && !nextAuth.role) {
-      this.props.loadProducts();
-    }
+  //   if (auth.role && !nextAuth.role) {
+  //     this.props.loadProducts();
+  //   }
 
-    return true;
-  }
+  //   return true;
+  // }
 
   render() {
-    const { categories } = this.props;
+    const { categories, loading, products } = this.props;
+    const { currentCategory } = this.state;
 
     return (
       <div id="home-wrapper" className="clearfix">
@@ -75,26 +95,22 @@ class Home extends Component{
         </div>
         <div id="content">
           <div id="home" className="aligner">
-            <CategoriesNav categories={categories} />
+            <CategoriesNav
+              active={currentCategory}
+              categories={categories}
+              onClick={this.handleCategoryClick}
+            />
       
             <div id="home-products">
-              {
-                this.props.products.length > 0
-                ? (
-                  <Fragment>
-                    <ProductList
-                      auth={this.props.auth}
-                      products={
-                        this.props.searchResult === null
-                          ? this.props.products
-                          : this.props.searchResult
-                      }
-                    />
-                  </Fragment>
-                )
-                : <NoProducts role={this.props.auth.role} />
+              { loading
+                  ? <Spinner />
+                  : (
+                      !products.length
+                        ? <div className="no-prod">There are no products in this category</div>
+                        : <ProductList products={products} />
+                    )
               }
-            </div>  
+            </div>
           </div>
         </div>
       </div>
@@ -103,17 +119,15 @@ class Home extends Component{
 }
 
 const mapStateToProps = (state) => ({
-  products: state.productReducer.products,
-  searchResult: state.productReducer.searchResult,
-  auth: state.authReducer,
-  request: state.vendorReducer.request,
-  categories: state.categoryReducer
+  categories: state.categoryReducer.categories,
+  products: state.productReducer.homeProducts,
+  loading: state.productReducer.loading,
 });
 
 const mapDispatchToProps = {
-  setSearchResult,
   loadProducts,
-  getCategories
+  getCategories,
+  setHomeProducts
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

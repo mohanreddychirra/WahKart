@@ -7,27 +7,23 @@ import '../../stylesheets/category_nav.scss';
 class CategoriesNav extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      active: 0
-    }
   }
 
   render() {
-    const { categories } = this.props;
-    const { active } = this.state;
-
+    const { categories, active, onClick } = this.props;
+  
     return (
       <div id="category-nav" className="clearfix">
-        <Link to="#">
+        <Link to="#" onClick={() => onClick(null)}>
           <span
-            className={`${active === 0 ? 'active' : ''}`}
+            className={`${active === null ? 'active' : ''}`}
           >
             All Products
           </span>
         </Link>
 
         { categories.map(category => (
-          <Link key={category.id} to="#">
+          <Link key={category.id} to="#" onClick={() => onClick(category.id)}>
             <span
               className={`${active === category.id ? 'active' : ''}`}
             >

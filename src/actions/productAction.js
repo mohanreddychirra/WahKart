@@ -2,12 +2,19 @@ import axios from 'axios';
 import toastr from 'toastr';
 import { getToken } from '../helpers';
 
-export const setSearchResult = (value) => dispatch => dispatch({
-  type: 'UPDATE_SEARCH_RESULT',
+export const setProductLoading = value => dispatch => dispatch({
+  type: 'SET_PRODUCT_LOADING',
   value
 });
 
+export const setHomeProducts = (categoryId) => dispatch => dispatch({
+  type: 'SET_HOME_PRODUCTS',
+  categoryId
+})
+
 export const loadProducts = () => dispatch => {
+  dispatch(setProductLoading(true));
+
   return axios.get('/api/products')
     .then(response => {
       const { products } = response.data;
@@ -16,6 +23,8 @@ export const loadProducts = () => dispatch => {
         type: 'PRODUCT_FETCH_SUCCESS',
         products
       });
+
+      dispatch(setProductLoading(false));
     })
     .catch(error => {
       throw error;

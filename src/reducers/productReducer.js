@@ -1,6 +1,7 @@
 const initialState = {
   products: [],
-  searchResult: null,
+  loading: false,
+  homeProducts: [],
   product: null
 }
 
@@ -14,8 +15,23 @@ const updateProduct = (products, product) => {
   });
 }
 
+const filterProducts = (products, categoryId) => {
+  if (categoryId === null) return products;
+  return products.filter(product => product.categoryId == categoryId);
+}
+
 export default (state=initialState, action) => {
   switch(action.type) {
+    case 'SET_HOME_PRODUCTS': return {
+      ...state,
+      homeProducts: filterProducts(state.products, action.categoryId)
+    };
+
+    case 'SET_PRODUCT_LOADING': return {
+      ...state,
+      loading: action.value
+    }
+
     case 'REVIEW_POSTED_SUCCESSFULLY': return {
       ...state,
       product: {
