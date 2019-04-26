@@ -15,16 +15,22 @@ const updateProduct = (products, product) => {
   });
 }
 
-const filterProducts = (products, categoryId) => {
-  if (categoryId === null) return products;
+const filterProducts = (products, params) => {
+  return [];
+  if (categoryId == '') return products;
   return products.filter(product => product.categoryId == categoryId);
 }
 
 export default (state=initialState, action) => {
   switch(action.type) {
+    case 'SET_SEARCH_RESULTS' : return {
+      ...state,
+      homeProducts: action.products
+    };
+
     case 'SET_HOME_PRODUCTS': return {
       ...state,
-      homeProducts: filterProducts(state.products, action.categoryId)
+      homeProducts: filterProducts(state.products, action.params)
     };
 
     case 'SET_PRODUCT_LOADING': return {
@@ -57,11 +63,6 @@ export default (state=initialState, action) => {
     case 'PRODUCT_FETCH_FAILED': return {
       ...state,
       product: false
-    }
-
-    case 'UPDATE_SEARCH_RESULT': return {
-      ...state,
-      searchResult: action.value
     }
 
     case 'PRODUCT_FETCH_SUCCESS': return {

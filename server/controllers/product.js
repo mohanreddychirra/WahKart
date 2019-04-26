@@ -208,6 +208,31 @@ class ProductCtrl {
     }
   }
 
+  static searchProducts(req, res) {
+    const { query, categoryId } = req.body;
+    
+    const where = {
+      title: {
+        $iLike: `%${query}%`
+      },
+    }; 
+
+    if(categoryId != '') where.categoryId = categoryId;
+
+    Product.findAll({ where })
+      .then(products => {
+        return res.status(200).json({
+          message: 'Products fetched successfully',
+          products
+        });
+      })
+      .catch(() => {
+        res.status(500).json({
+          message: 'Error occured while searching products',
+        });
+      })
+  }
+
   /**
    * 
    * @description

@@ -2,14 +2,35 @@ import axios from 'axios';
 import toastr from 'toastr';
 import { getToken } from '../helpers';
 
+export const searchProducts = (query, categoryId) => dispatch => {
+  return axios.post('/api/products/search', {
+    query,
+    categoryId
+  })
+    .then(response => {
+      const { products } = response.data;
+
+      return dispatch({
+        type: 'SET_SEARCH_RESULTS',
+        products
+      });
+    })
+    .catch(() => {
+      return dispatch({
+        type: 'SET_SEARCH_RESULTS',
+        products: []
+      });
+    });
+}
+
 export const setProductLoading = value => dispatch => dispatch({
   type: 'SET_PRODUCT_LOADING',
   value
 });
 
-export const setHomeProducts = (categoryId) => dispatch => dispatch({
+export const setHomeProducts = (params) => dispatch => dispatch({
   type: 'SET_HOME_PRODUCTS',
-  categoryId
+  params
 })
 
 export const loadProducts = () => dispatch => {

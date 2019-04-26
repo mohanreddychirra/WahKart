@@ -48,6 +48,7 @@ app.post('/api/auth', AuthCtrl.authenticate);
 app.get('/api/products', ProductCtrl.getAll);
 app.get('/api/products/categories/:categoryId', ProductCtrl.getByCategory);
 app.post('/api/products', AuthMid.checkToken, ProductCtrl.addProduct);
+app.post('/api/products/search', ProductCtrl.searchProducts);
 app.get('/api/products/:productId', AuthMid.extractToken, ProductCtrl.getProduct);
 app.post('/api/products/:productId/reviews', AuthMid.checkToken, ReviewCtrl.postReview);
 // app.patch('/api/products/:productId/categories/:categoryId', AuthMid.checkToken, CategoryCtrl.addProduct);

@@ -3,15 +3,32 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import NavBar from './NavBar';
 import { logout } from '../../actions/authAction';
-import { setNavBarShow, setOverlayShow } from '../../actions/appAction';
+import { setNavBarShow, setOverlayShow, setHomeCategoryId } from '../../actions/appAction';
 import NavOutItems from './NavOutItems';
 import Overlay from './Overlay';
 import history from '../../history';
+import { searchProducts } from '../../actions/productAction';
 
 class Header extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      search: '',
+      category: this.props.homeCategoryId
+    }
+
     this.navIconClick = this.navIconClick.bind(this);
+    this.handleSearchChange = this.handleSearchChange.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
+    
+  }
+
+  shouldComponentUpdate(nextProps) {
+    if (this.props.homeCategoryId !== nextProps.homeCategoryId) {
+      this.setState({ category: nextProps.homeCategoryId });
+    }
+
+    return true;
   }
 
   setNavCompShow(show) {
@@ -28,10 +45,24 @@ class Header extends Component {
     history.push('/');
   }
 
+  handleSearchChange(event) {
+    const { target: { name, value }} = event;
+    this.setState({ [name]: value });
+  }
+
+  handleSearch() {
+    const { search, category } = this.state;
+    if(search.trim() == '') return;
+    this.props.setHomeCategoryId(category);
+    this.props.searchProducts(search, category);
+  }
+
   render() {
+    const { search, category } = this.state;
+
     const {
       showNavBar, orders, request,
-      cart, auth, logout, categories
+      cart, auth, logout, categories,
     } = this.props;
 
     return (
@@ -52,20 +83,25 @@ class Header extends Component {
               <input
                 type="text"
                 name="search"
+                value={search}
+                onChange={this.handleSearchChange}
                 placeholder="Search"
-                onChange={(e) => console.log(e.target.value)}
               />
 
-              <button type="button">
+              <button type="button" onClick={this.handleSearch}>
                 <i className="fas fa-search" />
               </button>
             </div>
             
             <div id="category-dropdown">
-              <select name="category">
-                <option value={null}>All Products</option>
+              <select
+                name="category"
+                value={category}
+                onChange={this.handleSearchChange}
+              >
+                <option value=''>All Products</option>
                 { categories.map(category => (
-                  <option key={category.id}>{category.name}</option>
+                  <option value={category.id} key={category.id}>{category.name}</option>
                 ))}
               </select>
             </div>
@@ -107,11 +143,15 @@ const mapStateToProps = (state) => ({
   orders: state.orderReducer.orders,
   request: state.vendorReducer.request,
   showNavBar: state.appReducer.showNavBar,
-  categories: state.categoryReducer.categories
+  categories: state.categoryReducer.categories,
+  homeCategoryId: state.appReducer.homeCategoryId
 });
 
 const mapDispatchToProps = {
-  logout, setNavBarShow, setOverlayShow
+  logout, setNavBarShow,
+  setOverlayShow,
+  setHomeCategoryId,
+  searchProducts
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

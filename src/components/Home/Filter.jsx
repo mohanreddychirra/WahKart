@@ -12,73 +12,16 @@ import {
 class Filter extends Component {
   constructor(props) {
     super(props);
-    this.handleCheckboxClick = this.handleCheckboxClick.bind(this);
-    this.handlePriceRangeChange = this.handlePriceRangeChange.bind(this);
-    this.matchProduct = this.matchProduct.bind(this);
+
     this.state = {
       min: '',
       max: '',
     }
   }
 
-  matchProduct(product) {
-    const price = parseInt(product.price.substr(1)) || 0;
-    const { filters: {min, max, shopIds } } = this.props;
-    const matchShopId = shopIds.includes(product.shopId);
-    let matchMinMax = false;
-
-    if (min && max) {
-      matchMinMax = price >= min && price <= max;
-    }
-
-    else if (min) {
-      matchMinMax = price >= min;
-    }
-
-    else if (max) {
-      matchMinMax = price <= max;
-    }
-
-    if (!shopIds.length) {
-      return matchMinMax
-    }
-    
-    if (!min && !max) {
-      return matchShopId;
-    }
-    
-    return matchShopId && matchMinMax;
-  }
-
-  handlePriceRangeChange(event) {
-    let { target: { name, value } } = event;
-
-    if (!value.match(/^[1-9][0-9]*$/)) {
-      value = value.replace(/[^0-9]/gi, '');
-    }
-    
-    this.setState({ [name]: value });
-    value = parseInt(value) || null;
-
-    if (name == 'min') {
-      this.props.setFilterMin(value);
-    } else {
-      this.props.setFilterMax(value);
-    }
-  }
-
-  handleCheckboxClick(event, id) {
-    const { target } = event;
-
-    if (target.checked) {
-      this.props.addFilterShopId(id);
-    } else {
-      this.props.removeFilterShopId(id);
-    }
-  }
-
   render() {
-    const { shops, filters: { shopIds, min, max } } = this.props;
+    const { shops, shopIds } = this.props;
+    const { min, max } = this.state;
 
     return (
       <div id="filter">
@@ -91,7 +34,7 @@ class Filter extends Component {
             shops.map(shop => (
               <div key={shop.id} className="one-shop-listing">
                 <input
-                  onClick={(event) => this.handleCheckboxClick(event, shop.id)}
+                  onClick={() => this.handleShopClick(shop.id)}
                   type="checkbox"
                   onChange={ () => null }
                   checked={ shopIds.includes(shop.id) }
@@ -124,6 +67,9 @@ class Filter extends Component {
               value={max ? max : this.state.max}
               onChange={this.handlePriceRangeChange}
             />
+            <button type="button" onClick={() => this.handlePriceRangeSet(min, max)}>
+              Set
+            </button>
           </div>
         </div>
       

@@ -83,18 +83,18 @@ html {
             }
   
             #price-filter {
-              text-align: center;
+              text-align: left;
               margin: 15px 0 0;
           
               #aligner {
                 display: inline-block;
             
                 input {
-                  width: 100px;
+                  width: 90px;
                   float: left;
                   padding: 8px 10px;
                   text-align: center;
-                  font-size: 15px;
+                  font-size: 13px;
                   font-weight: 400;
                   background: white;
                   border: 1px solid lightgray;
@@ -103,8 +103,22 @@ html {
   
                 span {
                   float: left;
-                  margin: 5px 15px 0;
+                  margin: 5px 10px 0;
                   font-weight: 600;
+                }
+
+                button {
+                  float: left;
+                  padding: 9px 20px;
+                  border-radius: 1px;
+                  font-size: 12px;
+                  font-weight: 400;
+                  background: #2D7DD2;
+                  color: white;
+                  margin: 0 0 0 10px;
+                  border: none;
+                  cursor: pointer;
+                  outline: none;
                 }
               }
             }

@@ -10,13 +10,14 @@ class CategoriesNav extends Component {
   }
 
   render() {
-    const { categories, active, onClick } = this.props;
-  
+    const { categories, onClick } = this.props;
+    const active = `${this.props.active}`;
+
     return (
       <div id="category-nav" className="clearfix">
-        <Link to="#" onClick={() => onClick(null)}>
+        <Link to="#" onClick={() => onClick('')}>
           <span
-            className={`${active === null ? 'active' : ''}`}
+            className={`${active == '' ? 'active' : ''}`}
           >
             All Products
           </span>
@@ -25,7 +26,7 @@ class CategoriesNav extends Component {
         { categories.map(category => (
           <Link key={category.id} to="#" onClick={() => onClick(category.id)}>
             <span
-              className={`${active === category.id ? 'active' : ''}`}
+              className={`${active == category.id ? 'active' : ''}`}
             >
               {category.name}
             </span>
