@@ -29,7 +29,7 @@ class NavOutItems extends Component {
               </Link>
     
               <Link to={
-                ['vendor', 'admin'].includes(auth.role)
+                ['vendor', 'admin', 'customer'].includes(auth.role)
                   ? `/${auth.role}`
                   : '#'
               }>

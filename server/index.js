@@ -16,6 +16,7 @@ import OrderCtrl from './controllers/order';
 import AdminCtrl from './controllers/admin';
 import ReviewCtrl from './controllers/review';
 import CategoryCtrl from './controllers/category';
+import CustomerCtrl from './controllers/customer';
 
 // create an express server
 const app = express();
@@ -43,6 +44,10 @@ app.get('/api', (req, res) => {
 app.post('/api/register', AuthCtrl.register);
 app.post('/api/login', AuthCtrl.login);
 app.post('/api/auth', AuthCtrl.authenticate);
+
+// customer endpoints
+app.get('/api/customers', AuthMid.checkToken, CustomerCtrl.get);
+app.put('/api/customers', AuthMid.checkToken, CustomerCtrl.update);
 
 // product routes
 app.get('/api/products', ProductCtrl.getAll);

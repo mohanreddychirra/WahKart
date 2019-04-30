@@ -138,6 +138,22 @@ body {
   }
 }
 
+.pagination {
+  display: inline-block;
+  border: 1px solid lightgray;
+  border-radius: 2px;
+  border-right: none;
+
+  span {
+    float: left;
+    padding: 8px 15px;
+    overflow: hidden;
+    font-size: 14px;
+    font-weight: 300;
+    text-align: center;
+    border-right: 1px solid lightgray;
+  }
+}
 .form-box {
   margin: 0 auto;
   min-width: 450px;

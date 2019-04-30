@@ -1,4 +1,5 @@
 import db from '../db/models';
+import { paginate, productPerPage } from '../utils';
 
 const { Product, Shop, Review, Auth, Order, OrderItem, Category } = db;
 
@@ -13,14 +14,28 @@ class ProductCtrl {
    * @param { Object } res 
    */
   static getAll(req, res) {
-    Product.findAll()
-      .then((products) => {
+    let { page } = req.query;
+    page = parseInt(page);
+    page = typeof page == 'number' && page > 0 ? page : 1;
+    const offset = productPerPage * (page - 1);
+
+    Product.findAndCountAll({
+      limit: productPerPage,
+      offset
+    })
+      .then((result) => {
+        const products = result.rows;
+        const total = result.count;
+        const pagination = paginate(total, productPerPage, page);
+
         res.status(200).json({
           message: 'Products fetched successfully',
-          products
+          products,
+          pagination
         });
       })
-      .catch(() => {
+      .catch((error) => {
+        console.log(error);
         res.status(500).json({
           message: 'Error occured while fetching products',
         });

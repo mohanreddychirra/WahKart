@@ -1,17 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { closeModal } from '../../actions/modalAction';
-import { setSearchResult } from '../../actions/productAction'; 
-import {
-  addFilterShopId,
-  removeFilterShopId,
-  setFilterMax,
-  setFilterMin
-} from '../../actions/modalAction';
 
 class Filter extends Component {
   constructor(props) {
     super(props);
+    this.handlePriceRangeChange = this.handlePriceRangeChange.bind(this);
+    this.handleShopClick = this.handleShopClick.bind(this);
 
     this.state = {
       min: '',
@@ -19,8 +13,19 @@ class Filter extends Component {
     }
   }
 
+  handlePriceRangeChange(event) {
+    const { target: { name, value }} = event;
+    this.setState({ [name]: value });
+  }
+
+  handleShopClick(event, id) {
+    this.props.handleShopClick(
+      id, event.target.checked
+    );
+  }
+
   render() {
-    const { shops, shopIds } = this.props;
+    const { shops, shopIds, handlePriceRangeSet } = this.props;
     const { min, max } = this.state;
 
     return (
@@ -34,7 +39,7 @@ class Filter extends Component {
             shops.map(shop => (
               <div key={shop.id} className="one-shop-listing">
                 <input
-                  onClick={() => this.handleShopClick(shop.id)}
+                  onClick={e => this.handleShopClick(e, shop.id)}
                   type="checkbox"
                   onChange={ () => null }
                   checked={ shopIds.includes(shop.id) }
@@ -67,7 +72,7 @@ class Filter extends Component {
               value={max ? max : this.state.max}
               onChange={this.handlePriceRangeChange}
             />
-            <button type="button" onClick={() => this.handlePriceRangeSet(min, max)}>
+            <button type="button" onClick={() => handlePriceRangeSet(min, max)}>
               Set
             </button>
           </div>
@@ -80,17 +85,8 @@ class Filter extends Component {
 
 const mapStateToProps = state => ({
   shops: state.shopReducer.shops,
-  products: state.productReducer.products,
-  filters: state.modalReducer.productFilter
 });
 
-const mapDispatchToProps = {
-  closeModal,
-  addFilterShopId,
-  removeFilterShopId,
-  setFilterMax,
-  setFilterMin,
-  setSearchResult
-}
+const mapDispatchToProps = {}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filter);

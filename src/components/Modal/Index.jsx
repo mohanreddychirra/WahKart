@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import '../../stylesheets/modal.scss';
 
-import FilterModal from './FilterModal';
-
 class Modal extends Component {
   constructor(props) {
     super(props);
@@ -17,7 +15,7 @@ class Modal extends Component {
       <div id="modal" style={{ display: `${ modal.open && modal.active ? 'block' : 'none' }` }}>
         <div id="overlay" />
         <div id="content">
-          { modal.active === 'productFilter' && <FilterModal /> }
+          {/* { modal.active === 'productFilter' && <FilterModal /> } */}
         </div>
       </div>
     );

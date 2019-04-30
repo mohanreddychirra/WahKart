@@ -1,3 +1,5 @@
+export const productPerPage = 8;
+
 export const capitalize = argument => {
   if (typeof argument !== 'string') return '';
 
@@ -10,4 +12,18 @@ export const capitalize = argument => {
         return `${start}${rest}`;
       }).join(' ')
   );
-} 
+}
+
+export const paginate = (total, perPage, page=1) => {
+  const rem = total % perPage;
+  const remPageCount = parseInt(total / perPage);
+  const pageCount = rem > 0 ? remPageCount + 1 : remPageCount;
+  const pageSize = pageCount !== page ? perPage : rem;
+  
+  return {
+    total,
+    pageCount,
+    page,
+    pageSize
+  }
+}

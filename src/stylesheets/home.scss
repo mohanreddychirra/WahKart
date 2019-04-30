@@ -137,7 +137,12 @@ html {
             margin: 0 auto;
 
             #home-products {
-              margin-top: 40px;
+              margin: 40px 0 80px; 
+
+              .pagination-wrapper {
+                margin: 20px auto 0;
+                text-align: center;
+              }
             }
             
             #no-product {

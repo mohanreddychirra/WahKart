@@ -6,19 +6,38 @@ const initialState = {
 }
 
 const updateProduct = (products, product) => {
-  return products.map(prod => {
-    if(prod.id === product.id) {
-      return product;
-    } else {
-      return prod
-    }
-  });
+  return products.map(prod => (
+    prod.id === product.id
+      ? product : prod
+  ));
 }
 
+const isInt = (value) => (
+  (
+    typeof value == 'number' ||
+    typeof value == 'string'
+  ) && !!(`${value}`.match(/^\d+$/))
+);
+
 const filterProducts = (products, params) => {
-  return [];
-  if (categoryId == '') return products;
-  return products.filter(product => product.categoryId == categoryId);
+  return products.filter(product => {
+    const categoryId = params.categoryId;
+    const shopIds = params.shopIds;
+    const { min, max } = params.price;
+
+    const price = parseInt(product.price.trim().substr(1));
+
+    const minPrice = isInt(min) > 0 ? parseInt(min) : null;
+    let maxPrice = isInt(max) > 0 ? parseInt(max) : null;
+    if (maxPrice && minPrice && maxPrice <= minPrice) maxPrice = minPrice;
+    
+    const check1 = categoryId == '' || `${product.categoryId}` == `${categoryId}`;
+    const check2 = !shopIds.length || shopIds.includes(product.shopId);
+    const check3 = !minPrice || price >= minPrice;
+    const check4 = !maxPrice || price <= maxPrice;
+
+    return check1 && check2 && check3 && check4;
+  });
 }
 
 export default (state=initialState, action) => {

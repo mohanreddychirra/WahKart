@@ -14,8 +14,9 @@ class Home extends Component{
   constructor(props) {
     super(props);
     this.handleCategoryClick = this.handleCategoryClick.bind(this);
-    this.handleShopClick = this.handleCategoryClick.bind(this);
-    this.handlePriceRangeSet = this.handleCategoryClick.bind(this);
+    this.handleShopClick = this.handleShopClick.bind(this);
+    this.handlePriceRangeSet = this.handlePriceRangeSet.bind(this);
+    this.doFilter = this.doFilter.bind(this);
     
     this.state = {
       categoryId: '',
@@ -34,37 +35,36 @@ class Home extends Component{
 
   componentWillReceiveProps(nextProps) {
     if (this.props.loading === true && nextProps.loading === false) {
-      this.props.setHomeProducts('');
+      this.props.setHomeProducts(this.state);
     }
   }
 
-  handleCategoryClick(categoryId) {
-    const params = { ...this.setState, categoryId };
-    this.props.setHomeCategoryId(categoryId);
+  doFilter(updates) {
+    const params = { ...this.state, ...updates };
     this.props.setHomeProducts(params);
-    this.setState(params);
+    this.setState({ ...params });
+  }
+
+  handleCategoryClick(categoryId) {
+    this.props.setHomeCategoryId(categoryId);
+    this.doFilter({ categoryId });
+    
   }
 
   handleShopClick(id, checked) {
     let shopIds = this.state.shopIds;
     if (checked) { shopIds.push(id); }
     else { shopIds = shopIds.filter(shopId => `${shopId}` !== `${id}`); }
-
-    // call filter hander in store
-    const params = { ...this.state, shopIds }
-    this.setState({ shopIds });
-    this.props.setHomeProducts(params);
-    this.setState(params);
+    this.doFilter({ shopIds: [ ...shopIds ] });
   }
 
   handlePriceRangeSet(min, max) {
-    const params = { ...this.setState, price: { min, max } };
-    this.props.setHomeProducts(params);
-    this.setState(params);
+    this.doFilter({ price: { min, max } });
   }
 
   render() {
     const { categories, loading, products, homeCategoryId } = this.props;
+    const { shopIds } = this.state;
 
     return (
       <div id="home-wrapper" className="clearfix">
@@ -73,7 +73,7 @@ class Home extends Component{
             handlePriceRangeSet={this.handlePriceRangeSet}
             handleShopClick={this.handleShopClick}
             handleCategoryClick={this.handleCategoryClick}
-            shopIds={this.state.shopIds}
+            shopIds={shopIds}
           />
         </div>
         <div id="content">

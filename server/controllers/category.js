@@ -106,7 +106,7 @@ class CategoryCtrl {
         res.status(500).json({
           message: 'Error occured while getting category'
         });
-      });;
+      });
   }
 
   static updateCategory(req, res) {
