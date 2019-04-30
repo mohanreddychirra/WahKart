@@ -63,7 +63,7 @@ class Home extends Component{
   }
 
   render() {
-    const { categories, loading, products, homeCategoryId } = this.props;
+    const { auth, categories, loading, products, homeCategoryId } = this.props;
     const { shopIds } = this.state;
 
     return (
@@ -90,7 +90,12 @@ class Home extends Component{
                   : (
                       !products.length
                         ? <div className="no-prod">There are no products in this category</div>
-                        : <ProductList products={products} />
+                        : (
+                          <ProductList
+                            products={products}
+                            auth={auth}
+                          />
+                        )
                     )
               }
             </div>
@@ -102,6 +107,7 @@ class Home extends Component{
 }
 
 const mapStateToProps = (state) => ({
+  auth: state.authReducer,
   categories: state.categoryReducer.categories,
   products: state.productReducer.homeProducts,
   loading: state.productReducer.loading,
