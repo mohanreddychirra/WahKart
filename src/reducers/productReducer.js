@@ -42,6 +42,24 @@ const filterProducts = (products, params) => {
 
 export default (state=initialState, action) => {
   switch(action.type) {
+    case 'REVIEW_DELETED_SUCCESSFULLY': return {
+      ...state,
+      product: {
+        ...state.product,
+        Reviews: state.product.Reviews.filter(review => (`${review.id}` != `${action.reviewId}`)),
+        canPostReview: true
+      }
+    }
+
+    case 'UNSET_CAN_POST_REVIEW' : return {
+      ...state,
+      product: {
+        ...state.product,
+        Reviews: state.product.Reviews.filter(review => (`${review.id}` != `${action.reviewId}`)),
+        canPostReview: true
+      }
+    }
+
     case 'SET_SEARCH_RESULTS' : return {
       ...state,
       homeProducts: action.products

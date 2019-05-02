@@ -65,26 +65,11 @@ body {
   margin: 0 auto;
 }
 
-.star-group {
+.stargrp {
   display: inline-block;
 
-  &:after {
-    display: inline-block;
-    content: "";
-    clear: both;
-  }
-
-  .star {
-    all: unset;
-    float: right;
-    margin-left: 5px;
-    outline: none !important;
-    font-size: 18px;
-    color: lightgray;
-
-    &.active {
-      color: #ffdc00;
-    }
+  .active {
+    color: #ffdc00;
   }
 }
 

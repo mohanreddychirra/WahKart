@@ -56,6 +56,8 @@ app.post('/api/products', AuthMid.checkToken, ProductCtrl.addProduct);
 app.post('/api/products/search', ProductCtrl.searchProducts);
 app.get('/api/products/:productId', AuthMid.extractToken, ProductCtrl.getProduct);
 app.post('/api/products/:productId/reviews', AuthMid.checkToken, ReviewCtrl.postReview);
+app.put('/api/products/:productId/reviews', AuthMid.checkToken, ReviewCtrl.updateReview);
+app.delete('/api/reviews/:id', AuthMid.checkToken, ReviewCtrl.deleteReview);
 // app.patch('/api/products/:productId/categories/:categoryId', AuthMid.checkToken, CategoryCtrl.addProduct);
 // app.patch('/api/products/:productId', AuthMid.checkToken, ProductCtrl.removeFromCategory);
 app.put('/api/products/:productId', AuthMid.checkToken, ProductCtrl.editProduct);
