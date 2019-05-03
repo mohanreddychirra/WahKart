@@ -260,6 +260,12 @@ class ProductCtrl {
    */
   static editProduct(req, res) {
     let { id } = req.payload;
+    console.log('\n\n\n\n');
+    console.log(req.file);
+    console.log(req.image);
+    console.log(req.body.image);
+    console.log('\n\n\n\n');
+    return;
     let { title, price, image, shopId, categoryId } = req.body;
     const { productId } = req.params;
 

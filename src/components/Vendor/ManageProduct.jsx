@@ -6,6 +6,7 @@ import { addProduct, editProduct } from '../../actions/productAction';
 import '../../stylesheets/product.scss'
 import Wrapper from './Wrapper';
 import { getCategories } from '../../actions/categoryAction';
+import iFormData from 'form-data';
 
 class ManageProduct extends Component {
   constructor(props) {
@@ -13,6 +14,7 @@ class ManageProduct extends Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.extractProductDetails = this.extractProductDetails.bind(this);
+    this.onImageChange = this.onImageChange.bind(this);
 
     this.state = {
       page: 0,
@@ -22,7 +24,8 @@ class ManageProduct extends Component {
         price: '',
         categoryId: '',
         image: '',
-      }
+      },
+      selectedImage: null
     }
   }
 
@@ -84,6 +87,11 @@ class ManageProduct extends Component {
     return true;
   }
 
+  onImageChange(event) {
+    const { target: { value }} = event;
+    this.setState({ selectedImage: value });
+  }
+
   onChange(event) {
     const { target: { name, value } } = event;
 
@@ -97,13 +105,20 @@ class ManageProduct extends Component {
   }
 
   onSubmit(event) {
-    const { shopId, history, match: { params: { productId }} } = this.props;
-    const { page } = this.state;
     event.preventDefault();
+    const { shopId, history, match: { params: { productId }} } = this.props;
+    const { page, form: { title, price, categoryId } , selectedImage } = this.state;
+
+    const formData = new iFormData();
+    formData.append('shopId', shopId);
+    formData.append('title', title);
+    formData.append('price', price);
+    formData.append('categoryId', categoryId);
+    formData.append('image', selectedImage);
 
     const promise = page === 0
-      ? this.props.addProduct(this.state.form, shopId)
-      : this.props.editProduct(productId, this.state.form, shopId);
+      ? this.props.addProduct(formData)
+      : this.props.editProduct(productId, formData,);
 
     promise
       .then(() => {
@@ -185,15 +200,22 @@ class ManageProduct extends Component {
                   onChange={this.onChange}
                 />
               </div>
-
+              
               <div className="fieldset">
-                <label>Image URL</label>
-                <input
-                  name="image"
-                  type="text"
-                  value={form.image}
-                  onChange={this.onChange}
-                />
+                <div className="row" id="image-section">
+                  <div className="col col-8">
+                    <label>Select image</label>
+                    <input
+                      name="image"
+                      type="file"
+                      accept="image/png, image/jpeg"
+                      onChange={this.onImageChange}
+                    />
+                  </div>
+                  <div className="col col-4">
+                    <img src={form.image} />
+                  </div>
+                </div>
               </div>
 
               <button
@@ -214,7 +236,7 @@ const mapStateToProps = (state) => ({
   auth: state.authReducer,
   products: state.productReducer.products,
   shopId: state.vendorReducer.shop ? state.vendorReducer.shop.id : null,
-  categories: state.categoryReducer
+  categories: state.categoryReducer.categories
 });
 
 const mapDispatchToProps = {

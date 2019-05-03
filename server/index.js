@@ -17,6 +17,7 @@ import AdminCtrl from './controllers/admin';
 import ReviewCtrl from './controllers/review';
 import CategoryCtrl from './controllers/category';
 import CustomerCtrl from './controllers/customer';
+import uploader from './uploader';
 
 // create an express server
 const app = express();
@@ -60,7 +61,7 @@ app.put('/api/products/:productId/reviews', AuthMid.checkToken, ReviewCtrl.updat
 app.delete('/api/reviews/:id', AuthMid.checkToken, ReviewCtrl.deleteReview);
 // app.patch('/api/products/:productId/categories/:categoryId', AuthMid.checkToken, CategoryCtrl.addProduct);
 // app.patch('/api/products/:productId', AuthMid.checkToken, ProductCtrl.removeFromCategory);
-app.put('/api/products/:productId', AuthMid.checkToken, ProductCtrl.editProduct);
+app.put('/api/products/:productId', AuthMid.checkToken, uploader.single('image'), ProductCtrl.editProduct);
 app.delete('/api/products/:productId', AuthMid.checkToken, ProductCtrl.deleteProduct);
 
 // cart items routes

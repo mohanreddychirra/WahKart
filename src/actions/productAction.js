@@ -90,10 +90,11 @@ export const addProduct = (productDetails, shopId) => dispatch => (
     })
 );
 
-export const editProduct = (productId, productDetails, shopId) => dispatch => (
-  axios.put(`/api/products/${productId}`, { ...productDetails, shopId }, {
+export const editProduct = (productId, formData) => dispatch => (
+  axios.put(`/api/products/${productId}`, formData, {
     headers: {
-      token: getToken()
+      token: getToken(),
+      'Content-Type': 'multipart/form-data'
     }
   })
     .then(response => {
