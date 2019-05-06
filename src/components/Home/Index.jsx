@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import ProductList from './ProductList';
+import ProductList from '../common/ProductList';
 import Spinner from '../common/Spinner';
 import { loadProducts, setHomeProducts } from '../../actions/productAction';
 import CategoriesNav from '../common/CategoriesNav';

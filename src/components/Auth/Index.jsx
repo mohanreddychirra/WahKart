@@ -56,7 +56,6 @@ class Auth extends Component {
 
     promise
       .catch(error => {
-        console.log(error);
         const message = error.response.data.message;
         this.setState({ error: message });
       });

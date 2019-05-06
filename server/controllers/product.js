@@ -1,4 +1,5 @@
 import db from '../db/models';
+import fs from 'fs';
 import { paginate, productPerPage } from '../utils';
 
 const { Product, Shop, Review, Auth, Order, OrderItem, Category } = db;
@@ -87,7 +88,7 @@ class ProductCtrl {
    * 
    * @returns { true | false }
    */
-  static validateProduct(res, title, price, image, shopId, categoryId) {
+  static validateProduct(res, title, price, shopId, categoryId, imageFile) {
     if (!shopId || !`${shopId}`.match(/^[0-9]+$/)) {
       res.status(400).json({
         message: "Invalid shopId",
@@ -119,16 +120,14 @@ class ProductCtrl {
       return false;
     }
 
-    else if (!image || image.trim().length === 0) {
+    else if (imageFile !== false && !imageFile) {
       res.status(400).json({
         message: 'Image provided is invalid',
       });
       return false;
     }
 
-    else {
-      return true;
-    }
+    return true;
   }
 
   static vendorAccessShop(res, vendorId, shopId) {
@@ -163,17 +162,20 @@ class ProductCtrl {
    */
   static addProduct(req, res) {
     let { id } = req.payload;
-    let { title, price, image, shopId, categoryId } = req.body;
+    console.log('\n\n\n');
+    console.log(req.body);
+    console.log('\n\n\n');
+    let { title, price, shopId, categoryId } = req.body;
+    const imageFile = req.file;
     // runs the validation function and run the below code
     // if validation was successfull
-    if (ProductCtrl.validateProduct(res, title, price, image, shopId, categoryId)) {
+    if (ProductCtrl.validateProduct(res, title, price, shopId, categoryId, imageFile)) {
       ProductCtrl.vendorAccessShop(res, id, shopId)
         .then((status) => {
           if (status !== true ) return;
 
           title = title.trim();
           price = price.trim();
-          image = image.trim();
 
           // check if product already exist by checking the Products table
           // for entry with the provided title in a case insensitive manner. 
@@ -194,7 +196,7 @@ class ProductCtrl {
                 Product.create({
                   title,
                   price,
-                  image,
+                  image: imageFile.path.substring(6),
                   shopId,
                   categoryId
                 })
@@ -205,7 +207,6 @@ class ProductCtrl {
                     });
                   })
                   .catch(error => {
-                    console.log(error);
                     res.status(500).json({
                       message: 'Internal server error',
                       error
@@ -260,25 +261,18 @@ class ProductCtrl {
    */
   static editProduct(req, res) {
     let { id } = req.payload;
-    console.log('\n\n\n\n');
-    console.log(req.file);
-    console.log(req.image);
-    console.log(req.body.image);
-    console.log('\n\n\n\n');
-    return;
-    let { title, price, image, shopId, categoryId } = req.body;
+    let { title, price, shopId, categoryId } = req.body;
     const { productId } = req.params;
 
     // runs the validation function and run the below code
     // if validation was successfull
-    if (ProductCtrl.validateProduct(res, title, price, image, shopId, categoryId)) {
+    if (ProductCtrl.validateProduct(res, title, price, shopId, categoryId, false)) {
       ProductCtrl.vendorAccessShop(res, id, shopId)
         .then((status) => {
           if (status !== true ) return;
 
           title = title.trim();
           price = price.trim();
-          image = image.trim();
 
           // check if product actually exist before trying to update it
           Product.findOne({
@@ -292,8 +286,17 @@ class ProductCtrl {
               if(product) {
                 product.title = title;
                 product.price = price;
-                product.image = image;
                 product.categoryId = categoryId;
+
+                if(req.file) {
+                  const filepath = 'public/' + product.image;
+        
+                  if(fs.existsSync(filepath)) {
+                    fs.unlinkSync(filepath);
+                  }
+                  product.image = req.file.path.substring(6);
+                }
+              
                 product.save();
 
                 res.status(200).json({
@@ -307,6 +310,7 @@ class ProductCtrl {
               }
             })
             .catch((error) => {
+              console.log(error);
               res.status(500).json({
                 message: 'Error occured while updating product',
                 error

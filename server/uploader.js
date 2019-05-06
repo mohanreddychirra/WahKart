@@ -1,11 +1,12 @@
 import multer from 'multer';
+import path from 'path';
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
-    return callback(null, '/public/images');
+    callback(null, 'public/images/products');
   },
   filename: (req, file, callback) => {
-    callback(null, 'image-' + Date.now());
+    callback(null, 'IMG' + Date.now() + path.extname(file.originalname));
   }
 });
 

@@ -18,8 +18,6 @@ class Wrapper extends Component {
   componentWillMount() {
     const { auth: { role, inProgress, noLogin } } = this.props;
     
-    console.log(inProgress);
-
     if(!inProgress) {
       if (noLogin || role != 'vendor') {
         history.push(homePath(role));

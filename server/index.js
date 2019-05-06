@@ -32,6 +32,7 @@ if(process.env.NODE_ENV === 'production') {
 }
 
 app.use(bodyParser());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // declare routes for different endpoint
 // expected to be consumed by API
@@ -53,7 +54,7 @@ app.put('/api/customers', AuthMid.checkToken, CustomerCtrl.update);
 // product routes
 app.get('/api/products', ProductCtrl.getAll);
 app.get('/api/products/categories/:categoryId', ProductCtrl.getByCategory);
-app.post('/api/products', AuthMid.checkToken, ProductCtrl.addProduct);
+app.post('/api/products', uploader.single('image'), AuthMid.checkToken, ProductCtrl.addProduct);
 app.post('/api/products/search', ProductCtrl.searchProducts);
 app.get('/api/products/:productId', AuthMid.extractToken, ProductCtrl.getProduct);
 app.post('/api/products/:productId/reviews', AuthMid.checkToken, ReviewCtrl.postReview);
@@ -61,7 +62,7 @@ app.put('/api/products/:productId/reviews', AuthMid.checkToken, ReviewCtrl.updat
 app.delete('/api/reviews/:id', AuthMid.checkToken, ReviewCtrl.deleteReview);
 // app.patch('/api/products/:productId/categories/:categoryId', AuthMid.checkToken, CategoryCtrl.addProduct);
 // app.patch('/api/products/:productId', AuthMid.checkToken, ProductCtrl.removeFromCategory);
-app.put('/api/products/:productId', AuthMid.checkToken, uploader.single('image'), ProductCtrl.editProduct);
+app.put('/api/products/:productId', uploader.single('image'),  AuthMid.checkToken, ProductCtrl.editProduct);
 app.delete('/api/products/:productId', AuthMid.checkToken, ProductCtrl.deleteProduct);
 
 // cart items routes

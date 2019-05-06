@@ -16,7 +16,7 @@ class Header extends Component {
       search: '',
       category: this.props.homeCategoryId
     }
-
+    this.productAddClick = this.productAddClick.bind(this);
     this.navIconClick = this.navIconClick.bind(this);
     this.handleSearchChange = this.handleSearchChange.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
@@ -57,6 +57,10 @@ class Header extends Component {
     this.props.searchProducts(search, category);
   }
 
+  productAddClick() {
+    history.push('/product/add');
+  }
+
   render() {
     const { search, category } = this.state;
 
@@ -88,7 +92,7 @@ class Header extends Component {
                 placeholder="Search"
               />
 
-              <button type="button" onClick={this.handleSearch}>
+              <button type="button" style={{ float: 'left' }} onClick={this.handleSearch}>
                 <i className="fas fa-search" />
               </button>
             </div>
@@ -105,6 +109,14 @@ class Header extends Component {
                 ))}
               </select>
             </div>
+
+            {auth.role === 'vendor' && request && (
+              <div id="product-add">
+                <button onClick={this.productAddClick}>
+                  <i className="fas fa-plus-circle" />
+                </button>
+              </div>
+            )}
 
             <div id="nav-icon">
               <Link to="#" onClick={() => this.navIconClick()}>

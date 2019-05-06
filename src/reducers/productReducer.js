@@ -106,25 +106,12 @@ export default (state=initialState, action) => {
       ...state,
       products: [ ...action.products ]
     }
-
-    case 'PRODUCT_ADD_SUCCESS': return {
-      ...state,
-      products: [
-        action.product,
-        ...state.products
-      ]
-    }
     
     case 'PRODUCT_UPDATE_SUCCESS': return {
       ...state,
       products: [
         ...updateProduct(state.products, action.product)
       ]
-    }
-
-    case 'PRODUCT_DELETE_SUCCESS': return {
-      ...state,
-      products: state.products.filter(product => product.id !== action.productId)
     }
 
     case 'AUTH_LOGOUT': return {

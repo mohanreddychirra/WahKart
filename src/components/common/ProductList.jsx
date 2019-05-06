@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
-import ProductCard from '../common/ProductCard';
-import Pagination from '../common/Pagination';
+import ProductCard from './ProductCard';
+// import Pagination from './Pagination';
 import '../../stylesheets/home.scss';
 
 const ProductList = (props) => (
@@ -11,15 +11,16 @@ const ProductList = (props) => (
             <ProductCard
               id={product.id}
               auth={props.auth}
+              isVendorPage={props.isVendorPage}
               title={product.title}
+
               price={product.price}
               image={product.image}
             />
           </div>
       ))}
     </div>
-
-    <div className="pagination-wrapper"><Pagination /></div>
+    {/* <div className="pagination-wrapper"><Pagination /></div> */}
   </Fragment>
 );
 

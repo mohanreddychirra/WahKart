@@ -30,7 +30,7 @@ const loadData = (user, dispatch) => {
       details.shop = newShop;
       
       dispatch({
-       type: 'PRODUCT_FETCH_SUCCESS',
+       type: 'VENDOR_PRODUCT_FETCH_SUCCESS',
        products: Products
       });
     }

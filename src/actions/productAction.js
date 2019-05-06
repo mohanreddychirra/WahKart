@@ -71,8 +71,8 @@ export const loadVendorProducts = () => dispatch => {
     })
 };
 
-export const addProduct = (productDetails, shopId) => dispatch => (
-  axios.post('/api/products', { ...productDetails, shopId }, {
+export const addProduct = (formData) => dispatch => (
+  axios.post('/api/products', formData, {
     headers: {
       token: getToken()
     }

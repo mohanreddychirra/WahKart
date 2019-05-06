@@ -26,7 +26,7 @@ class ProductCard extends Component {
   }
 
   render() {
-    const { auth, cart, inCart, id, title, price, image } = this.props;
+    const { auth, cart, inCart, id, title, price, image, isVendorPage } = this.props;
 
     return (
       <div className="product-card">
@@ -66,7 +66,7 @@ class ProductCard extends Component {
               }
 
               {
-                auth && auth.role === 'vendor' && (
+                auth && isVendorPage && auth.role === 'vendor' && (
                   <Fragment>
                     <Link to="#" onClick={() => this.deleteProductHandler(id)}>
                       <span className="cart ml-3">
