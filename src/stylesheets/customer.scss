@@ -1,56 +1,98 @@
 @import './global.scss';
 
-#customer {
-  #customer-form {
-    display: block;
-    width: 32%;
-    margin: 5% auto 0;
+@import './global.scss';
 
-    p {
-      display: block;
-      padding: 15px 20px;
-      border-radius: 2px;
-      font-size: 16px;
-      background: #F1F1F1;
-      margin-bottom: 40px;
-    }
+@mixin fill {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;  
+}
 
-    div {
-      display: block;
-      margin-bottom: 20px;
+html {
+  @include fill(); 
+  body {
+    @include fill();
 
-      label {
-        display: block;
-        font-size: 16px;
-        font-weight: 300;
-        margin-bottom: 5px;
+    #app-view {
+      @include fill();
+
+      #customer-wrapper {
+        @include fill();
+        
+        #sidebar {
+          float: left;
+          height: 100%;
+          width: 23%;
+          border-right: 1px solid #E8E8E8;
+
+          #customer-form {
+            display: block;
+            width: 90%;
+            margin: 5% auto 0;
+        
+            p {
+              display: block;
+              padding: 15px 20px;
+              border-radius: 2px;
+              font-size: 16px;
+              background: #F1F1F1;
+              margin-bottom: 40px;
+            }
+        
+            div {
+              display: block;
+              margin-bottom: 20px;
+        
+              label {
+                display: block;
+                font-size: 16px;
+                font-weight: 300;
+                margin-bottom: 5px;
+              }
+        
+              input {
+                display: block;
+                width: 100%;
+                font-size: 16px;
+                font-weight: 300;
+                border: 1px solid lightgray;
+                padding: 8px 10px;
+                border-radius: 4px;
+              }
+            }
+        
+            button {
+              display: block;
+              width: 100%;
+              text-align: center;
+              padding: 10px 0;
+              border-radius: 2px;
+              color: $white;
+              font-size: 16px;
+              cursor: pointer;
+              outline: none;
+              margin: 20px auto 30px;
+              font-weight: 300;
+              border: none;
+              background: $blue;
+            }
+          }
+        }
+        
+        #content {
+          float: left;
+          height: 100%;
+          width: 77%;
+          overflow-x: hidden;
+          overflow-y: auto;
+
+          #product-wrapper {
+            width: 99%;
+            margin: 30px  auto;
+          }
+        }
       }
-
-      input {
-        display: block;
-        width: 100%;
-        font-size: 16px;
-        font-weight: 300;
-        border: 1px solid lightgray;
-        padding: 8px 10px;
-        border-radius: 4px;
-      }
-    }
-
-    button {
-      display: block;
-      width: 100%;
-      text-align: center;
-      padding: 10px 0;
-      border-radius: 2px;
-      color: $white;
-      font-size: 16px;
-      cursor: pointer;
-      outline: none;
-      margin: 20px auto 30px;
-      font-weight: 300;
-      border: none;
-      background: $blue;
     }
   }
 }
+

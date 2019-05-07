@@ -1,15 +1,10 @@
+import { updateProduct } from '../utils';
+
 const initialState = {
   products: [],
   loading: false,
   homeProducts: [],
   product: null
-}
-
-const updateProduct = (products, product) => {
-  return products.map(prod => (
-    prod.id === product.id
-      ? product : prod
-  ));
 }
 
 const isInt = (value) => (

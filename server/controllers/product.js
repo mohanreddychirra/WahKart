@@ -162,9 +162,6 @@ class ProductCtrl {
    */
   static addProduct(req, res) {
     let { id } = req.payload;
-    console.log('\n\n\n');
-    console.log(req.body);
-    console.log('\n\n\n');
     let { title, price, shopId, categoryId } = req.body;
     const imageFile = req.file;
     // runs the validation function and run the below code
@@ -310,7 +307,6 @@ class ProductCtrl {
               }
             })
             .catch((error) => {
-              console.log(error);
               res.status(500).json({
                 message: 'Error occured while updating product',
                 error

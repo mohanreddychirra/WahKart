@@ -1,6 +1,6 @@
 import db from '../db/models';
 
-const { Customer } = db;
+const { Customer, ViewedProduct, Product } = db;
 
 const defaultCustomer = {
   firstName: '',
@@ -9,6 +9,76 @@ const defaultCustomer = {
 }
 
 class CustomerCtrl {
+  static getViewed(req, res) {
+    const { id } = req.payload;
+
+    ViewedProduct.findAll({
+      where: {
+        customerId: id,
+      },
+      include: [
+        {
+          model: Product
+        }
+      ]
+    })
+      .then(products => {
+        if(!products) products = [];
+
+        products = products.map(record => record.Product);
+
+        return res.status(200).json({
+          message: 'Viewed product fetched',
+          products
+        });
+      })
+      .catch(() => {
+        res.status(500).json({
+          message: 'Error occured while confirming existence'
+        });
+      })
+  }
+
+  static setViewed(req, res) {
+    const { id } = req.payload;
+    const { productId } = req.params;
+
+    ViewedProduct.findOne({
+      where: {
+        customerId: id,
+        productId
+      }
+    })
+      .then(record => {
+        if(!record) {
+          ViewedProduct.create({
+            customerId: id,
+            productId
+          })
+            .then(() => {
+              return res.status(201).json({
+                message: 'Product set for customer as viewed product'
+              });
+            })
+            .catch(() => {
+              res.status(500).json({
+                message: 'Error occured while setting a product as viewed product for customer'
+              });
+            })
+        }
+        else {
+          return res.status(200).json({
+            message: 'Product already viewed'
+          });
+        }
+      })
+      .catch(() => {
+        res.status(500).json({
+          message: 'Error occured while confirming existence'
+        });
+      })   
+  }
+
   static get(req, res) {
     const { id } = req.payload;
     Customer.findOne({

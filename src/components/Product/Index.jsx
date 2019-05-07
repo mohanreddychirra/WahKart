@@ -6,6 +6,7 @@ import { postReview, reviewEdit, updateReview, deleteReview } from '../../action
 import ReviewList from './ReviewList';
 import toastr from 'toastr';
 import Stars from './Stars';
+import { setProductViewed } from '../../actions/customerAction';
 
 class Product extends Component {
   constructor(props) {
@@ -83,11 +84,13 @@ class Product extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { product } = nextProps;
+    const { product, auth } = nextProps;
 
     if (product === false) {
       history.push('/');
       return
+    } else if (product && auth && auth.role == 'customer') {
+      this.props.setProductViewed(product);
     }
   }
 
@@ -181,6 +184,10 @@ const mapStateToProps = ({ authReducer, productReducer }) => ({
   auth: authReducer
 });
 
-const mapDispatchToProps = { getProduct, postReview, reviewEdit, updateReview, deleteReview };
+const mapDispatchToProps = {
+  getProduct, postReview,
+  reviewEdit, updateReview,
+  deleteReview, setProductViewed
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Product);

@@ -40,3 +40,10 @@ export const adminRedirectPath = (pathname) => {
   const match = allowedPaths.some(allowedPath => !!pathname.match(allowedPath));
   return match ? pathname : '/';
 }
+
+export const updateProduct = (products, product) => {
+  return products.map(prod => (
+    prod.id === product.id
+      ? product : prod
+  ));
+}

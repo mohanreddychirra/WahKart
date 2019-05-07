@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { updateCustomer, getCustomer } from '../../actions/CustomerAction';
-
-import '../../stylesheets/customer.scss';
+import { updateCustomer, getCustomer, getProductViewed } from '../../actions/customerAction';
+import { connect } from 'react-redux';
+import ProductList from '../common/ProductList';
 import Wrapper from './Wrapper';
 
+import '../../stylesheets/customer.scss';
 class Customer extends Component {
   constructor(props) {
     super(props);
@@ -21,6 +22,8 @@ class Customer extends Component {
   }
 
   componentWillMount() {
+    this.props.getProductViewed();
+
     getCustomer()
       .then(customer => {
         if(customer) {
@@ -64,52 +67,64 @@ class Customer extends Component {
 
   render() {
     const { firstName, lastName, address } = this.state.data;
+    const { auth, products } = this.props;
 
     return (
       <Wrapper>
-        <div id="customer">
-          <div id="customer-form">
-            <p>{this.getMessage()}</p>
+        <div id="customer-wrapper" className="clearfix">
+          <div id="sidebar">
+            <div id="customer-form">
+              <p>{this.getMessage()}</p>
 
-            <div>
-              <label>First name</label>
-              <input
-                type="text"
-                name="firstName"
-                placeholder="Enter first name"
-                value={firstName}
-                onChange={this.onChange}
+              <div>
+                <label>First name</label>
+                <input
+                  type="text"
+                  name="firstName"
+                  placeholder="Enter first name"
+                  value={firstName}
+                  onChange={this.onChange}
+                />
+              </div>
+
+              <div>
+                <label>Last name</label>
+                <input
+                  type="text"
+                  name="lastName"
+                  placeholder="Enter last name"
+                  value={lastName}
+                  onChange={this.onChange}
+                />
+              </div>
+
+              <div>
+                <label>Address</label>
+                <input
+                  type="text"
+                  name="address"
+                  placeholder="Enter first name"
+                  value={address}
+                  onChange={this.onChange}
+                />
+              </div>
+
+              <button
+                type="button"
+                onClick={this.onSubmit}
+              >
+                Update
+              </button>
+            </div>      
+          </div>
+        
+          <div id="content">
+            <div id="product-wrapper">
+              <ProductList
+                auth={auth}
+                products={products}
               />
             </div>
-
-            <div>
-              <label>Last name</label>
-              <input
-                type="text"
-                name="lastName"
-                placeholder="Enter last name"
-                value={lastName}
-                onChange={this.onChange}
-              />
-            </div>
-
-            <div>
-              <label>Address</label>
-              <input
-                type="text"
-                name="address"
-                placeholder="Enter first name"
-                value={address}
-                onChange={this.onChange}
-              />
-            </div>
-
-            <button
-              type="button"
-              onClick={this.onSubmit}
-            >
-              Update
-            </button>
           </div>
         </div>
       </Wrapper>
@@ -117,4 +132,11 @@ class Customer extends Component {
   }
 }
 
-export default Customer;
+const mapStateToProps = state => ({
+  auth: state.authReducer,
+  products: state.customerReducer.products
+});
+
+const mapDispatchToProps = {getProductViewed}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Customer);

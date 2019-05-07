@@ -99,7 +99,6 @@ export const editProduct = (productId, formData) => dispatch => (
   })
     .then(response => {
       const { product } = response.data;
-
       dispatch({
         type: 'PRODUCT_UPDATE_SUCCESS',
         product

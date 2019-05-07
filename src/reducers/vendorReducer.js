@@ -1,3 +1,5 @@
+import { updateProduct } from '../utils';
+
 const initialState = {
   shop: null,
   request: null,
@@ -30,6 +32,13 @@ export default (state=initialState, action) => {
       ]
     }
 
+    case 'PRODUCT_UPDATE_SUCCESS': return {
+      ...state,
+      products: [
+        ...updateProduct(state.products, action.product)
+      ]
+    }
+    
     case 'AUTH_LOGOUT': return {
       ...initialState
     }

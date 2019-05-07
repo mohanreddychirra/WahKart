@@ -49,6 +49,8 @@ app.post('/api/auth', AuthCtrl.authenticate);
 
 // customer endpoints
 app.get('/api/customers', AuthMid.checkToken, CustomerCtrl.get);
+app.get('/api/customers/products', AuthMid.checkToken, CustomerCtrl.getViewed);
+app.post('/api/customers/products/:productId', AuthMid.checkToken, CustomerCtrl.setViewed);
 app.put('/api/customers', AuthMid.checkToken, CustomerCtrl.update);
 
 // product routes
