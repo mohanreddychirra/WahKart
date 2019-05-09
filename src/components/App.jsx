@@ -12,6 +12,7 @@ import Vendor from './Vendor/Index';
 import VendorRequests from './Admin/VendorRequests';
 import Admin from './Admin/Index';
 import Customer from './Customer/Index';
+import VendorOrders from './Vendor/VendorOrders';
 
 import '../stylesheets/header.scss';
 import '../stylesheets/navbar.scss';
@@ -27,6 +28,7 @@ const App = () => (
       <Route exact path="/register" component={Auth} />
       <Route exact path="/cart" component={Cart} />
       <Route exact path="/vendor" component={Vendor} />
+      <Route exact path="/vendor/orders" component={VendorOrders} />
       <Route exact path="/admin" component={Admin} />
       <Route exact path="/customer" component={Customer} />
       <Route exact path="/admin/requests" component={VendorRequests} />

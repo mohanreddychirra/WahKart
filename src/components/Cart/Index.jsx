@@ -44,7 +44,7 @@ class Cart extends Component {
       <div id="cart-div" className="aligner">
         <div className="row">
           <div className="col-12 col-xl-8">
-            <header>
+            <header className="head">
               <span>{ products.length }</span>
               Products added to cart
             </header>

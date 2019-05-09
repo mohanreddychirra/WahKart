@@ -5,3 +5,39 @@
   width: 92%;
   margin: 40px auto;
 }
+
+#vendor-orders-wrap {
+  display: block;
+  margin: 30px auto;
+  width: 90%;
+  
+  #vendor-orders { 
+    .row {
+      border:1px solid lightgray;
+      background: #F7F7F7;
+      border-radius: 2px;
+      margin-bottom: 20px;
+      padding: 10px 30px;
+
+      div {
+        &:after {
+          display: block;
+          content: "";
+          clear: both;
+        }
+        
+        i {
+          float: left;
+          font-size: 16px;
+          margin: 5px 10px 0 0;
+        }
+
+        span {
+          float: left;
+          font-size: 18px;
+          font-weight: 100;
+        }
+      }
+    }
+  }
+}
