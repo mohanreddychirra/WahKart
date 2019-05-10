@@ -69,6 +69,7 @@
     "pg-hstore": "^2.3.2",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
+    "react-paginate": "^6.3.0",
     "react-rating": "^1.6.2",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",

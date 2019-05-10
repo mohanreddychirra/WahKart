@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import ReactPaginate from 'react-paginate'; 
 import ProductList from '../common/ProductList';
 import Spinner from '../common/Spinner';
 import { loadProducts, setHomeProducts } from '../../actions/productAction';
@@ -91,10 +92,21 @@ class Home extends Component{
                       !products.length
                         ? <div className="no-prod">There are no products in this category</div>
                         : (
-                          <ProductList
-                            products={products}
-                            auth={auth}
-                          />
+                          <div>
+                            <ProductList
+                              products={products}
+                              auth={auth}
+                            />
+                            <div className="pagination">
+                              <ReactPaginate
+                                previousLabel="<<"
+                                nextLabel=">>"
+                                pageCount="20"
+                                pageRangeDisplayed="10"
+                                marginPagesDisplayed="5"
+                              />
+                            </div>
+                          </div>
                         )
                     )
               }
