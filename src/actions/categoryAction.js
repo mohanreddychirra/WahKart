@@ -19,9 +19,7 @@ export const updateRequest = (requestId, status) => dispatch => (
       token: getToken()
     }
   })
-    .then((response) => {
-      console.log(response.data);
-
+    .then(() => {
       dispatch({
         type: 'REQUESTS_UPDATED',
         requestId,

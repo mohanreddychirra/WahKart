@@ -8,34 +8,49 @@ export const searchProducts = (query, categoryId) => dispatch => {
     categoryId
   })
     .then(response => {
-      const { products } = response.data;
+      const { products, pagination } = response.data;
 
       return dispatch({
-        type: 'SET_SEARCH_RESULTS',
-        products
+        type: 'PRODUCT_FETCH_SUCCESS',
+        products,
+        pagination
       });
     })
-    .catch(() => {
-      return dispatch({
-        type: 'SET_SEARCH_RESULTS',
-        products: []
-      });
-    });
+    .catch(() => false);
 }
 
-export const setProductLoading = value => dispatch => dispatch({
+export const setProductLoading = value => ({
   type: 'SET_PRODUCT_LOADING',
   value
 });
 
-export const setHomeProducts = (params) => dispatch => dispatch({
-  type: 'SET_HOME_PRODUCTS',
-  params
-})
+export const getProductsByCategory = (categoryId, page = 1) => dispatch => {
+  const url = (
+    !!categoryId
+      ? `/api/products/categories/${categoryId}`
+      : '/api/products'
+  );
+
+  dispatch(setProductLoading(true));
+  
+  axios.get(`${url}?page=${page}`)
+    .then(({ data }) => {
+      const { products, pagination } = data;
+
+      dispatch({
+        type: 'PRODUCT_FETCH_SUCCESS',
+        products,
+        pagination,
+      });
+
+      dispatch(setProductLoading(false));
+    })
+    .catch(() => {
+      dispatch(setProductLoading(false));
+    });
+};
 
 export const loadProducts = () => dispatch => {
-  dispatch(setProductLoading(true));
-
   return axios.get('/api/products')
     .then(response => {
       const { products } = response.data;
@@ -44,8 +59,6 @@ export const loadProducts = () => dispatch => {
         type: 'PRODUCT_FETCH_SUCCESS',
         products
       });
-
-      dispatch(setProductLoading(false));
     })
     .catch(error => {
       throw error;

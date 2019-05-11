@@ -36,7 +36,6 @@ class ProductCtrl {
         });
       })
       .catch((error) => {
-        console.log(error);
         res.status(500).json({
           message: 'Error occured while fetching products',
         });
@@ -44,6 +43,10 @@ class ProductCtrl {
   }
 
   static getByCategory(req, res) {
+    let { page } = req.query;
+    page = parseInt(page);
+    page = typeof page == 'number' && page > 0 ? page : 1;
+    const offset = productPerPage * (page - 1);
     const { categoryId } = req.params;
 
     Category.findOne({ where: { id: categoryId }})
@@ -54,13 +57,20 @@ class ProductCtrl {
           });
         }
 
-        Product.findAll({
-          where: { categoryId }
+        Product.findAndCountAll({
+          where: { categoryId },
+          limit: productPerPage,
+          offset
         })
-        .then((products) => {
+        .then((result) => {
+          const products = result.rows;
+          const total = result.count;
+          const pagination = paginate(total, productPerPage, page);
+
           res.status(200).json({
             message: 'Products fetched successfully',
-            products
+            products,
+            pagination
           });
         })
         .catch(() => {
@@ -222,6 +232,10 @@ class ProductCtrl {
   }
 
   static searchProducts(req, res) {
+    let { page } = req.query;
+    page = parseInt(page);
+    page = typeof page == 'number' && page > 0 ? page : 1;
+    const offset = productPerPage * (page - 1);
     const { query, categoryId } = req.body;
     
     const where = {
@@ -232,11 +246,20 @@ class ProductCtrl {
 
     if(categoryId != '') where.categoryId = categoryId;
 
-    Product.findAll({ where })
-      .then(products => {
+    Product.findAndCountAll({
+      where,
+      limit: productPerPage,
+      offset
+    })
+      .then(result => {
+        const products = result.rows;
+        const total = result.count;
+        const pagination = paginate(total, productPerPage, page);
+
         return res.status(200).json({
           message: 'Products fetched successfully',
-          products
+          products,
+          pagination
         });
       })
       .catch(() => {
