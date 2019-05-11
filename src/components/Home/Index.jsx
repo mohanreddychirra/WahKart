@@ -90,29 +90,34 @@ class Home extends Component{
       
             <div id="home-products">
               { loading && <Spinner />}
-              { !loading && !products.length
-                  ? <div className="no-prod">There are no products in this category</div>
-                  : (
-                    <div>
-                      <ProductList
-                        products={products}
-                        auth={auth}
-                      />
-                      <div className="pagination">
-                        <ReactPaginate
-                          previousLabel="Prev"
-                          nextLabel="Next"
-                          pageCount={pageCount}
-                          pageRangeDisplayed={10}
-                          marginPagesDisplayed={5}
-                          activeClassName="active-page"
-                          onPageChange={this.onPageChange}
-                          initialPage={page - 1}
-                        />
-                      </div>
-                    </div>
-                  )
-              }
+
+              { !loading && !products.length && (
+                <div className="no-prod">
+                  There are no products in this category
+                </div>
+              )}
+              
+              { !loading && !!products.length && (
+                <div>
+                  <ProductList
+                    products={products}
+                    auth={auth}
+                  />
+                  <div className="pagination">
+                    <ReactPaginate
+                      previousLabel="Prev"
+                      nextLabel="Next"
+                      disableInitialCallback
+                      pageCount={pageCount}
+                      pageRangeDisplayed={10}
+                      marginPagesDisplayed={5}
+                      activeClassName="active-page"
+                      onPageChange={this.onPageChange}
+                      initialPage={page - 1}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
