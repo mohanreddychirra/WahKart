@@ -8,12 +8,6 @@ module.exports = {
       },
       {
         name: 'Women Clothings'
-      },
-      {
-        name: 'Kids Clothings'
-      },
-      {
-        name: 'Electronics'
       }
     ]);
   },
