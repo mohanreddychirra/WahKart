@@ -28,7 +28,7 @@ store.dispatch(authenticate());
 store.dispatch(loadShops());
 // Output the store whenever any change happens
 store.subscribe(() => {
-  console.log(store.getState().homeReducer);
+  console.log(store.getState().productReducer);
 });
 
 // Render the main App component after wrapping it around

@@ -4,7 +4,7 @@ import ReactPaginate from 'react-paginate';
 import ProductList from '../common/ProductList';
 import Spinner from '../common/Spinner';
 import CategoriesNav from '../common/CategoriesNav';
-import { getHomeProducts, setHomeCategoryId, setFilterApplied } from '../../actions/homeAction';
+import { getHomeProducts, setHomeCategoryId, setFilterApplied, setSearchApplied } from '../../actions/homeAction';
 import { getCategories } from '../../actions/categoryAction';
 import Filter from './Filter';
 
@@ -18,8 +18,9 @@ class Home extends Component{
   }
   
   componentWillMount() {
+    const { homeSearchQuery } = this.props;
     this.props.getCategories();
-    this.props.getHomeProducts('', '', 1, {});
+    this.props.getHomeProducts('', homeSearchQuery, 1, {});
   }
 
   handleCategoryClick(categoryId) {
@@ -27,15 +28,16 @@ class Home extends Component{
       this.props.setHomeCategoryId(categoryId);
       this.props.getHomeProducts(categoryId, '', 1, {});
       this.props.setFilterApplied(false);
+      this.props.setSearchApplied(false);
     }
   }
 
   onPageChange({ selected: pageIndex }) {
-    const { homeCategoryId } = this.props;
-    const { filterApplied, filter } = this.props;
+    const { homeCategoryId, filterApplied, filter, searchApplied, homeSearchQuery } = this.props;
     const page = pageIndex + 1;
     const useFilter = filterApplied ? filter : {};
-    this.props.getHomeProducts(homeCategoryId, '', page, useFilter);
+    const query = searchApplied ? homeSearchQuery : '';
+    this.props.getHomeProducts(homeCategoryId, query, page, useFilter);
   }
 
   render() {
@@ -60,7 +62,7 @@ class Home extends Component{
 
               { !loading && !products.length && (
                 <div className="no-prod">
-                  There are no products in this category
+                  There are no products to display
                 </div>
               )}
               
@@ -101,14 +103,17 @@ const mapStateToProps = (state) => ({
   loading: state.homeReducer.loading,
   homeCategoryId: state.homeReducer.homeCategoryId,
   filterApplied: state.homeReducer.filterApplied,
-  filter: state.homeReducer.filter
+  filter: state.homeReducer.filter,
+  homeSearchQuery: state.homeReducer.homeSearchQuery,
+  searchApplied: state.homeReducer.searchApplied
 });
 
 const mapDispatchToProps = {
   getCategories,
   setHomeCategoryId,
   getHomeProducts,
-  setFilterApplied
+  setFilterApplied,
+  setSearchApplied
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

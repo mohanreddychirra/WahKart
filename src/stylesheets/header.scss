@@ -43,7 +43,7 @@
 
       input {
         display: block;
-        width: calc(100% - 40px);
+        width: calc(100% - 85px);
         height: $hdiv;
         padding: 5px 10px;
         font-size: 15px;
@@ -53,22 +53,31 @@
         background: none;
       }
 
-      button {
+      #buttons {
         display: inline-block;
         position: absolute;
-        right: 0; top: 0;
-        background: none;
-        height: $hdiv;
-        width: 40px;
-        padding-top: 2px;
-        color: gray;
-        border: none;
-        font-size: 17px;
-        cursor: pointer;
-        outline: none;
+        top: 0; right: 0;
+        width: 85px;
+      
+        button {
+          float: right;
+          background: none;
+          height: $hdiv;
+          padding: 2px 8px 0 0;
+          color: gray;
+          border: none;
+          font-size: 17px;
+          cursor: pointer;
+          outline: none;
 
-        &:hover {
-          color: black;
+          &:hover {
+            color: black;
+          }
+
+          &#times {
+            font-size: 20px;
+            padding-top: 1px;
+          }
         }
       }
     }

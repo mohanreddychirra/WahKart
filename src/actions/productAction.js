@@ -7,7 +7,7 @@ export const loadProducts = () => dispatch => {
   return axios.get('/api/products')
     .then(response => {
       const { products } = response.data;
-
+      console.log(products);
       dispatch({
         type: 'PRODUCT_FETCH_SUCCESS',
         products

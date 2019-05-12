@@ -2,6 +2,7 @@ const initialState = {
   products: [],
 
   filterApplied: false,
+  searchApplied: false,
 
   filter: {
     min: '',
@@ -29,6 +30,11 @@ export default (state=initialState, action) => {
       filterApplied: action.value
     }
 
+    case 'SET_SEARCH_APPLIED': return {
+      ...state,
+      searchApplied: action.value
+    }
+
     case 'SET_HOME_FILTER': return {
       ...state,
       filter: { ...action.filter }
@@ -49,7 +55,7 @@ export default (state=initialState, action) => {
       loading: action.value
     }
 
-    case 'PRODUCT_FETCH_SUCCESS': return {
+    case 'HOME_PRODUCT_FETCH_SUCCESS': return {
       ...state,
       products: [ ...action.products ],
       pagination: { ...action.pagination },

@@ -120,10 +120,16 @@ class Customer extends Component {
         
           <div id="content">
             <div id="product-wrapper">
-              <ProductList
-                auth={auth}
-                products={products}
-              />
+              { !products.length && (
+                <div style={{ fontSize: '20px', textAlign: 'center' }}>No products to display</div>
+              ) }
+
+              { !!products.length && (
+                <ProductList
+                  auth={auth}
+                  products={products}
+                />
+              )}
             </div>
           </div>
         </div>

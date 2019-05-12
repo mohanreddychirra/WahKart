@@ -26,7 +26,7 @@ export const addToCart = (productId) => dispatch => (
   })
     .then(response => {
       const { cartItem } = response.data;
-  
+
       dispatch({
         type: 'CARTITEMS_ADD_SUCCESS',
         cartItem

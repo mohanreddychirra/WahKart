@@ -7,6 +7,11 @@ const initialState = {
 
 export default (state=initialState, action) => {
   switch(action.type) {
+    case 'PRODUCT_FETCH_SUCCESS': return {
+      ...state,
+      products: [ ...action.products ],
+    }
+
     case 'REVIEW_DELETED_SUCCESSFULLY': return {
       ...state,
       product: {

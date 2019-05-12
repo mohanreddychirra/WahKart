@@ -1,6 +1,6 @@
 import db from '../db/models';
 
-const { Cart } = db;
+const { Cart, Product } = db;
 
 class CartCtrl {
   /**
@@ -16,8 +16,11 @@ class CartCtrl {
     // get all cart item for the specified customer ID
     Cart.findAll({
       where: {
-        customerId: id
-      }
+        customerId: id,
+      },
+      include: [{
+        model: Product
+      }]
     })
       .then((cart) => {
         res.status(200).json({
@@ -27,8 +30,7 @@ class CartCtrl {
       })
       .catch((error) => {
         res.status(500).json({
-          message: 'Internal server error',
-          error
+          message: 'Error occured while getting cart items',
         });
       });
   }
@@ -134,9 +136,19 @@ class CartCtrl {
             customerId: id
           })
             .then((cartItem) => {
-              res.status(201).json({
-                message: 'Cart item created successfully',
-                cartItem
+              cartItem.getProduct().then(product => {
+                if(!product) {
+                  return res.status(500).json({
+                    message: 'Product for cart item was not found',
+                  });
+                }
+
+                cartItem = { ...cartItem.dataValues, Product: product }
+                
+                res.status(201).json({
+                  message: 'Cart item created successfully',
+                  cartItem
+                });
               });
             })
             .catch((error) => {

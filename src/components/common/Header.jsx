@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import NavBar from './NavBar';
 import { logout } from '../../actions/authAction';
 import { setNavBarShow, setOverlayShow } from '../../actions/appAction';
-import { setHomeCategoryId, setHomeSearchQuery, getHomeProducts, setFilterApplied } from '../../actions/homeAction';
+import { setHomeCategoryId, setHomeSearchQuery, getHomeProducts, setFilterApplied, setSearchApplied } from '../../actions/homeAction';
 import NavOutItems from './NavOutItems';
 import Overlay from './Overlay';
 import history from '../../history';
@@ -20,6 +20,7 @@ class Header extends Component {
     this.navIconClick = this.navIconClick.bind(this);
     this.handleSearchChange = this.handleSearchChange.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.handleSearchClear = this.handleSearchClear.bind(this);
   }
 
   shouldComponentUpdate(nextProps) {
@@ -49,14 +50,25 @@ class Header extends Component {
     this.setState({ [name]: value });
   }
 
+  handleSearchClear() {
+    const { homeCategoryId } = this.props; 
+    history.push('/');
+    this.props.setHomeSearchQuery('');
+    this.setState({ search: '' });
+    this.props.setFilterApplied(false);
+    this.props.setSearchApplied(false);
+    this.props.getHomeProducts(homeCategoryId, '', {}, 1);
+  }
+
   handleSearch() {
     const { search, category } = this.state;
     if(search.trim() == '') return;
     this.props.setHomeCategoryId(category);
     this.props.setHomeSearchQuery(search);
-    history.push('/');
     this.props.setFilterApplied(false);
+    this.props.setSearchApplied(true);
     this.props.getHomeProducts(category, search, {}, 1);
+    history.push('/');
   }
 
   productAddClick() {
@@ -65,12 +77,8 @@ class Header extends Component {
 
   render() {
     const { search, category } = this.state;
-
-    const {
-      showNavBar, orders, request,
-      cart, auth, logout, categories,
-    } = this.props;
-
+    const {showNavBar, orders, request,cart, auth, logout, categories, searchApplied} = this.props;
+    
     return (
       <Fragment>
         <div id="header">
@@ -94,9 +102,17 @@ class Header extends Component {
                 placeholder="Search"
               />
 
-              <button type="button" style={{ float: 'left' }} onClick={this.handleSearch}>
-                <i className="fas fa-search" />
-              </button>
+              <div id="buttons" className="clearfix">
+                <button type="button" onClick={this.handleSearch}>
+                  <i className="fas fa-search" />
+                </button>
+
+                { searchApplied && (
+                  <button type="button" id="times" onClick={this.handleSearchClear}>
+                    <i className="fas fa-times" />
+                  </button>
+                ) }
+              </div>
             </div>
             
             <div id="category-dropdown">
@@ -160,6 +176,8 @@ const mapStateToProps = (state) => ({
   categories: state.categoryReducer.categories,
   homeCategoryId: state.homeReducer.homeCategoryId,
   homeSearchQuery: state.homeReducer.homeSearchQuery,
+  searchApplied: state.homeReducer.searchApplied,
+  
 });
 
 const mapDispatchToProps = {
@@ -168,7 +186,8 @@ const mapDispatchToProps = {
   setHomeCategoryId,
   setHomeSearchQuery,
   setFilterApplied,
-  getHomeProducts
+  getHomeProducts,
+  setSearchApplied
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

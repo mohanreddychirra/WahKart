@@ -12,7 +12,7 @@ module.exports = {
       },
       {
         vendorId: 4,
-        status: 'open',
+        status: 'approved',
         shopName: 'Nordstorm',
         createdAt: '2019-02-02',
         updatedAt: '2019-02-02'

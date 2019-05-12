@@ -5,7 +5,8 @@ import {
   setHomeSearchQuery,
   getHomeProducts,
   setHomeFilter,
-  setFilterApplied
+  setFilterApplied,
+  setSearchApplied
 } from '../../actions/homeAction';
 
 class Filter extends Component {
@@ -17,17 +18,18 @@ class Filter extends Component {
     this.handleClearFilter = this.handleClearFilter.bind(this);
   }
   
-  handleFilter(e, page = 1) {
-    const { homeCategoryId } = this.props;
-    const { filter } = this.props;
+  handleFilter() {
+    const { homeCategoryId, filter, homeSearchQuery, searchApplied } = this.props;
     this.props.setFilterApplied(true);
-    this.props.getHomeProducts(homeCategoryId, '', page, filter);
+    const query = searchApplied ? homeSearchQuery : '';
+    this.props.getHomeProducts(homeCategoryId, query, 1, filter);
   }
 
   handleClearFilter() {
     const { homeCategoryId } = this.props;
     const filter = { min: '', max: '', shopIds: [] }
     this.props.setFilterApplied(false);
+    this.props.setSearchApplied(false);
     this.props.setHomeFilter(filter); 
     this.props.getHomeProducts(homeCategoryId, '', 1, filter);
   }
@@ -125,7 +127,9 @@ const mapStateToProps = (state) => ({
   homeCategoryId: state.homeReducer.homeCategoryId,
   filterApplied: state.homeReducer.filterApplied,
   filter: state.homeReducer.filter,
-  shops: state.shopReducer.shops
+  shops: state.shopReducer.shops,
+  homeSearchQuery: state.homeReducer.homeSearchQuery,
+  searchApplied: state.homeReducer.searchApplied
 });
 
 const mapDispatchToProps = {
@@ -133,7 +137,8 @@ const mapDispatchToProps = {
   getHomeProducts,
   setHomeSearchQuery,
   setHomeFilter,
-  setFilterApplied
+  setFilterApplied,
+  setSearchApplied
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filter);

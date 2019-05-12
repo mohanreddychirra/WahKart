@@ -25,9 +25,14 @@ export const setFilterApplied = (value) => dispatch => dispatch({
   value
 });
 
+export const setSearchApplied = (value) => dispatch => dispatch({
+  type: 'SET_SEARCH_APPLIED',
+  value
+});
+
 export const getHomeProducts = (categoryId, query, page, filter) => dispatch => {
   categoryId = categoryId == '' ? null : parseInt(categoryId);
-  query = query == '' ? null : query.trim;
+  query = query == '' ? null : query.trim();
 
   let url = (
     !!categoryId
@@ -48,7 +53,7 @@ export const getHomeProducts = (categoryId, query, page, filter) => dispatch => 
       const { products, pagination } = data;
 
       dispatch({
-        type: 'PRODUCT_FETCH_SUCCESS',
+        type: 'HOME_PRODUCT_FETCH_SUCCESS',
         products,
         pagination,
       });

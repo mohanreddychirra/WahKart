@@ -42,7 +42,7 @@ class ProductCard extends Component {
 
             <div className="clearfix">
               <span className="price">
-                { price }
+                ${ price }
               </span>
 
               {

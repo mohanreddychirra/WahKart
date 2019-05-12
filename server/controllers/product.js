@@ -35,8 +35,6 @@ class ProductCtrl {
       $iLike: `%${query}%`
     }
     
-    console.log(where);
-    
     Product.findAndCountAll({
       where,
       limit: productPerPage,
@@ -61,7 +59,11 @@ class ProductCtrl {
   }
 
   static getByCategory(req, res) {
-    let { page, filter } = req.query;
+    let { page, filter, query } = req.query;
+
+    query = typeof query == 'string' && query.trim().length > 0
+    ? query.trim()
+    : null;
 
     // parse filter
     try{ filter = JSON.parse(filter);}
@@ -80,11 +82,14 @@ class ProductCtrl {
           });
         }
 
+        const where = { categoryId, ...filterWhere(filter) };
+  
+        if(query) where.title = {
+          $iLike: `%${query}%`
+        }
+  
         return Product.findAndCountAll({
-          where: {
-            categoryId,
-            ...filterWhere(filter)
-          },
+          where,
           limit: productPerPage,
           offset
         })

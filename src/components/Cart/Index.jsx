@@ -14,10 +14,6 @@ class Cart extends Component {
     this.state = {};
   }
 
-  componentWillMount() {
-    this.props.loadProducts();
-  }
-
   shouldComponentUpdate(nextProps) {
     const { auth, history } = this.props;
     const { auth: nextAuth } = nextProps;
@@ -38,19 +34,19 @@ class Cart extends Component {
   }
 
   render() {
-    const { products } = this.props;
+    const { cartItems } = this.props;
 
     return (
       <div id="cart-div" className="aligner">
         <div className="row">
           <div className="col-12 col-xl-8">
             <header className="head">
-              <span>{ products.length }</span>
+              <span>{ cartItems.length }</span>
               Products added to cart
             </header>
 
             {
-              products.length === 0 && (
+              cartItems.length === 0 && (
                 <div className="empty mt-5">
                   There are no products in your cart
                 </div>
@@ -59,7 +55,7 @@ class Cart extends Component {
             
             <div className="row">
               {
-                products.map(product => (
+                cartItems.map(({ Product: product }) => (
                   <div key={product.id} className="col-xs-12 col-sm-6 col-lg-4 col-xl-4 text-center">
                     <ProductCard
                       cart
@@ -74,9 +70,9 @@ class Cart extends Component {
             </div>
           </div>
           <div className="col-12 col-xl-4">
-            { !!products.length && (
+            { !!cartItems.length && (
                 <Checkout
-                  products={products}
+                  products={cartItems.map(cartItem => cartItem.Product)}
                   addOrderToHistory={this.props.addOrderToHistory}
                   clearCartItems={this.props.clearCartItems}
                 />
@@ -89,12 +85,9 @@ class Cart extends Component {
   }
 }
 
-const mapStateToProps = ({ productReducer, cartReducer, authReducer }) => ({
+const mapStateToProps = ({ cartReducer, authReducer }) => ({
   auth: authReducer,
-  products: getCartProducts(
-    productReducer.products,
-    cartReducer
-  )
+  cartItems: cartReducer,
 });
 
 const mapDispatchToProps = { addOrderToHistory, clearCartItems, loadProducts };

@@ -3,10 +3,14 @@ const initialState = {
 };
 
 const addProduct = (allProducts, product) => {
-  return [
-    product,
-    ...allProducts.filter(p => `${p.id}` != `${product.id}`)
-  ]; 
+  return (
+    allProducts.length >= 2
+    ? [...allProducts]
+    : [
+      product,
+      ...allProducts.filter(p => `${p.id}` != `${product.id}`)
+    ]
+  ); 
 }
 
 export default (state=initialState, action) => {

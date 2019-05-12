@@ -19,7 +19,34 @@ class Checkout extends Component {
     }
   }
 
-  paymentComplete(response) {
+  componentWillMount() {
+    this.updateCheckout(this.props.products);
+  }
+
+  updateCheckout(products) {
+    const totals = {};
+    const quantities = {};
+  
+    products.forEach(product => {
+      const price = this.getPrice(product);
+      totals[`p_${product.id}`] = price;
+      quantities[`p_${product.id}`] = 1;
+    });
+
+    this.setState({ totals, quantities });
+  }
+
+  getPrice(product) {
+    const price = product.price;
+    return parseInt(price) || 0;
+  }
+
+  getTotalPrice() {
+    const { totals } = this.state;
+    return Object.values(totals).reduce((prev, next) => (prev + next), 0);
+  }
+  
+  paymentComplete() {
     const { quantities, totals } = this.state;
 
     const products = Object.keys(quantities).map(key => {
@@ -55,23 +82,6 @@ class Checkout extends Component {
     }
   }
 
-  updateCheckout(products) {
-    const totals = {};
-    const quantities = {};
-  
-    products.forEach(product => {
-      const price = this.getPrice(product);
-      totals[`p_${product.id}`] = price;
-      quantities[`p_${product.id}`] = 1;
-    });
-
-    this.setState({ totals, quantities });
-  }
-
-  componentWillMount() {
-    this.updateCheckout(this.props.products);
-  }
-
   shouldComponentUpdate(nextProps) {
     const { products: oldProducts } = this.props;
     const { products: newProducts } = nextProps;
@@ -83,11 +93,6 @@ class Checkout extends Component {
     }
   
     return true;
-  }
-
-  getTotalPrice() {
-    const { totals } = this.state;
-    return Object.values(totals).reduce((prev, next) => (prev + next), 0);
   }
 
   handleQuantityChange(event) {
@@ -113,11 +118,6 @@ class Checkout extends Component {
         [`p_${id}`]: value
       }
     }));
-  }
-
-  getPrice(product) {
-    const price = product.price.substr(1).trim();
-    return parseInt(price) || 0;
   }
 
   render() {
