@@ -7,11 +7,3 @@ export const setNavBarShow = (show) => dispatch => dispatch({
   type: 'SET_NAVBAR_SHOW',
   show
 });
-
-export const setHomeCategoryId = (id) => dispatch => dispatch({
-  type: 'SET_HOME_CATEGORY',
-  id
-});
-
-
-

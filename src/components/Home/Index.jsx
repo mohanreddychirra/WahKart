@@ -4,8 +4,7 @@ import ReactPaginate from 'react-paginate';
 import ProductList from '../common/ProductList';
 import Spinner from '../common/Spinner';
 import CategoriesNav from '../common/CategoriesNav';
-import { setHomeCategoryId } from '../../actions/appAction';
-import { getProductsByCategory } from '../../actions/productAction';
+import { getHomeProducts, setHomeCategoryId, setFilterApplied } from '../../actions/homeAction';
 import { getCategories } from '../../actions/categoryAction';
 import Filter from './Filter';
 
@@ -15,70 +14,38 @@ class Home extends Component{
   constructor(props) {
     super(props);
     this.handleCategoryClick = this.handleCategoryClick.bind(this);
-    this.loadProducts = this.loadProducts.bind(this);
     this.onPageChange = this.onPageChange.bind(this);
-    
-    this.state = {
-      loadProducts: true,
-      categoryId: '',
-      price: {
-        min: '',
-        max: ''
-      },
-      shopIds: []
-    }
   }
   
   componentWillMount() {
     this.props.getCategories();
-    this.loadProducts('', 1);
+    this.props.getHomeProducts('', '', 1, {});
   }
-
-  // doFilter(updates) {
-  //   const params = { ...this.state, ...updates };
-  //   this.props.setHomeProducts(params);
-  //   this.setState({ ...params });
-  // }
-
-  // handleShopClick(id, checked) {
-  //   let shopIds = this.state.shopIds;
-  //   if (checked) { shopIds.push(id); }
-  //   else { shopIds = shopIds.filter(shopId => `${shopId}` !== `${id}`); }
-  //   this.doFilter({ shopIds: [ ...shopIds ] });
-  // }
-
-  // handlePriceRangeSet(min, max) {
-  //   this.doFilter({ price: { min, max } });
-  // }
 
   handleCategoryClick(categoryId) {
-    this.props.setHomeCategoryId(categoryId);
-    this.loadProducts(categoryId, 1);
+    if(this.props.homeCategoryId != categoryId) {
+      this.props.setHomeCategoryId(categoryId);
+      this.props.getHomeProducts(categoryId, '', 1, {});
+      this.props.setFilterApplied(false);
+    }
   }
 
-  onPageChange({ selected: page }) {
-    this.loadProducts(this.props.homeCategoryId, page+1);
-  }
-
-  loadProducts(categoryId, page) {
-    categoryId = categoryId == '' ? null : parseInt(categoryId);
-    this.props.getProductsByCategory(categoryId, page);
+  onPageChange({ selected: pageIndex }) {
+    const { homeCategoryId } = this.props;
+    const { filterApplied, filter } = this.props;
+    const page = pageIndex + 1;
+    const useFilter = filterApplied ? filter : {};
+    this.props.getHomeProducts(homeCategoryId, '', page, useFilter);
   }
 
   render() {
     const { auth, categories, loading, products, homeCategoryId, pagination } = this.props;
-    const { shopIds } = this.state;
     const  { pageCount, page } = pagination;
 
     return (
       <div id="home-wrapper" className="clearfix">
         <div id="sidebar">
-          <Filter
-            handlePriceRangeSet={this.handlePriceRangeSet}
-            handleShopClick={this.handleShopClick}
-            handleCategoryClick={this.handleCategoryClick}
-            shopIds={shopIds}
-          />
+          <Filter />
         </div>
         <div id="content">
           <div id="home" className="aligner">
@@ -129,16 +96,19 @@ class Home extends Component{
 const mapStateToProps = (state) => ({
   auth: state.authReducer,
   categories: state.categoryReducer.categories,
-  products: state.productReducer.products,
-  pagination: state.productReducer.pagination,
-  loading: state.productReducer.loading,
-  homeCategoryId: state.appReducer.homeCategoryId
+  products: state.homeReducer.products,
+  pagination: state.homeReducer.pagination,
+  loading: state.homeReducer.loading,
+  homeCategoryId: state.homeReducer.homeCategoryId,
+  filterApplied: state.homeReducer.filterApplied,
+  filter: state.homeReducer.filter
 });
 
 const mapDispatchToProps = {
   getCategories,
   setHomeCategoryId,
-  getProductsByCategory
+  getHomeProducts,
+  setFilterApplied
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

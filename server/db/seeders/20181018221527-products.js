@@ -6,7 +6,7 @@ module.exports = {
       // Hoody Female
       {
         title: 'Female Hodiny',
-        price: '$2500',
+        price: 2500,
         shopId: 1,
         categoryId: 2,
         image: '/images/products/hood2.jpg',
@@ -15,7 +15,7 @@ module.exports = {
       },
       {
         title: 'Cover Up',
-        price: '$3500',
+        price: 3500,
         shopId: 1,
         categoryId: 2,
         image: '/images/products/hood3.jpg',
@@ -24,7 +24,7 @@ module.exports = {
       },
       {
         title: 'Stylish',
-        price: '$1500',
+        price: 1500,
         shopId: 2,
         categoryId: 2,
         image: '/images/products/hood4.jpg',
@@ -33,7 +33,7 @@ module.exports = {
       },
       {
         title: 'Female Over Head',
-        price: '$500',
+        price: 500,
         shopId: 2,
         categoryId: 2,
         image: '/images/products/hood5.jpg',
@@ -44,7 +44,7 @@ module.exports = {
       // Hoody Male
       {
         title: 'Hodiny',
-        price: '$2500',
+        price: 2500,
         shopId: 1,
         categoryId: 1,
         image: '/images/products/hood1.jpg',
@@ -53,7 +53,7 @@ module.exports = {
       },
       {
         title: 'Cover Up',
-        price: '$3500',
+        price: 3500,
         shopId: 1,
         categoryId: 1,
         image: '/images/products/hood6.jpg',
@@ -62,7 +62,7 @@ module.exports = {
       },
       {
         title: 'Stylish',
-        price: '$1500',
+        price: 1500,
         shopId: 2,
         categoryId: 1,
         image: '/images/products/hood7.jpg',
@@ -71,7 +71,7 @@ module.exports = {
       },
       {
         title: 'Male Over Head',
-        price: '$500',
+        price: 500,
         shopId: 2,
         categoryId: 1,
         image: '/images/products/hood8.jpg',
@@ -82,7 +82,7 @@ module.exports = {
       // T-Shirt Male
       {
         title: 'Hanes',
-        price: '$2500',
+        price: 2500,
         shopId: 1,
         categoryId: 1,
         image: '/images/products/tshirt1.jpg',
@@ -91,7 +91,7 @@ module.exports = {
       },
       {
         title: 'Gildan',
-        price: '$3500',
+        price: 3500,
         shopId: 1,
         categoryId: 1,
         image: '/images/products/tshirt2.jpg',
@@ -100,7 +100,7 @@ module.exports = {
       },
       {
         title: 'Fruit of the Loom',
-        price: '$1500',
+        price: 1500,
         shopId: 2,
         categoryId: 1,
         image: '/images/products/tshirt3.jpg',
@@ -109,7 +109,7 @@ module.exports = {
       },
       {
         title: 'Men\'s Dual',
-        price: '$500',
+        price: 500,
         shopId: 2,
         categoryId: 1,
         image: '/images/products/tshirt7.jpg',
@@ -119,7 +119,7 @@ module.exports = {
       // T-Shirt Female
       {
         title: 'Hanes Female',
-        price: '$2500',
+        price: 2500,
         shopId: 1,
         categoryId: 2,
         image: '/images/products/tshirt4.jpg',
@@ -128,7 +128,7 @@ module.exports = {
       },
       {
         title: 'Gildan',
-        price: '$3500',
+        price: 3500,
         shopId: 1,
         categoryId: 2,
         image: '/images/products/tshirt5.jpg',
@@ -137,7 +137,7 @@ module.exports = {
       },
       {
         title: 'Fruit of the Loom',
-        price: '$1500',
+        price: 1500,
         shopId: 2,
         categoryId: 2,
         image: '/images/products/tshirt6.jpg',
@@ -146,7 +146,7 @@ module.exports = {
       },
       {
         title: 'Female\'s Dual',
-        price: '$500',
+        price: 500,
         shopId: 2,
         categoryId: 2,
         image: '/images/products/tshirt8.jpg',

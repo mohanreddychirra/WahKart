@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import NavBar from './NavBar';
 import { logout } from '../../actions/authAction';
-import { setNavBarShow, setOverlayShow, setHomeCategoryId } from '../../actions/appAction';
+import { setNavBarShow, setOverlayShow } from '../../actions/appAction';
+import { setHomeCategoryId, setHomeSearchQuery, getHomeProducts, setFilterApplied } from '../../actions/homeAction';
 import NavOutItems from './NavOutItems';
 import Overlay from './Overlay';
 import history from '../../history';
-import { searchProducts } from '../../actions/productAction';
 
 class Header extends Component {
   constructor(props) {
@@ -20,7 +20,6 @@ class Header extends Component {
     this.navIconClick = this.navIconClick.bind(this);
     this.handleSearchChange = this.handleSearchChange.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
-    
   }
 
   shouldComponentUpdate(nextProps) {
@@ -54,7 +53,10 @@ class Header extends Component {
     const { search, category } = this.state;
     if(search.trim() == '') return;
     this.props.setHomeCategoryId(category);
-    this.props.searchProducts(search, category);
+    this.props.setHomeSearchQuery(search);
+    history.push('/');
+    this.props.setFilterApplied(false);
+    this.props.getHomeProducts(category, search, {}, 1);
   }
 
   productAddClick() {
@@ -156,14 +158,17 @@ const mapStateToProps = (state) => ({
   request: state.vendorReducer.request,
   showNavBar: state.appReducer.showNavBar,
   categories: state.categoryReducer.categories,
-  homeCategoryId: state.appReducer.homeCategoryId
+  homeCategoryId: state.homeReducer.homeCategoryId,
+  homeSearchQuery: state.homeReducer.homeSearchQuery,
 });
 
 const mapDispatchToProps = {
   logout, setNavBarShow,
   setOverlayShow,
   setHomeCategoryId,
-  searchProducts
+  setHomeSearchQuery,
+  setFilterApplied,
+  getHomeProducts
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

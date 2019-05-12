@@ -6,6 +6,7 @@ import shopReducer from './shopReducer';
 import modalReducer from './modalReducer';
 import orderReducer from './orderReducer';
 import adminReducer from './adminReducer';
+import homeReducer from './homeReducer';
 import vendorReducer from './vendorReducer';
 import appReducer from './appReducer';
 import categoryReducer from './categoryReducer';
@@ -22,5 +23,6 @@ export default combineReducers({
   vendorReducer,
   appReducer,
   categoryReducer,
-  customerReducer
+  customerReducer,
+  homeReducer
 });

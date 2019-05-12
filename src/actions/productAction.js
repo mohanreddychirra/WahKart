@@ -2,54 +2,7 @@ import axios from 'axios';
 import toastr from 'toastr';
 import { getToken } from '../helpers';
 
-export const searchProducts = (query, categoryId) => dispatch => {
-  return axios.post('/api/products/search', {
-    query,
-    categoryId
-  })
-    .then(response => {
-      const { products, pagination } = response.data;
-
-      return dispatch({
-        type: 'PRODUCT_FETCH_SUCCESS',
-        products,
-        pagination
-      });
-    })
-    .catch(() => false);
-}
-
-export const setProductLoading = value => ({
-  type: 'SET_PRODUCT_LOADING',
-  value
-});
-
-export const getProductsByCategory = (categoryId, page = 1) => dispatch => {
-  const url = (
-    !!categoryId
-      ? `/api/products/categories/${categoryId}`
-      : '/api/products'
-  );
-
-  dispatch(setProductLoading(true));
-  
-  axios.get(`${url}?page=${page}`)
-    .then(({ data }) => {
-      const { products, pagination } = data;
-
-      dispatch({
-        type: 'PRODUCT_FETCH_SUCCESS',
-        products,
-        pagination,
-      });
-
-      dispatch(setProductLoading(false));
-    })
-    .catch(() => {
-      dispatch(setProductLoading(false));
-    });
-};
-
+// used in cart, but can be optimized
 export const loadProducts = () => dispatch => {
   return axios.get('/api/products')
     .then(response => {

@@ -1,6 +1,6 @@
 import db from '../db/models';
 import fs from 'fs';
-import { paginate, productPerPage } from '../utils';
+import { paginate, productPerPage, filterWhere } from '../utils';
 
 const { Product, Shop, Review, Auth, Order, OrderItem, Category } = db;
 
@@ -15,12 +15,30 @@ class ProductCtrl {
    * @param { Object } res 
    */
   static getAll(req, res) {
-    let { page } = req.query;
+    let { page, filter, query } = req.query;
+
+    // parse filter
+    try{ filter = JSON.parse(filter); }
+    catch(e) { filter = {} }
+
     page = parseInt(page);
     page = typeof page == 'number' && page > 0 ? page : 1;
     const offset = productPerPage * (page - 1);
 
+    query = typeof query == 'string' && query.trim().length > 0
+      ? query.trim()
+      : null;
+
+    const where = { ...filterWhere(filter) };
+    
+    if(query) where.title = {
+      $iLike: `%${query}%`
+    }
+    
+    console.log(where);
+    
     Product.findAndCountAll({
+      where,
       limit: productPerPage,
       offset
     })
@@ -35,7 +53,7 @@ class ProductCtrl {
           pagination
         });
       })
-      .catch((error) => {
+      .catch(() => {
         res.status(500).json({
           message: 'Error occured while fetching products',
         });
@@ -43,7 +61,12 @@ class ProductCtrl {
   }
 
   static getByCategory(req, res) {
-    let { page } = req.query;
+    let { page, filter } = req.query;
+
+    // parse filter
+    try{ filter = JSON.parse(filter);}
+    catch(e) { filter = {}}
+
     page = parseInt(page);
     page = typeof page == 'number' && page > 0 ? page : 1;
     const offset = productPerPage * (page - 1);
@@ -57,27 +80,30 @@ class ProductCtrl {
           });
         }
 
-        Product.findAndCountAll({
-          where: { categoryId },
+        return Product.findAndCountAll({
+          where: {
+            categoryId,
+            ...filterWhere(filter)
+          },
           limit: productPerPage,
           offset
         })
-        .then((result) => {
-          const products = result.rows;
-          const total = result.count;
-          const pagination = paginate(total, productPerPage, page);
+          .then((result) => {
+            const products = result.rows;
+            const total = result.count;
+            const pagination = paginate(total, productPerPage, page);
 
-          res.status(200).json({
-            message: 'Products fetched successfully',
-            products,
-            pagination
+            res.status(200).json({
+              message: 'Products fetched successfully',
+              products,
+              pagination
+            });
+          })
+          .catch(() => {
+            res.status(500).json({
+              message: 'Error occured while fetching products',
+            });
           });
-        })
-        .catch(() => {
-          res.status(500).json({
-            message: 'Error occured while fetching products',
-          });
-        });
       })
       .catch(() => {
         res.status(500).json({
@@ -229,44 +255,6 @@ class ProductCtrl {
             });
         });
     }
-  }
-
-  static searchProducts(req, res) {
-    let { page } = req.query;
-    page = parseInt(page);
-    page = typeof page == 'number' && page > 0 ? page : 1;
-    const offset = productPerPage * (page - 1);
-    const { query, categoryId } = req.body;
-    
-    const where = {
-      title: {
-        $iLike: `%${query}%`
-      },
-    }; 
-
-    if(categoryId != '') where.categoryId = categoryId;
-
-    Product.findAndCountAll({
-      where,
-      limit: productPerPage,
-      offset
-    })
-      .then(result => {
-        const products = result.rows;
-        const total = result.count;
-        const pagination = paginate(total, productPerPage, page);
-
-        return res.status(200).json({
-          message: 'Products fetched successfully',
-          products,
-          pagination
-        });
-      })
-      .catch(() => {
-        res.status(500).json({
-          message: 'Error occured while searching products',
-        });
-      })
   }
 
   /**

@@ -1,37 +1,76 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import {
+  setHomeCategoryId,
+  setHomeSearchQuery,
+  getHomeProducts,
+  setHomeFilter,
+  setFilterApplied
+} from '../../actions/homeAction';
 
 class Filter extends Component {
   constructor(props) {
     super(props);
-    this.handlePriceRangeChange = this.handlePriceRangeChange.bind(this);
+    this.handleFilter = this.handleFilter.bind(this);
+    this.handlePriceChange = this.handlePriceChange.bind(this);
     this.handleShopClick = this.handleShopClick.bind(this);
-
-    this.state = {
-      min: '',
-      max: '',
-    }
+    this.handleClearFilter = this.handleClearFilter.bind(this);
+  }
+  
+  handleFilter(e, page = 1) {
+    const { homeCategoryId } = this.props;
+    const { filter } = this.props;
+    this.props.setFilterApplied(true);
+    this.props.getHomeProducts(homeCategoryId, '', page, filter);
   }
 
-  handlePriceRangeChange(event) {
+  handleClearFilter() {
+    const { homeCategoryId } = this.props;
+    const filter = { min: '', max: '', shopIds: [] }
+    this.props.setFilterApplied(false);
+    this.props.setHomeFilter(filter); 
+    this.props.getHomeProducts(homeCategoryId, '', 1, filter);
+  }
+
+  handlePriceChange(event) {
     const { target: { name, value }} = event;
-    this.setState({ [name]: value });
+    const { filter } = this.props;
+    this.props.setHomeFilter({ ...filter, [name]: value }); 
   }
 
   handleShopClick(event, id) {
-    this.props.handleShopClick(
-      id, event.target.checked
-    );
+    const { shopIds, min, max } = this.props.filter;
+    const { checked } = event.target;
+    let newShopIds = [...shopIds];
+
+    if (checked) { newShopIds.push(id); }
+    else { newShopIds = newShopIds.filter(shopId => `${shopId}` !== `${id}`); }
+
+    this.props.setHomeFilter({ shopIds: newShopIds, min, max }); 
   }
 
   render() {
-    const { shops, shopIds, handlePriceRangeSet } = this.props;
-    const { min, max } = this.state;
-
-    return (
+    const { shops, filterApplied, filter: { min, max, shopIds }} = this.props;
+  
+    return ( 
       <div id="filter">
         <div className="heading">
           Filter by shops
+          <button
+            type="button"
+            onClick={this.handleFilter}
+          >
+            Go
+          </button>
+
+          { filterApplied && (
+            <button
+              type="button"
+              onClick={this.handleClearFilter}
+            >
+              X
+            </button>
+          ) }
         </div>
 
         <div id="shop-listing">
@@ -59,22 +98,19 @@ class Filter extends Component {
           <div id="aligner" className="clearfix">
             <input
               type="text"
-              placeholder="$ Min"
+              placeholder="Min"
               name="min"
-              value={min ? min : this.state.min}
-              onChange={this.handlePriceRangeChange}
+              value={min}
+              onChange={this.handlePriceChange}
             />
             <span>-</span>
             <input
               type="text"
-              placeholder="$ Max"
+              placeholder="Max"
               name="max"
-              value={max ? max : this.state.max}
-              onChange={this.handlePriceRangeChange}
+              value={max}
+              onChange={this.handlePriceChange}
             />
-            <button type="button" onClick={() => handlePriceRangeSet(min, max)}>
-              Set
-            </button>
           </div>
         </div>
       
@@ -83,10 +119,21 @@ class Filter extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  shops: state.shopReducer.shops,
+
+
+const mapStateToProps = (state) => ({
+  homeCategoryId: state.homeReducer.homeCategoryId,
+  filterApplied: state.homeReducer.filterApplied,
+  filter: state.homeReducer.filter,
+  shops: state.shopReducer.shops
 });
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {
+  setHomeCategoryId,
+  getHomeProducts,
+  setHomeSearchQuery,
+  setHomeFilter,
+  setFilterApplied
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filter);
