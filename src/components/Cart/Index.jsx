@@ -37,47 +37,49 @@ class Cart extends Component {
     const { cartItems } = this.props;
 
     return (
-      <div id="cart-div" className="aligner">
-        <div className="row">
-          <div className="col-12 col-xl-8">
-            <header className="head">
-              <span>{ cartItems.length }</span>
-              Products added to cart
-            </header>
+      <div id="cart-wrapper">
+        <div id="cart-div" className="aligner">
+          <div className="row">
+            <div className="col-12 col-xl-8">
+              <header className="head">
+                <span>{ cartItems.length }</span>
+                Products added to cart
+              </header>
 
-            {
-              cartItems.length === 0 && (
-                <div className="empty mt-5">
-                  There are no products in your cart
-                </div>
-              )
-            }
-            
-            <div className="row">
               {
-                cartItems.map(({ Product: product }) => (
-                  <div key={product.id} className="col-xs-12 col-sm-6 col-lg-4 col-xl-4 text-center">
-                    <ProductCard
-                      cart
-                      id={product.id}
-                      title={product.title}
-                      price={product.price}
-                      image={product.image}
-                    />
+                cartItems.length === 0 && (
+                  <div className="empty mt-5">
+                    There are no products in your cart
                   </div>
-                ))
+                )
+              }
+              
+              <div className="row">
+                {
+                  cartItems.map(({ Product: product }) => (
+                    <div key={product.id} className="col-xs-12 col-sm-6 col-lg-4 col-xl-4 text-center">
+                      <ProductCard
+                        cart
+                        id={product.id}
+                        title={product.title}
+                        price={product.price}
+                        image={product.image}
+                      />
+                    </div>
+                  ))
+                }
+              </div>
+            </div>
+            <div className="col-12 col-xl-4">
+              { !!cartItems.length && (
+                  <Checkout
+                    products={cartItems.map(cartItem => cartItem.Product)}
+                    addOrderToHistory={this.props.addOrderToHistory}
+                    clearCartItems={this.props.clearCartItems}
+                  />
+                )
               }
             </div>
-          </div>
-          <div className="col-12 col-xl-4">
-            { !!cartItems.length && (
-                <Checkout
-                  products={cartItems.map(cartItem => cartItem.Product)}
-                  addOrderToHistory={this.props.addOrderToHistory}
-                  clearCartItems={this.props.clearCartItems}
-                />
-              )
-            }
           </div>
         </div>
       </div>

@@ -52,9 +52,11 @@ class Wrapper extends Component {
 
   render() {
     return (
-      <Fragment>
-        { this.props.children }
-      </Fragment>
+      <div id="vendor-wrapper">
+        <Fragment>
+          { this.props.children }
+        </Fragment>
+      </div>
     );
   }
 }

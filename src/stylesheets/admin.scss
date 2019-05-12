@@ -1,139 +1,155 @@
 @import './global.scss';
 
-#vendor-requests {
-  .aligner {
-    margin-top: 40px;
-    
-    header{
-      font-size: 22px;
-      font-weight: 300;
-      margin-bottom: 50px;
+html {
+  @include fill(); 
+  body {
+    @include fill();
 
-      span {
-        float: left;
-        width: 40px;
-        height: 40px;
-        background: $pale-blue;
-        overflow: hidden;
-        text-align: center;
-        color: white;
-        border-radius: 50%;
-        padding-top: 7px;
-        font-size: 18px;
-        font-weight: 400;
-        margin: -5px 10px 0 0;
+    #app-view {
+      @include fill();
 
-        i {
-          font-size: 18px;
-        }
-      }
+      #admin-wrapper {
+        @include fill();
+        overflow: auto!important;
 
-      &:after {
-        content: '';
-        display: block;
-        clear: both;
-      }
-    }
+        #vendor-requests {
+          .aligner {
+            margin: 40px auto 60px;
+            
+            header{
+              font-size: 22px;
+              font-weight: 300;
+              margin-bottom: 50px;
 
-    #requests-table {
-      .row {
-        border:1px solid lightgray;
-        background: #F7F7F7;
-        border-radius: 2px;
-        margin-bottom: 20px;
-        padding: 10px 30px;
+              span {
+                float: left;
+                width: 40px;
+                height: 40px;
+                background: $pale-blue;
+                overflow: hidden;
+                text-align: center;
+                color: white;
+                border-radius: 50%;
+                padding-top: 7px;
+                font-size: 18px;
+                font-weight: 400;
+                margin: -5px 10px 0 0;
 
-        div {
-          &:after {
-            display: block;
-            content: "";
-            clear: both;
-          }
-          
-          i {
-            float: left;
-            font-size: 16px;
-            margin: 5px 10px 0 0;
-          }
+                i {
+                  font-size: 18px;
+                }
+              }
 
-          span {
-            float: left;
-            font-size: 18px;
-            font-weight: 100;
-          }
+              &:after {
+                content: '';
+                display: block;
+                clear: both;
+              }
+            }
 
-          .label {
-            all: unset;
-            text-align: center;
-            min-width: 70px;
-            display: inline-block;
-            background: lightgray;
-            color: gray;
-            font-size: 13px;
-            padding: 5px 15px;
-            font-weight: 400;
-            border-radius: 2px;
+            #requests-table {
+              .row {
+                border:1px solid lightgray;
+                background: #F7F7F7;
+                border-radius: 2px;
+                margin-bottom: 20px;
+                padding: 10px 30px;
 
-            &.approved {
-              background: green;
-              color: white;
+                div {
+                  &:after {
+                    display: block;
+                    content: "";
+                    clear: both;
+                  }
+                  
+                  i {
+                    float: left;
+                    font-size: 16px;
+                    margin: 5px 10px 0 0;
+                  }
+
+                  span {
+                    float: left;
+                    font-size: 18px;
+                    font-weight: 100;
+                  }
+
+                  .label {
+                    all: unset;
+                    text-align: center;
+                    min-width: 70px;
+                    display: inline-block;
+                    background: lightgray;
+                    color: gray;
+                    font-size: 13px;
+                    padding: 5px 15px;
+                    font-weight: 400;
+                    border-radius: 2px;
+
+                    &.approved {
+                      background: green;
+                      color: white;
+                    }
+                  }
+
+                  button {
+                    min-width: 80px;
+                    text-align: center;
+                    padding: 5px 0;
+                    border-radius: 2px;
+                    color: $white;
+                    font-size: 13px;
+                    cursor: pointer;
+                    outline: none;
+                    font-weight: 400;
+                    border: none;
+                    background: $blue;
+
+                    &:nth-child(2) {
+                      margin-left: 20px;
+                      background: $red;
+                    }
+                  }
+                }
+              }
+            }
+
+            #info {
+              display: block;
+              border-radius: 2px;
+              border: 1px solid lightgray;
+              min-height: 200px;
+              padding-bottom: 30px;
+              
+              div {
+                margin-top: 30px;
+                padding: 0 20px;
+                font-size: 18px;
+                font-weight: 100;
+              }
+              .detail {
+                display: block;
+                padding: 10px 20px 20px;
+              }
+              
+              img {
+                display: block;
+                margin: 20px auto 30px;
+                max-height: 200px;
+              }
+
+              header {
+                all: unset;
+                display: block;
+                background: #f7f7f7;
+                border-bottom:1px solid#f1f1f1;
+                padding: 10px 15px;
+                font-size: 16px;
+                font-weight: 400;
+              }
             }
           }
-
-          button {
-            min-width: 80px;
-            text-align: center;
-            padding: 5px 0;
-            border-radius: 2px;
-            color: $white;
-            font-size: 13px;
-            cursor: pointer;
-            outline: none;
-            font-weight: 400;
-            border: none;
-            background: $blue;
-
-            &:nth-child(2) {
-              margin-left: 20px;
-              background: $red;
-            }
-          }
         }
-      }
-    }
-
-    #info {
-      display: block;
-      border-radius: 2px;
-      border: 1px solid lightgray;
-      min-height: 200px;
-      padding-bottom: 30px;
-      
-      div {
-        margin-top: 30px;
-        padding: 0 20px;
-        font-size: 18px;
-        font-weight: 100;
-      }
-      .detail {
-        display: block;
-        padding: 10px 20px 20px;
-      }
-      
-      img {
-        display: block;
-        margin: 20px auto 30px;
-        max-height: 200px;
-      }
-
-      header {
-        all: unset;
-        display: block;
-        background: #f7f7f7;
-        border-bottom:1px solid#f1f1f1;
-        padding: 10px 15px;
-        font-size: 16px;
-        font-weight: 400;
       }
     }
   }

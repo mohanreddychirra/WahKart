@@ -24,6 +24,12 @@ $pale-blue: #66A0DE;
   background: $blue;
 }
 
+@mixin fill {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;  
+}
+
 // Declare global styles
 * {
   margin: 0;

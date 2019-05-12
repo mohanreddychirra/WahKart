@@ -130,6 +130,9 @@ class ProductCtrl {
    * @returns { true | false }
    */
   static validateProduct(res, title, price, shopId, categoryId, imageFile) {
+    console.log('\n\n\n');
+    console.log(price);
+
     if (!shopId || !`${shopId}`.match(/^[0-9]+$/)) {
       res.status(400).json({
         message: "Invalid shopId",
@@ -154,7 +157,7 @@ class ProductCtrl {
       return false;
     }
 
-    else if (!price || price.trim().length === 0 || !price.match(/\$[1-9][0-9]+$/)) {
+    else if (typeof price != 'number' && !(typeof price == 'string' && price.match(/^[1-9][0-9]*$/))) {
       res.status(400).json({
         message: 'Price provided is invalid',
       });
@@ -213,7 +216,7 @@ class ProductCtrl {
           if (status !== true ) return;
 
           title = title.trim();
-          price = price.trim();
+          price = parseInt(price);
 
           // check if product already exist by checking the Products table
           // for entry with the provided title in a case insensitive manner. 
@@ -285,7 +288,7 @@ class ProductCtrl {
           if (status !== true ) return;
 
           title = title.trim();
-          price = price.trim();
+          price = parseInt(price);
 
           // check if product actually exist before trying to update it
           Product.findOne({

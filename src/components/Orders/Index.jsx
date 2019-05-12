@@ -79,7 +79,7 @@ class Orders extends Component {
               </div>
             </div>
           )) }
-        </div>
+        </div>        
       </div>
     );
   }
@@ -102,32 +102,34 @@ class Orders extends Component {
     );
 
     return (
-      <div id="orders">
-        <div className="aligner">
-          <header>
-            <span>{ orders.length }</span>
-            Order History
-          </header>
+      <div id="orders-wrapper">
+        <div id="orders">
+          <div className="aligner">
+            <header>
+              <span>{ orders.length }</span>
+              Order History
+            </header>
 
-          { !orders.length && (
-            <span className="empty">You have not made any order yet</span>
-          ) }
+            { !orders.length && (
+              <span className="empty">You have not made any order yet</span>
+            ) }
 
-          <div className="row">
-            <div className="col-12 col-xl-6">
-              {
-                halfCount > 0 && (
-                  this.genIndexes(0, halfCount)
+            <div className="row">
+              <div className="col-12 col-xl-6">
+                {
+                  halfCount > 0 && (
+                    this.genIndexes(0, halfCount)
+                      .map(index => this.renderOrder(orders[index]))
+                  )
+                }
+              </div>
+
+              <div className="col-12 col-xl-6">
+                {
+                  this.genIndexes(halfCount, orders.length)
                     .map(index => this.renderOrder(orders[index]))
-                )
-              }
-            </div>
-
-            <div className="col-12 col-xl-6">
-              {
-                this.genIndexes(halfCount, orders.length)
-                  .map(index => this.renderOrder(orders[index]))
-              }
+                }
+              </div>
             </div>
           </div>
         </div>

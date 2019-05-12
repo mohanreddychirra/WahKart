@@ -1,91 +1,108 @@
 @import './global.scss';
 
-#orders {
-  margin: 40px auto 0;
 
-  header{
-    font-size: 22px;
-    font-weight: 300;
-    margin-bottom: 50px;
+html {
+  @include fill(); 
+  body {
+    @include fill();
 
-    span {
-      float: left;
-      width: 40px;
-      height: 40px;
-      background: $pale-blue;
-      overflow: hidden;
-      text-align: center;
-      color: white;
-      border-radius: 50%;
-      padding-top: 7px;
-      font-size: 18px;
-      font-weight: 400;
-      margin: -5px 10px 0 0;
-    }
+    #app-view {
+      @include fill();
 
-    &:after {
-      content: '';
-      display: block;
-      clear: both;
-    }
-  }
+      #orders-wrapper {
+        @include fill();
+        overflow: auto!important;
 
-  .order {
-    display: block;
-    margin: 0 0 50px;
-    width: 100%;
+        #orders {
+          margin: 40px auto;
 
-    .order-header {
-      display: block;
-      font-size: 16px;
-      font-weight: 300;
-      margin-bottom: 20px;
+          header{
+            font-size: 22px;
+            font-weight: 300;
+            margin-bottom: 50px;
 
-      span:first-child {
-        float: left;
-      }
+            span {
+              float: left;
+              width: 40px;
+              height: 40px;
+              background: $pale-blue;
+              overflow: hidden;
+              text-align: center;
+              color: white;
+              border-radius: 50%;
+              padding-top: 7px;
+              font-size: 18px;
+              font-weight: 400;
+              margin: -5px 10px 0 0;
+            }
 
-      span:nth-child(2) {
-        float: right;
-        margin-left: 20px!important;
-      }
-
-      span:last-child {
-        float: right;
-      }
-    }
-
-    .order-table {
-      background: #F9F9F9;
-      border: 1px solid lightgray;
-      border-radius: 2px;
-      overflow: hidden;
-
-      .row {
-        padding: 0;
-        border-bottom: 1px solid lightgray;
-
-        &:last-child {
-          border-bottom: none;
-        }
-      
-        .col {
-          padding: 0;
-          height: 50px;
-          overflow: hidden;
-          padding: 5px 0;
-
-          img {
-            display: block;
-            margin: 0 auto;
-            max-height: 40px;
-            border-radius: 2px;
+            &:after {
+              content: '';
+              display: block;
+              clear: both;
+            }
           }
 
-          span {
-            display: inline-block;
-            margin-top: 10px;
-            font-weight: 200;
+          .order {
+            display: block;
+            margin: 0 0 50px;
+            width: 100%;
+
+            .order-header {
+              display: block;
+              font-size: 16px;
+              font-weight: 300;
+              margin-bottom: 20px;
+
+              span:first-child {
+                float: left;
+              }
+
+              span:nth-child(2) {
+                float: right;
+                margin-left: 20px!important;
+              }
+
+              span:last-child {
+                float: right;
+              }
+            }
+
+            .order-table {
+              background: #F9F9F9;
+              border: 1px solid lightgray;
+              border-radius: 2px;
+              overflow: hidden;
+
+              .row {
+                padding: 0;
+                border-bottom: 1px solid lightgray;
+
+                &:last-child {
+                  border-bottom: none;
+                }
+              
+                .col {
+                  padding: 0;
+                  height: 50px;
+                  overflow: hidden;
+                  padding: 5px 0;
+
+                  img {
+                    display: block;
+                    margin: 0 auto;
+                    max-height: 40px;
+                    border-radius: 2px;
+                  }
+
+                  span {
+                    display: inline-block;
+                    margin-top: 10px;
+                    font-weight: 200;
+                  }
+                }
+              }
+            }
           }
         }
       }
