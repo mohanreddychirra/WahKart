@@ -1,4 +1,4 @@
-export const productPerPage = 4;
+export const productPerPage = 8;
 
 export const capitalize = argument => {
   if (typeof argument !== 'string') return '';
