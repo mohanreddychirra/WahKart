@@ -1,107 +1,94 @@
 @import './global.scss';
 
+#orders-wrapper {
+  overflow: auto!important;
 
-html {
-  @include fill(); 
-  body {
-    @include fill();
+  #orders {
+    margin: 40px auto;
 
-    #app-view {
-      @include fill();
+    header{
+      font-size: 22px;
+      font-weight: 300;
+      margin-bottom: 50px;
 
-      #orders-wrapper {
-        @include fill();
-        overflow: auto!important;
+      span {
+        float: left;
+        width: 40px;
+        height: 40px;
+        background: $pale-blue;
+        overflow: hidden;
+        text-align: center;
+        color: white;
+        border-radius: 50%;
+        padding-top: 7px;
+        font-size: 18px;
+        font-weight: 400;
+        margin: -5px 10px 0 0;
+      }
 
-        #orders {
-          margin: 40px auto;
+      &:after {
+        content: '';
+        display: block;
+        clear: both;
+      }
+    }
 
-          header{
-            font-size: 22px;
-            font-weight: 300;
-            margin-bottom: 50px;
+    .order {
+      display: block;
+      margin: 0 0 50px;
+      width: 100%;
+
+      .order-header {
+        display: block;
+        font-size: 16px;
+        font-weight: 300;
+        margin-bottom: 20px;
+
+        span:first-child {
+          float: left;
+        }
+
+        span:nth-child(2) {
+          float: right;
+          margin-left: 20px!important;
+        }
+
+        span:last-child {
+          float: right;
+        }
+      }
+
+      .order-table {
+        background: #F9F9F9;
+        border: 1px solid lightgray;
+        border-radius: 2px;
+        overflow: hidden;
+
+        .row {
+          padding: 0;
+          border-bottom: 1px solid lightgray;
+
+          &:last-child {
+            border-bottom: none;
+          }
+        
+          .col {
+            padding: 0;
+            height: 50px;
+            overflow: hidden;
+            padding: 5px 0;
+
+            img {
+              display: block;
+              margin: 0 auto;
+              max-height: 40px;
+              border-radius: 2px;
+            }
 
             span {
-              float: left;
-              width: 40px;
-              height: 40px;
-              background: $pale-blue;
-              overflow: hidden;
-              text-align: center;
-              color: white;
-              border-radius: 50%;
-              padding-top: 7px;
-              font-size: 18px;
-              font-weight: 400;
-              margin: -5px 10px 0 0;
-            }
-
-            &:after {
-              content: '';
-              display: block;
-              clear: both;
-            }
-          }
-
-          .order {
-            display: block;
-            margin: 0 0 50px;
-            width: 100%;
-
-            .order-header {
-              display: block;
-              font-size: 16px;
-              font-weight: 300;
-              margin-bottom: 20px;
-
-              span:first-child {
-                float: left;
-              }
-
-              span:nth-child(2) {
-                float: right;
-                margin-left: 20px!important;
-              }
-
-              span:last-child {
-                float: right;
-              }
-            }
-
-            .order-table {
-              background: #F9F9F9;
-              border: 1px solid lightgray;
-              border-radius: 2px;
-              overflow: hidden;
-
-              .row {
-                padding: 0;
-                border-bottom: 1px solid lightgray;
-
-                &:last-child {
-                  border-bottom: none;
-                }
-              
-                .col {
-                  padding: 0;
-                  height: 50px;
-                  overflow: hidden;
-                  padding: 5px 0;
-
-                  img {
-                    display: block;
-                    margin: 0 auto;
-                    max-height: 40px;
-                    border-radius: 2px;
-                  }
-
-                  span {
-                    display: inline-block;
-                    margin-top: 10px;
-                    font-weight: 200;
-                  }
-                }
-              }
+              display: inline-block;
+              margin-top: 10px;
+              font-weight: 200;
             }
           }
         }

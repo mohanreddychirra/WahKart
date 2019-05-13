@@ -1,91 +1,78 @@
 @import './global.scss';
 
-html {
-  @include fill(); 
-  body {
-    @include fill();
+#home-wrapper {
+  width: 100%;
+  height: calc(100% - 55px);
+  overflow-y: scroll;
 
-    #app-view {
-      @include fill();
-
-      #home-wrapper {
-        @include fill();
-        
-        #sidebar {
-          float: left;
-          height: 100%;
-          width: 23%;
-          border-right: 1px solid #E8E8E8;
-        }
-        
-        #content {
-          float: left;
-          height: 100%;
-          width: 77%;
-          overflow-x: hidden;
-          overflow-y: auto;
-          
-          #home {
-            width: 98%;
-            margin: 0 auto;
-
-            #home-products {
-              margin: 40px 0; 
-
-              .pagination {
-                ul {
-                  margin: 0 auto;
-                }
-              }
-            }
-            
-            #no-product {
-              display: block;
-              font-size: 25px;
-              font-weight: 100;
-              width: 98%;
-              text-align: center;
-              margin: 13% auto 0;
-              
-              button {
-                @include addProdBut();
-                display: block;
-                padding: 8px 20px;
-                margin: 30px auto 0;
-              }
+  #sidebar {
+    float: left;
+    height: 100%;
+    width: 23%;
+  }
   
-              i {
-                display: block;
-                margin-bottom: 30px;
-                font-size: 40px;
-              }
-            }
-          }
-        }
+  #content {
+    float: left;
+    width: 77%;
+    border-left: 1px solid #E8E8E8;
+    
+    #home {
+      width: 98%;
+      margin: 0 auto 40px;
 
-        @media all and (max-width: 768px) {
-          #content {
-            #home {
-              #category-nav {
-                a span {
-                  font-size: 12px;
-                }
-              }
-            }
-          }
-        }
-        
-        @media all and (max-width: 900px) {
-          #sidebar {
-            display: none;
-          }
+      #home-products {
+        margin: 40px 0 0; 
 
-          #content {
-            width: 100%;
+        .pagination {
+          ul {
+            margin: 0 auto;
           }
         }
       }
       
+      #no-product {
+        display: block;
+        font-size: 25px;
+        font-weight: 100;
+        width: 98%;
+        text-align: center;
+        margin: 13% auto 0;
+        
+        button {
+          @include addProdBut();
+          display: block;
+          padding: 8px 20px;
+          margin: 30px auto 0;
+        }
+
+        i {
+          display: block;
+          margin-bottom: 30px;
+          font-size: 40px;
+        }
+      }
+    }
+  }
+
+  @media all and (max-width: 768px) {
+    #content {
+      #home {
+        #category-nav {
+          a span {
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+  
+  @media all and (max-width: 900px) {
+    #sidebar {
+      display: none;
+    }
+
+    #content {
+      width: 100%;
     }
   }
 }

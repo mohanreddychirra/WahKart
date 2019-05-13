@@ -1,7 +1,10 @@
 @import './global.scss';
 
 #auth {
+  @include fill();
+  overflow-y: auto;
+  
   .form-box {
-    margin: 50px auto 0;
+    margin: 50px auto;
   }
 }

@@ -9,6 +9,7 @@ import { getCategories } from '../../actions/categoryAction';
 import Filter from '../common/Filter';
 
 import '../../stylesheets/home.scss';
+import Footer from '../common/Footer';
 
 class Home extends Component{
   constructor(props) {
@@ -90,6 +91,7 @@ class Home extends Component{
             </div>
           </div>
         </div>
+        <Footer />
       </div>
     );
   }

@@ -2,7 +2,7 @@
 
 #manage-product {
   .form-box {
-    margin: 40px auto 0;
+    margin: 40px auto;
   }
 
   #image-section {
@@ -18,185 +18,174 @@
   }
 }
 
-html {
-  @include fill(); 
-  body {
-    @include fill();
+#product-page {
+  @include fill();
+  overflow: auto!important;
 
-    #app-view {
-      @include fill();
+  .aligner {
+    margin: 40px auto 60px;
+    
+    header{
+      font-size: 22px;
+      font-weight: 300;
+      margin-bottom: 50px;
 
-      #product-page {
-        @include fill();
-        overflow: auto!important;
+      span {
+        float: left;
+        width: 40px;
+        height: 40px;
+        background: $pale-blue;
+        overflow: hidden;
+        text-align: center;
+        color: white;
+        border-radius: 50%;
+        padding-top: 7px;
+        font-size: 18px;
+        font-weight: 400;
+        margin: -5px 10px 0 0;
 
-        .aligner {
-          margin: 40px auto 60px;
-          
-          header{
-            font-size: 22px;
+        i {
+          font-size: 18px;
+        }
+      }
+
+      &:after {
+        content: '';
+        display: block;
+        clear: both;
+      }
+    }
+
+    #right-side {
+      #wrap {
+        width: 100%;
+        margin-bottom: 50px;
+
+        #review-post-section {
+          margin: 0 0 30px;
+        }
+
+        textarea {
+          display: block;
+          width: 100%;
+          height: 90px;
+          font-size: 17px;
+          font-weight: 100;
+          border-radius: 2px;
+          border: 1px solid lightgray;
+          padding: 15px;
+          outline: none;
+        }
+
+        .textarea-base {
+          margin-top: 10px;
+
+          p {
+            float: left;
+            font-size: 16px; 
             font-weight: 300;
-            margin-bottom: 50px;
-
-            span {
-              float: left;
-              width: 40px;
-              height: 40px;
-              background: $pale-blue;
-              overflow: hidden;
-              text-align: center;
-              color: white;
-              border-radius: 50%;
-              padding-top: 7px;
-              font-size: 18px;
-              font-weight: 400;
-              margin: -5px 10px 0 0;
-
-              i {
-                font-size: 18px;
-              }
-            }
-
-            &:after {
-              content: '';
-              display: block;
-              clear: both;
-            }
+            margin-top: 3px;
           }
 
-          #right-side {
-            #wrap {
-              width: 100%;
-              margin-bottom: 50px;
-
-              #review-post-section {
-                margin: 0 0 30px;
-              }
-
-              textarea {
-                display: block;
-                width: 100%;
-                height: 90px;
-                font-size: 17px;
-                font-weight: 100;
-                border-radius: 2px;
-                border: 1px solid lightgray;
-                padding: 15px;
-                outline: none;
-              }
-
-              .textarea-base {
-                margin-top: 10px;
-
-                p {
-                  float: left;
-                  font-size: 16px; 
-                  font-weight: 300;
-                  margin-top: 3px;
-                }
-
-                .stargrp {
-                  float: left;
-                  margin: 2px 0 0 10px;
-                }
-        
-                #post {
-                  float: right;
-                  text-align: center;
-                  padding: 8px 20px;
-                  border-radius: 2px;
-                  color: $white;
-                  font-size: 13px;
-                  cursor: pointer;
-                  outline: none;
-                  font-weight: 300;
-                  border: none;
-                  background: $blue;
-                }
-              }
-              
-              #reviews {
-                h1 {
-                  font-size: 20px;
-                  font-weight: 400;
-                  margin: 0 0 30px;
-                }
-              
-                .review {
-                  display: block;
-                  padding: 10px 20px 5px;
-                  overflow: hidden;
-                  border-radius: 2px;
-                  margin: 0 auto 20px;
-                  border: 1px solid #F7F7F7;
-                  background: #F7F7F7;
-
-                  img {
-                    float: left;
-                    display: block;
-                    width: 8%;
-                    margin-top: 5px;
-                  }
-
-                  .content {
-                    float: right;
-                    width: 88%;
-
-                    div {
-                      margin-bottom: 5px;
-
-                      .actions {
-                        all: unset;
-                        cursor: pointer;
-                        float: right;
-                        margin: 2px 10px 0 0;
-                      }
-                      .stargrp {
-                        float:right;
-                      }
-                    }
-
-                    p {
-                      display: block;
-                      font-size: 15px;
-                      font-weight: 300;
-                      line-height: 170%;
-                    }
-                  }
-                }
-              }
-            }
+          .stargrp {
+            float: left;
+            margin: 2px 0 0 10px;
           }
-
-          #info {
-            display: block;
+  
+          #post {
+            float: right;
+            text-align: center;
+            padding: 8px 20px;
             border-radius: 2px;
-            border: 1px solid lightgray;
-            min-height: 200px;
-            margin-bottom: 20px;
-            
-            .detail {
-              display: block;
-              padding: 10px 20px 20px;
-            }
-            
+            color: $white;
+            font-size: 13px;
+            cursor: pointer;
+            outline: none;
+            font-weight: 300;
+            border: none;
+            background: $blue;
+          }
+        }
+        
+        #reviews {
+          h1 {
+            font-size: 20px;
+            font-weight: 400;
+            margin: 0 0 30px;
+          }
+        
+          .review {
+            display: block;
+            padding: 10px 20px 5px;
+            overflow: hidden;
+            border-radius: 2px;
+            margin: 0 auto 20px;
+            border: 1px solid #F7F7F7;
+            background: #F7F7F7;
+
             img {
+              float: left;
               display: block;
-              margin: 10px auto 20px;
-              max-height: 150px;
+              width: 8%;
+              margin-top: 5px;
             }
 
-            header {
-              all: unset;
-              display: block;
-              background: #f7f7f7;
-              border-bottom:1px solid#f1f1f1;
-              padding: 10px 15px;
-              font-size: 16px;
-              font-weight: 200;
+            .content {
+              float: right;
+              width: 88%;
+
+              div {
+                margin-bottom: 5px;
+
+                .actions {
+                  all: unset;
+                  cursor: pointer;
+                  float: right;
+                  margin: 2px 10px 0 0;
+                }
+                .stargrp {
+                  float:right;
+                }
+              }
+
+              p {
+                display: block;
+                font-size: 15px;
+                font-weight: 300;
+                line-height: 170%;
+              }
             }
           }
         }
+      }
+    }
+
+    #info {
+      display: block;
+      border-radius: 2px;
+      border: 1px solid lightgray;
+      min-height: 200px;
+      margin-bottom: 20px;
+      
+      .detail {
+        display: block;
+        padding: 10px 20px 20px;
+      }
+      
+      img {
+        display: block;
+        margin: 10px auto 20px;
+        max-height: 150px;
+      }
+
+      header {
+        all: unset;
+        display: block;
+        background: #f7f7f7;
+        border-bottom:1px solid#f1f1f1;
+        padding: 10px 15px;
+        font-size: 16px;
+        font-weight: 200;
       }
     }
   }

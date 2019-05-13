@@ -1,69 +1,57 @@
 @import './global.scss';
 
-html {
-  @include fill(); 
-  body {
-    @include fill();
+#cart-wrapper {
+  @include fill();
 
-    #app-view {
-      @include fill();
+  #cart-div {
+    margin: 40px auto;
 
-      #cart-wrapper {
-        @include fill();
-        overflow: auto!important;
+    #checkout-box {
+      display: block;
+      width: 90%;
+      margin: 0 auto 30px;
 
-        #cart-div {
-          margin: 40px auto;
-
-          #checkout-box {
-            display: block;
-            width: 90%;
-            margin: 0 auto 30px;
-
-            td {
-              input {
-                width: 50px;
-                float: left;
-                padding: 5px 8px;
-                text-align: center;
-                font-size: 14px;
-                font-weight: 400;
-                background: white;
-                border: 1px solid lightgray;
-                outline: none;
-              }
-            }
-            header {
-              font-size: 22px;
-              font-weight: 300;
-              margin-bottom: 50px;
-            }
-
-            .total-div {
-              margin: 50px 0 20px; 
-              span {
-                display: block;
-                margin-bottom: 20px;
-                font-weight: 300;
-                font-size: 18px;
-              }
-            }
-
-            #checkout-btn{
-              display: block;
-              margin-top: 40px;
-              border: none;
-              background: $pale-blue;
-              padding: 13px 50px;
-              color: white;
-              font-weight: 400;
-              cursor: pointer;
-              border-radius: 2px;
-              font-size: 15px;
-              outline: none;
-            }
-          }
+      td {
+        input {
+          width: 50px;
+          float: left;
+          padding: 5px 8px;
+          text-align: center;
+          font-size: 14px;
+          font-weight: 400;
+          background: white;
+          border: 1px solid lightgray;
+          outline: none;
         }
+      }
+      header {
+        font-size: 22px;
+        font-weight: 300;
+        margin-bottom: 50px;
+      }
+
+      .total-div {
+        margin: 50px 0 20px; 
+        span {
+          display: block;
+          margin-bottom: 20px;
+          font-weight: 300;
+          font-size: 18px;
+        }
+      }
+
+      #checkout-btn{
+        display: block;
+        margin-top: 40px;
+        border: none;
+        background: $pale-blue;
+        padding: 13px 50px;
+        color: white;
+        font-weight: 400;
+        cursor: pointer;
+        border-radius: 2px;
+        font-size: 15px;
+        outline: none;
       }
     }
   }
