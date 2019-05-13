@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { logout } from '../../actions/authAction';
 import history from '../../history';
 import { setNavBarShow, setOverlayShow } from '../../actions/appAction';
+import Filter from '../common/Filter';
 
 class NavBar extends Component {
   constructor(props) {
@@ -81,6 +82,8 @@ class NavBar extends Component {
             </Link>
           </div>
         )}
+
+        <Filter />
       </div>
     );
   }

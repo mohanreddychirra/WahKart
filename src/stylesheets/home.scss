@@ -16,95 +16,6 @@ html {
           height: 100%;
           width: 23%;
           border-right: 1px solid #E8E8E8;
-
-          #filter {
-            display: block;
-            width: 90%;
-            margin: 8px auto 0;
-  
-            .heading {
-              display: block;
-              width: 100%;
-              background: #F1F1F1;
-              font-size: 16px;
-              font-weight: 200;
-              padding: 10px 15px 0;
-              height: 45px;
-              overflow: hidden;
-  
-              button {
-                float: right;
-                min-width: 40px;
-                text-align: center;
-                padding: 5px 13px;
-                border-radius: 2px;
-                color: $white;
-                font-size: 11px;
-                cursor: pointer;
-                outline: none;
-                margin-top: -1px;
-                margin-left: 3px;
-                font-weight: 400;
-                border: none;
-                background: $blue;
-              }
-            }
-  
-            #shop-listing {
-              display: block;
-              width: 100%;
-              min-height: calc(100% - 210px);
-              max-height: calc(100% - 210px);
-              margin-bottom: 20px;
-              overflow-x: hidden;
-              overflow-y: auto;
-  
-              .one-shop-listing {
-                display: block;
-                padding: 20px 15px;
-  
-                input {
-                  float: left;
-                  cursor: pointer;
-                  margin-top: 3px;
-                }
-  
-                span {
-                  float: left;
-                  font-size: 15px;
-                  font-weight: 400;
-                  margin-left: 12px;
-                }
-              }
-            }
-  
-            #price-filter {
-              text-align: left;
-              margin: 15px 0 0;
-          
-              #aligner {
-                display: inline-block;
-            
-                input {
-                  width: 70px;
-                  float: left;
-                  padding: 8px 10px;
-                  text-align: center;
-                  font-size: 13px;
-                  font-weight: 400;
-                  background: white;
-                  border: 1px solid lightgray;
-                  outline: none;
-                }
-  
-                span {
-                  float: left;
-                  margin: 5px 10px 0;
-                  font-weight: 600;
-                }
-              }
-            }
-          }
         }
         
         #content {
@@ -121,9 +32,10 @@ html {
             #home-products {
               margin: 40px 0 80px; 
 
-              .pagination-wrapper {
-                margin: 20px auto 0;
-                text-align: center;
+              .pagination {
+                ul {
+                  margin: 0 auto;
+                }
               }
             }
             
@@ -148,30 +60,32 @@ html {
                 font-size: 40px;
               }
             }
-  
-            #search-field {
-              width: 98%;
-              margin: 30px auto 50px;
-  
-              input {
-                float: left;
-                width: 50%;
-                padding: 7px 10px;
-                background: $light-gray;
-                border: 1px solid #F0F0F0;
-                border-radius: 2px;
-                font-size: 18px;
-                outline: none;
-                font-weight: 100;
-              }
-  
-              button {
-                @include addProdBut()
+          }
+        }
+
+        @media all and (max-width: 768px) {
+          #content {
+            #home {
+              #category-nav {
+                a span {
+                  font-size: 12px;
+                }
               }
             }
           }
         }
+        
+        @media all and (max-width: 900px) {
+          #sidebar {
+            display: none;
+          }
+
+          #content {
+            width: 100%;
+          }
+        }
       }
+      
     }
   }
 }

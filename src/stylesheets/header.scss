@@ -2,12 +2,14 @@
 
 #header {
   display: block;
+  min-width: 400px;
   position: fixed;
   z-index: 9999;
   width: 100%;
   height: 55px;
   padding-top: 1px; 
   background: $blue;
+  overflow: hidden;
 
   a {
     .page-name {
@@ -128,17 +130,9 @@
       #page-overlay {
         left: 0;
       }
-
-      @media all and (max-width: 490px) {
-        display: block
-      }
     }
 
     #nav-out-items {
-      @media all and (max-width: 490px) {
-        display: none
-      }
-
       #cart, #order {
         float: right;
         margin: 2px 15px 0 0;
@@ -184,6 +178,43 @@
       }
     }
   }
+
+  @media all and (max-width: 900px) {
+    .aligner {
+      #search-div {
+        width: 45%;
+      }
+
+      #category-dropdown {
+        width: 25%;
+      }
+
+      #nav-out-items {
+        display: none;
+      }
+
+      #nav-icon {
+        display: block;
+      }
+    }
+  }
+
+  @media all and (max-width: 768px) {
+    .aligner {
+      #category-dropdown {
+        display: none;
+      }
+
+      #search-div {
+        width: 55%;
+      }
+    }
+  }
+  
+  @media all and (min-width: 769px) and (max-width: 900px) {
+    
+  }
+
 }
 
 #header-spacer {

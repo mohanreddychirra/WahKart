@@ -6,7 +6,7 @@ import Spinner from '../common/Spinner';
 import CategoriesNav from '../common/CategoriesNav';
 import { getHomeProducts, setHomeCategoryId, setFilterApplied, setSearchApplied } from '../../actions/homeAction';
 import { getCategories } from '../../actions/categoryAction';
-import Filter from './Filter';
+import Filter from '../common/Filter';
 
 import '../../stylesheets/home.scss';
 

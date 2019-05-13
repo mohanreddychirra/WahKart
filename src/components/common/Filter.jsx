@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import history from '../../history';
+
 import {
   setHomeCategoryId,
   setHomeSearchQuery,
@@ -22,6 +24,7 @@ class Filter extends Component {
     const { homeCategoryId, filter, homeSearchQuery, searchApplied } = this.props;
     this.props.setFilterApplied(true);
     const query = searchApplied ? homeSearchQuery : '';
+    history.push('/');
     this.props.getHomeProducts(homeCategoryId, query, 1, filter);
   }
 
@@ -31,6 +34,7 @@ class Filter extends Component {
     this.props.setFilterApplied(false);
     this.props.setSearchApplied(false);
     this.props.setHomeFilter(filter); 
+    history.push('/');
     this.props.getHomeProducts(homeCategoryId, '', 1, filter);
   }
 
@@ -55,7 +59,7 @@ class Filter extends Component {
     const { shops, filterApplied, filter: { min, max, shopIds }} = this.props;
   
     return ( 
-      <div id="filter">
+      <div className="filter">
         <div className="heading">
           Filter by shops
           <button
