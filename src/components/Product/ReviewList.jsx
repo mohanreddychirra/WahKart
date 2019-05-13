@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import Stars from './Stars';
 
 class ReviewList extends Component {
@@ -8,11 +8,11 @@ class ReviewList extends Component {
   }
 
   render() {
-    const { auth: { id }, reviews, reviewEditClick, handleDeleteReview } = this.props;
+    const { auth, reviews, reviewEditClick, handleDeleteReview } = this.props;
 
     let ownReview = null;
     const otherReviews = reviews.filter(review => {
-      if (`${review.customerId}` == `${id}`) {
+      if (`${review.customerId}` == `${auth.id}`) {
         ownReview = review;
         return false;
       }
@@ -34,28 +34,32 @@ class ReviewList extends Component {
           const { id, rating, review: reviewText, Auth: { email } } = review;
 
           return (
-            <div key={review.id} className="review clearfix">
+            <div key={id} className="review clearfix">
               <img src="/images/avatar.png" />
               <div className="content">
                 <div className="clearfix">
                   <span>{ email.split('@')[0] }</span>
                   <span><Stars readonly initialRating={rating} /></span>
                   
-                  <button
-                    className="actions"
-                    type="text"
-                    onClick={() => handleDeleteReview(id)}
-                  >
-                    <i className="fas fa-trash"></i>
-                  </button>
+                  { `${review.customerId}` == `${auth.id}` && (
+                    <Fragment>
+                      <button
+                        className="actions"
+                        type="text"
+                        onClick={() => handleDeleteReview(id)}
+                      >
+                        <i className="fas fa-trash"></i>
+                      </button>
 
-                  <button
-                    onClick={() => reviewEditClick(id, reviewText, rating)}
-                    className="actions"
-                    type="text"
-                  >
-                    <i className="fas fa-edit"></i>
-                  </button>
+                      <button
+                        onClick={() => reviewEditClick(id, reviewText, rating)}
+                        className="actions"
+                        type="text"
+                      >
+                        <i className="fas fa-edit"></i>
+                      </button>
+                    </Fragment>
+                  ) }
                 </div>
                 <p>
                   { reviewText }
