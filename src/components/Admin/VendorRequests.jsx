@@ -2,6 +2,8 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import Wrapper from './Wrapper';
 import { updateRequest } from '../../actions/adminAction';
+import { loadShops } from '../../actions/shopAction';
+
 
 import '../../stylesheets/admin.scss';
 
@@ -12,13 +14,17 @@ class VendorRequests extends Component {
     this.state = {}
   }
 
+  componentWillMount() {
+    this.props.loadShops();
+  }
+
   handleApproval(event, requestId, status) {
     status = status === 'approve' ? 'approved' : 'disapproved';
-    this.props.updateRequest(requestId, status)
+    this.props.updateRequest(requestId, status);
   }
 
   render() {
-    const { requests } = this.props;
+    const { requests, shops } = this.props;
 
     return (
       <Wrapper>
@@ -87,10 +93,14 @@ class VendorRequests extends Component {
               <div className="col-lg-3 d-none d-sm-none d-md-none d-xl-block">
                 <div id="info">
                   <header>All Shops</header>
-                  <div>First Shop</div>
-                  <div>Jumia Shop</div>
-                  <div>Konga Shop</div>
-                  <div>New Shop</div>
+
+                  { !shops.length && (
+                     <div>No shop has been added yet!</div>
+                  ) }
+
+                  { shops.map(shop => (
+                    <div key={shop.id}>{ shop.name }</div>
+                  ))}                  
                 </div>
               </div>
             </div>
@@ -102,10 +112,11 @@ class VendorRequests extends Component {
 }
 
 
-const mapStateToProps = ({ adminReducer }) => ({
+const mapStateToProps = ({ adminReducer, shopReducer }) => ({
   requests: adminReducer.requests,
+  shops: shopReducer.shops
 });
 
-const mapDispatchToProps = { updateRequest };
+const mapDispatchToProps = { updateRequest,loadShops };
 
 export default connect(mapStateToProps, mapDispatchToProps)(VendorRequests);
