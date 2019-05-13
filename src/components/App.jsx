@@ -16,6 +16,7 @@ import VendorOrders from './Vendor/VendorOrders';
 
 import '../stylesheets/header.scss';
 import '../stylesheets/navbar.scss';
+import Footer from './common/Footer';
 
 const App = () => (
   <Fragment>
@@ -38,6 +39,8 @@ const App = () => (
       <Route exact path="/product/edit/:productId" component={ManageProduct} />
       <Route component={ () => <Redirect to="/" /> } />
     </Switch>
+
+    <Footer />
   </Fragment>
 );
 
