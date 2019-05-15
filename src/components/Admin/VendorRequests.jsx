@@ -30,12 +30,14 @@ class VendorRequests extends Component {
       <Wrapper>
         <div id="vendor-requests">
           <div className="aligner">
-            <header>
-              <span>
-                <i className="fas fa-list-alt" />
-              </span>
-              Vendor Requests
-            </header>
+            <div className="page-heading">
+              <div>
+                <span className="icon">
+                  <i className="fas fa-list-alt" />
+                </span>
+                Vendor Requests
+              </div>
+            </div>
 
             <div className="row">
               <div className="col-12 col-xl-9">

@@ -4,40 +4,101 @@
   @include fill();
   overflow-y: auto;
   
-  #vendor-requests {
+  #admin-dashboard {
     .aligner {
       margin: 40px auto;
-      
-      header{
-        font-size: 22px;
-        font-weight: 300;
-        margin-bottom: 50px;
 
-        span {
-          float: left;
-          width: 40px;
-          height: 40px;
-          background: $pale-blue;
-          overflow: hidden;
-          text-align: center;
+      .page-heading {
+        .reqlink {
+          float: right;
+          padding: 8px 15px;
+          font-size: 14px;
           color: white;
-          border-radius: 50%;
-          padding-top: 7px;
-          font-size: 18px;
-          font-weight: 400;
-          margin: -5px 10px 0 0;
+          border-radius: 2px;
+          background: $blue;
+          font-weight: 200;
+        }
+      }
 
-          i {
-            font-size: 18px;
+      #manage-categories {
+        #title {
+          margin: 0 auto;
+          font-size: 13px;
+          text-transform: uppercase;
+        }
+
+        #form {
+          width: 100%;
+          margin: 10px auto 30px;
+
+          input {
+            display: inline-block;
+            border: 1px solid lightgray;
+            border-radius: 2px;
+            font-size: 14px;
+            font-weight: 400;
+            padding: 5px 10px;
+            margin-right: 1%;
+            width: 35%;
+            outline: none;
+          }
+
+          button {
+            display: inline-block;
+            border: none;
+            outline: none;
+            background: $blue;
+            color: white;
+            font-size: 13px;
+            font-weight: 300;
+            border-radius: 2px;
+            padding: 6px 15px;
+            cursor: pointer;
+            
           }
         }
 
-        &:after {
-          content: '';
+        .category-list-item {
           display: block;
-          clear: both;
+          margin: 20px auto 0;
+          width: 100%;
+
+          input {
+            width: 35%;
+            padding: 5px 10px;
+            color: #383838;
+            font-size: 15px;
+            font-weight: 300;
+            margin-right: 1%;
+            outline: none;
+            border: 1px solid #F1F1F1;
+    
+            &.active {
+              background: #F4F4F4;
+            }
+          }
+
+          .icons {
+            display: inline-block;
+            border: none;
+            outline: none;
+            color: #383838;
+            font-size: 13px;
+            font-weight: 300;
+            padding: 5px;
+            font-size: 18px;
+            margin: 0 3px;
+            cursor: pointer;
+          }
         }
       }
+    }
+
+  }
+
+  #vendor-requests {
+    .aligner {
+      margin: 40px auto;
 
       #requests-table {
         .row {

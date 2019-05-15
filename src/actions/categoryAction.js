@@ -8,7 +8,7 @@ export const getCategories = () => dispatch => (
       const { categories } = response.data;
       dispatch({
         type: 'CATEGORIES_FETCHED',
-        categories
+        categories: categories.reverse()
       })
     })
 );

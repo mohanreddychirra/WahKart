@@ -48,6 +48,42 @@ body {
   padding: 0;
 }
 
+.page-heading{
+  text-align: left;
+
+  div {
+    display: inline-block;
+    font-size: 22px;
+    font-weight: 300;
+    margin-bottom: 50px;
+
+    .icon {
+      float: left;
+      width: 40px;
+      height: 40px;
+      background: $pale-blue;
+      overflow: hidden;
+      text-align: center;
+      color: white;
+      border-radius: 50%;
+      padding-top: 7px;
+      font-size: 18px;
+      font-weight: 400;
+      margin: -5px 10px 0 0;
+
+      i {
+        font-size: 18px;
+      }
+    }
+    
+    &:after {
+      content: '';
+      display: block;
+      clear: both;
+    }
+  }
+}
+
 .app-spinner {
   font-size: 40px;
   display: block;
