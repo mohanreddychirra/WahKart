@@ -8,9 +8,6 @@ module.exports = {
       },
       {
         name: 'Women Clothings'
-      },
-      {
-        name: 'Female Clothings'
       }
     ]);
   },
