@@ -111,10 +111,6 @@ class Admin extends Component {
         <div id="admin-dashboard">
           <div className="aligner">
 
-            {/* Admin Dashboard
-            <br />
-             */}
-
             <div className="page-heading">
               <div> 
                 <span className="icon">
