@@ -77,7 +77,7 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-immutable-state-invariant": "^2.1.0",
     "redux-thunk": "^2.3.0",
-    "sequelize": "^4.39.1",
+    "sequelize": "^5.15.1",
     "toastr": "^2.1.4"
   }
 }
